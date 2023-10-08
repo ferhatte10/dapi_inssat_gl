@@ -1,0 +1,5 @@
+gateway/node_modules/
+apiBlog/node_modules/
+
+stressTest/venv/
+stressTest/__pycache__/

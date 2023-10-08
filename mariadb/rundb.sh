@@ -1,0 +1,1 @@
+docker run -dp 3306:3306  --name mariadb -e MARIADB_ROOT_PASSWORD=FpTzQzhw3Qy2FV2E0Ch1 -d mariadb:latest
