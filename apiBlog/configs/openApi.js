@@ -1,8 +1,6 @@
 const swaggerUI = require("swagger-ui-express")
 const swaggerJsDoc = require("swagger-jsdoc")
 const docs = require('./docs')
-const path = require('path')
-
 
 let options = {
     customCssUrl: '/api_blog/css/openapi.css',

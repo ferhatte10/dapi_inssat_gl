@@ -90,7 +90,18 @@ Explain how to use your project. Include examples if necessary.
     sh build.sh # build the service
     sh run.sh # run the service
     ```
-
+Once you run the services, you can access the gateway service from http://localhost:5000 then you will get a json response where you can find the endpoints of the different services.
+```json
+{
+    "success": true,
+    "message": {
+        "message": "Welcome to the DAPI API getway",
+        "api's": [
+        "http://127.0.0.1:5000/api_blog"
+        ]
+    }
+}
+```
 # Imprortant !
 - The database service must be running before running the nodejs services if you dont deploy the docker-compose version.
 - The auth service is not implemented yet, so you can ignore it.
