@@ -5,13 +5,23 @@ module.exports = {
         description: "blog POST endpoint",
         operationId: "createBlog",
         parameters:[],
+        security:[
+            {
+                AuthToken:[]
+            }
+        ],
         requestBody: {
             content:{
                 'application/x-www-form-urlencoded': {
                     schema:{
                         $ref:'#/components/schemas/BlogCreate'
                     }
-                }
+                },
+                'application/json': {
+                    schema:{
+                        $ref:'#/components/schemas/BlogCreate'
+                    }
+                },
             }
         },
         responses:{

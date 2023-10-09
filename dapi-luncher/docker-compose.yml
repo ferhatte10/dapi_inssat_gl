@@ -1,4 +1,3 @@
-
 services:
   # Api blog
   api-blog:
@@ -8,7 +7,7 @@ services:
       - no-new-privileges:true
     restart: always
     deploy:
-      replicas: 1
+      replicas: 3
     env_file:
       - ../apiBlog/.env
     depends_on:

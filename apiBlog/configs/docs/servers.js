@@ -5,8 +5,8 @@ module.exports = {
             description: "Local server gateway",
         },
         {
-            url: "http://localhost:3000/",
-            description: "Local server 1",
+            url: "http://localhost:3000/api_blog",
+            description: "Local server api dev",
         }
     ]
 }

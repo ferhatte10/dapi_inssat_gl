@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
 })
 
-router.get('/:uuid', (req, res) => {
+router.get('/:uuid',(req, res) => {
 
     let checkUuid = uuid.validate(req.params)
     if(checkUuid.error){

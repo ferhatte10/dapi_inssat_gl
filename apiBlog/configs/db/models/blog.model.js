@@ -1,7 +1,7 @@
 module.exports = (dbInstance, Sequelize) => {
 
 
-    const Blog = dbInstance.define('Blog', {
+    const Blog = dbInstance.define('Blogs', {
 
         id: {
             type: Sequelize.INTEGER,
