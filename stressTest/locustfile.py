@@ -17,4 +17,4 @@ class HelloWorldUser(HttpUser):
 
     @task
     def getBlog(self):
-        self.client.get("/api_blog/blog/0bc8332e-a7ec-4a3d-a35d-9e5311b69958")
+        self.client.get("/api_blog/blog/0250bf9d-5af6-4472-846d-b0a138e63440")

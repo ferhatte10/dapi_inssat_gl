@@ -4,7 +4,6 @@ const blogQueries = require('../models/blog.queries')
 module.exports.createBlog = (req,res,next) => {
 
     const blog_data = req.body
-    console.log(blog_data)
     let checkBlogData = blogCreate.validate(blog_data)
     
     if(checkBlogData.error){

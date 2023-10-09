@@ -41,3 +41,5 @@ app.use(`*`, (req, res) => {
 app.listen(port, () => {
   console.log(`Api-blog listening on port ${port}`)
 })
+
+exports.default = app
