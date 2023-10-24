@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize")
 const {SQL} = require("../../env")
+const init_models = require("../models/init-models")
 
 const dbInstance = new Sequelize(SQL.DB_NAME, SQL.DB_USER, SQL.DB_PASS, {
   host: SQL.DB_HOST,
@@ -11,12 +12,15 @@ const dbInstance = new Sequelize(SQL.DB_NAME, SQL.DB_USER, SQL.DB_PASS, {
   logging: SQL.DB_LOGGING === "true" ? true : false
 })
 
-const db = {}
+//const db = {}
+
+const db = init_models(dbInstance, Sequelize)
 
 db.Sequelize = Sequelize
 db.dbInstance = dbInstance
 
-db.blogs = require("../models/blog.model")(dbInstance, Sequelize)
+
+//db.blogs = require("../models/blog.model")(dbInstance, Sequelize)
 
 
 module.exports = db
