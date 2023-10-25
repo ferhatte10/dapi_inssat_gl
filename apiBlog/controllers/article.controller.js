@@ -1,4 +1,10 @@
-const ArticleModel = require('../configs/db/config/db').article; 
+const {
+  article : ArticleModel,
+  user : UserModel,
+  tag : TagModel,
+  article_tag : Article_tagModel,
+  category : CategoryModel
+} = require('../configs/db/config/db'); 
 
 const ArticleController = {};
 
@@ -86,6 +92,66 @@ ArticleController.update = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+// Retrieve a list of articles with extended details, including tags
+ArticleController.getArticlesWithDetails = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1; // Current page, default to 1
+    const perPage = parseInt(req.query.perPage) || 10; // Articles per page, default to 10
+
+    const offset = (page - 1) * perPage;
+    
+    const articles = await ArticleModel.findAndCountAll({
+      attributes: ['id', 'title', 'description', 'thumbnail', 'published_at'],
+      include: [
+        {
+          model: UserModel,
+          as: 'author',
+          attributes: ['name', 'last_name'],
+        },
+        {
+          model: Article_tagModel,
+          as: 'article_tags',
+          attributes:['createdAt'],
+          include: [
+            {
+              model: TagModel,
+              as: 'tag',
+              attributes: ['title'],
+            },
+          ],
+        },
+        {
+          model: CategoryModel,
+          as: 'category',
+          attributes: ['title'],
+        },
+      ],
+      limit: perPage,
+      offset: offset,
+    });
+
+
+    const totalArticles = articles.count;
+    const totalPages = Math.ceil(totalArticles / perPage);
+
+    res.json({
+      articles: articles.rows,
+      pagination: {
+        page,
+        perPage,
+        totalArticles,
+        totalPages,
+      },
+    });
+
+    
+  } catch (error) { 
+    console.log(error)
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 
 // TODO: Add More controllers methods to manage the additional routes 
 
