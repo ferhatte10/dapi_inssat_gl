@@ -2,6 +2,7 @@ const express = require('express');
 const userRoute = require('./user.route');
 const categoryRoute = require('./category.route');
 const articleRoute = require('./article.route'); // Include article route
+const article_tagRoute = require('./article_tag.route');
 const commentRoute = require('./comment.route'); // Include comment route
 const likeRoute = require('./like.route'); // Include like route
 const tagRoute = require('./tag.route'); // Include tag route
@@ -25,5 +26,6 @@ router.use('/articles', articleRoute);
 router.use('/comments', commentRoute); 
 router.use('/likes', likeRoute);
 router.use('/tags', tagRoute);
+router.use('/article-tags', article_tagRoute); 
 
 module.exports = router;
