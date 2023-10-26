@@ -1,19 +1,25 @@
 const app = require('express')()
 
-const {ROUTES} = require("./config/routes")
-const {setupLogging} = require("./config/logging")
+const { ROUTES } = require("./config/routes")
+const { setupLogging } = require("./config/logging")
 //const {setupRateLimit} = require("./config/ratelimit")
-const {setupProxies} = require("./config/proxy")
+const { setupProxies } = require("./config/proxy")
 //const {setupAuth} = require("./config/auth")
 const { setupBasics } = require('./config/resReqConf')
 
 const PORT = process.env.PORT || 5000
+const { getRouteFormatted } = require("./config/utils")
+
 
 app.get('/', (req, res) => {
-    res.status(200).json({"success": true,"message": {
+
+  res.status(200).json({
+    "success": true, "message": {
       "message": "Welcome to the DAPI API getway",
-      "api's": ROUTES.map((route) => `${req.protocol}://${req.get('host')}${route.url}`),
-    }})
+      "api's": getRouteFormatted(req,ROUTES)
+    }
+  })
+  
 })
 
 setupLogging(app)
@@ -22,9 +28,9 @@ setupLogging(app)
 setupProxies(app, ROUTES)
 setupBasics(app) // This will setup the basics for the app as body parser and urlencoded ...
 
-app.use(`*`, (req, res) => { 
-  res.status(404).json({"success": false,"message": "Endpoint doesn't exists"}) 
+app.use(`*`, (req, res) => {
+  res.status(404).json({ "success": false, "message": "Endpoint doesn't exists" })
 })
 app.listen(PORT, () => {
-    console.log(`DAPI app **API getway** listening on : http://localhost:${PORT}`)
+  console.log(`DAPI app **API getway** listening on : http://localhost:${PORT}`)
 })

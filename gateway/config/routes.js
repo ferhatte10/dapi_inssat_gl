@@ -15,7 +15,7 @@ exports.ROUTES = [
             headers: {
                 "Connection": "keep-alive"
             },
-            followRedirects: true,
+            //followRedirects: true,
             pathRewrite: {
                 //[`^/api_blog`]: '',
             },

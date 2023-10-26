@@ -12,10 +12,10 @@ const { setupBasics } = require('./configs/resReqConf')
 const port = PORT || 3000
 
 
-setupBasics(app) // This will setup the basics for the app as body parser and urlencoded ...
 setupLogging(app) // This will log all requests to the console
 setUpDocumentation(app) // This will serve the documentation
 setupCors(app) // This will setup cors
+setupBasics(app) // This will setup the basics for the app as body parser and urlencoded ...
 
 
 db.dbInstance.sync().then(() => { // This will sync the database with the models (update any changes) 
