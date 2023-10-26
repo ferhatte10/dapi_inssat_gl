@@ -7,7 +7,7 @@ services:
       - no-new-privileges:true
     restart: always
     deploy:
-      replicas: 3
+      replicas: 1
     env_file:
       - ../apiBlog/.env
     depends_on:
