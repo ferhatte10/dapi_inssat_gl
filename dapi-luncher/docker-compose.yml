@@ -10,8 +10,8 @@ services:
       replicas: 1
     env_file:
       - ../apiBlog/.env
-    depends_on:
-      - mariadb
+#    depends_on: # using server db .. if you want to use local db please change the env vars of the api-blog
+#      - mariadb
 
   # Api gateway:
   gateway:
@@ -28,16 +28,16 @@ services:
       - ../gateway/.env
   
   # MariaDB
-  mariadb:
-    container_name: mariadb
-    image: mariadb:latest
-    security_opt:
-      - no-new-privileges:true
-    restart: always
-    command: --init-file /data/application/init.sql
-    volumes:
-        - ./init.sql:/data/application/init.sql
-    ports:
-      - "3306:3306"
-    environment:
-      MARIADB_ROOT_PASSWORD: FpTzQzhw3Qy2FV2E0Ch1
+#  mariadb:
+#    container_name: mariadb
+#    image: mariadb:latest
+#    security_opt:
+#      - no-new-privileges:true
+#    restart: always
+#    command: --init-file /data/application/init.sql
+#    volumes:
+#        - ./init.sql:/data/application/init.sql
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      MARIADB_ROOT_PASSWORD: FpTzQzhw3Qy2FV2E0Ch1
