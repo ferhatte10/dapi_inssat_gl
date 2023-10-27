@@ -1,7 +1,6 @@
 const Sequelize = require("sequelize")
 const {SQL} = require("../../env")
 const init_models = require("../models/init-models")
-
 const dbInstance = new Sequelize(SQL.DB_NAME, SQL.DB_USER, SQL.DB_PASS, {
   host: SQL.DB_HOST,
   port: SQL.DB_PORT,
@@ -9,7 +8,7 @@ const dbInstance = new Sequelize(SQL.DB_NAME, SQL.DB_USER, SQL.DB_PASS, {
   define: {
     timestamps: false
   },
-  logging: SQL.DB_LOGGING === "true" ? true : false
+  logging: SQL.DB_LOGGING === "true"
 })
 
 //const db = {}
