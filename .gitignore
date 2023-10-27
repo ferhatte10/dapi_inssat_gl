@@ -6,4 +6,6 @@ apiBlog/.env.development
 
 stressTest/venv/
 stressTest/__pycache__/
+
 .idea/
+.vscode/

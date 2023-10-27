@@ -8,6 +8,7 @@ const { setupLogging } = require("./configs/logging")
 const { setUpDocumentation } = require("./configs/openApi")
 const { setupBasics } = require('./configs/resReqConf')
 
+const routes = require('./routes')
 
 const port = PORT || 3000
 
@@ -24,14 +25,9 @@ db.dbInstance.sync().then(() => { // This will sync the database with the models
     console.log(err)
 })
 
-app.get('/api_blog', (req, res) => {
-  res.status(200).json({"success": true,"message": {
-    "message": "Welcome to the blog api",
-    "documentation": `${req.originalUrl}api-doc`,
-  }})
-})
 
-app.use('/api_blog/blog', require('./routes/blog'))
+
+app.use('/api_blog', routes)
 
 app.use(`*`, (req, res) => { 
   res.status(404).json({"success": false,"message": "Endpoint doesn't exists"}) 
