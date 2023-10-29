@@ -4,11 +4,7 @@ module.exports = {
         summary:"Get a specific blog with uuid",
         description: "blog GET endpoint",
         operationId: "getBlog",
-        security:[
-            {
-                AuthToken:[]
-            }
-        ],
+        ...require('../security'),
         parameters:[
             {
                 name:"uuid",

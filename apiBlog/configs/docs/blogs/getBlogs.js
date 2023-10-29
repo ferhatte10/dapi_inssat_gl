@@ -4,11 +4,7 @@ module.exports = {
         summary:"Get all blogs",
         description: "blogs GET endpoint",
         operationId: "getBlogs",
-        security:[
-            {
-                AuthToken:[]
-            }
-        ],
+        ...require('../security'),
         responses:{
             '200':{
                 description:"Blogs were obtained",

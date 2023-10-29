@@ -5,11 +5,8 @@ module.exports = {
         description: "blog POST endpoint",
         operationId: "createBlog",
         parameters:[],
-        security:[
-            {
-                AuthToken:[]
-            }
-        ],
+        ...require('../security'),
+
         requestBody: {
             content:{
                 'application/x-www-form-urlencoded': {

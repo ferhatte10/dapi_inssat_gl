@@ -8,6 +8,17 @@ module.exports = {
                 bearerFormat: "JWT"
 
             },
+            oAuth2ClientCredentials:{
+                type:'oauth2',
+                description:'See https://auth.dapi-services.fr/realms/intranet/protocol/openid-connect/token',
+                flows:{
+                    password:{
+                        tokenUrl:'https://auth.dapi-services.fr/realms/intranet/protocol/openid-connect/token',
+                        scopes:{}
+                    }
+                },
+
+            }
         },
         schemas:{
             Uuid:{

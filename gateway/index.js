@@ -24,12 +24,11 @@ app.get('/', (req, res) => {
 
 setupLogging(app)
 //setupRateLimit(app, ROUTES)
-//setupAuth(app, ROUTES)
 setupProxies(app, ROUTES)
 setupBasics(app) // This will setup the basics for the app as body parser and urlencoded ...
 
 app.use(`*`, (req, res) => {
-  res.status(404).json({ "success": false, "message": "Endpoint doesn't exists" })
+  res.status(404).json({ error: "Endpoint doesn't exists" })
 })
 app.listen(PORT, () => {
   console.log(`DAPI app **API getway** listening on : http://localhost:${PORT}`)

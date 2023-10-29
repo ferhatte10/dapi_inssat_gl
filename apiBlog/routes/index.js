@@ -1,31 +1,34 @@
 const express = require('express');
-const userRoute = require('./user.route');
-const categoryRoute = require('./category.route');
-const articleRoute = require('./article.route'); // Include article route
-const article_tagRoute = require('./article_tag.route');
-const commentRoute = require('./comment.route'); // Include comment route
-const likeRoute = require('./like.route'); // Include like route
-const tagRoute = require('./tag.route'); // Include tag route
-
+// const {secure, getJwksService} = require("../configs/auth");
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  return res.status(200).json({
-    success: true,
-    message: {
-      message: 'Welcome to the blog api',
-      documentation: `${req.originalUrl}api-doc`,
-    },
-  });
-});
+// import the instance of keycloak from the index.js file
+const {keycloak} = require('../index');
+const KeycloakService = keycloak.getKeycloak();
+
+// router.get('/',secure(getJwksService()), // This will protect the route with another library than keycloak-connect which is deprecated
+
+router.get('/',
+    (req, res) =>
+    {
+      return res.status(200).json(
+          {
+            success: true,
+            message: {
+                message: 'Welcome to the blog api',
+                documentation: `${req.originalUrl}api-doc`
+            },
+        });
+    }
+);
 
 // Mounting each route under the right path
-router.use('/users', userRoute); 
-router.use('/categories', categoryRoute);  
-router.use('/articles', articleRoute); 
-router.use('/comments', commentRoute); 
-router.use('/likes', likeRoute);
-router.use('/tags', tagRoute);
-router.use('/article-tags', article_tagRoute); 
+router.use('/users', KeycloakService.protect(), require('./user.route'));
+router.use('/categories', KeycloakService.protect(), require('./category.route'));
+router.use('/articles', KeycloakService.protect(), require('./article.route'));
+router.use('/comments', KeycloakService.protect(), require('./comment.route'));
+router.use('/likes', KeycloakService.protect(), require('./like.route'));
+router.use('/tags', KeycloakService.protect(), require('./tag.route'));
+router.use('/article-tags', KeycloakService.protect(), require('./article_tag.route'));
 
 module.exports = router;
