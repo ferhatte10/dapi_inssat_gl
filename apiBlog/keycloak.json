@@ -1,0 +1,11 @@
+{
+  "realm": "intranet",
+  "auth-server-url": "https://auth.dapi-services.fr/",
+  "ssl-required": "external",
+  "resource": "intranet-back",
+  "bearer-only": true,
+  "credentials": {
+    "secret": "1o2wU8DVLwWDEhft6b0r2VpNiETP07p2"
+  },
+  "confidential-port": 0
+}

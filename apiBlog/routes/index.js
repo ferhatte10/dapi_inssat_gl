@@ -10,15 +10,24 @@ const followerRoute = require('./follower.route');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  return res.status(200).json({
-    success: true,
-    message: {
-      message: 'Welcome to the blog api',
-      documentation: `${req.originalUrl}api-doc`,
-    },
-  });
-});
+// import the instance of keycloak from the index.js file
+const { keycloak } = require('../index');
+const KeycloakService = keycloak.getKeycloak();
+
+// router.get('/',secure(getJwksService()), // This will protect the route with another library than keycloak-connect which is deprecated
+
+router.get('/',
+    (req, res) => {
+        return res.status(200).json(
+            {
+                success: true,
+                message: {
+                    message: 'Welcome to the blog api',
+                    documentation: `${req.originalUrl}api-doc`
+                },
+            });
+    }
+);
 
 // Mounting each route under the right path
 router.use('/users', userRoute);

@@ -6,7 +6,11 @@ const LikeController = {};
 LikeController.getAll = async (req, res) => {
   try {
     const likes = await LikeModel.findAll();
-    res.json(likes);
+    if (!!likes){
+        return res.status(404).json({ error: 'No like found' });
+    }else{
+      res.status.status(200).json(likes);
+    }
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }

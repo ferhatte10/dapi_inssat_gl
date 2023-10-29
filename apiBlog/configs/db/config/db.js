@@ -8,7 +8,7 @@ const dbInstance = new Sequelize(SQL.DB_NAME, SQL.DB_USER, SQL.DB_PASS, {
   define: {
     timestamps: false
   },
-  logging: SQL.DB_LOGGING === "true"
+  logging: SQL.DB_LOGGING === "true" ? console.log : false
 })
 
 //const db = {}
