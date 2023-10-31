@@ -1,6 +1,6 @@
 module.exports = {
     paths:{
-        '/tags':{
+        '/users':{
             ...require('./getBlogs'),
             ...require('./createBlog'),
         },
