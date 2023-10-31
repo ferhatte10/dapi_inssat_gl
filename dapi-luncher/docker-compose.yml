@@ -10,8 +10,8 @@ services:
       replicas: 1
     env_file:
       - ../apiBlog/.env
-#    depends_on: # using server db .. if you want to use local db please change the env vars of the api-blog
-#      - mariadb
+    depends_on: # using server db .. if you want to use local db please change the env vars of the api-blog
+      - mariadb
 
   # Api gateway:
   gateway:
@@ -26,18 +26,34 @@ services:
       - "5000:5000"
     env_file:
       - ../gateway/.env
+
+  dapiauth:
+    container_name: dapiauth
+    build: ../auth
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:8080"
+    command: start --optimized
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+
   
   # MariaDB
-#  mariadb:
-#    container_name: mariadb
-#    image: mariadb:latest
-#    security_opt:
-#      - no-new-privileges:true
-#    restart: always
-#    command: --init-file /data/application/init.sql
-#    volumes:
-#        - ./init.sql:/data/application/init.sql
-#    ports:
-#      - "3306:3306"
-#    environment:
-#      MARIADB_ROOT_PASSWORD: FpTzQzhw3Qy2FV2E0Ch1
+  mariadb:
+    container_name: mariadb
+    image: mariadb:latest
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+    command: --init-file /data/application/init.sql
+    volumes:
+        - ./init.sql:/data/application/init.sql
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: FpTzQzhw3Qy2FV2E0Ch1

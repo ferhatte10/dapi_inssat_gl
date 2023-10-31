@@ -6,7 +6,7 @@ const TagController = {};
 TagController.getAll = async (req, res) => {
   try {
     const tags = await TagModel.findAll();
-    if (!!tags){
+    if (tags.length === 0 ) {
         return res.status(404).json({ error: 'Tags not found' });
     }else{
         res.status(200).json(tags);
