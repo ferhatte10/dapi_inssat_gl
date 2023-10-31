@@ -1,40 +1,40 @@
 module.exports = {
-    post:{
-        tags:['Blog'],
-        summary:"Create a new blog",
+    post: {
+        tags: ['Blog'],
+        summary: "Create a new blog",
         description: "blog POST endpoint",
         operationId: "createBlog",
-        parameters:[],
-        security:[
+        parameters: [],
+        security: [
             {
-                AuthToken:[]
+                AuthToken: []
             }
         ],
         requestBody: {
-            content:{
+            content: {
                 'application/x-www-form-urlencoded': {
-                    schema:{
-                        $ref:'#/components/schemas/BlogCreate'
+                    schema: {
+                        $ref: '#/components/schemas/schemaBlog/BlogCreate'
                     }
                 },
                 'application/json': {
-                    schema:{
-                        $ref:'#/components/schemas/BlogCreate'
+                    schema: {
+                        $ref: '#/components/schemas/schemaBlog/BlogCreate'
                     }
                 },
             }
         },
-        responses:{
-            '201':{
+        responses: {
+            '201': {
                 description: "Todo created successfully"
             },
-            '400':{
+            '400': {
                 description: "Bad request"
             },
-            '409':{
+            '409': {
                 description: "Blog already exists"
             },
-            '500':{
+            '500': {
                 description: 'Server error'
             }
         }
