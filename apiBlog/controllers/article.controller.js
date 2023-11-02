@@ -92,33 +92,28 @@ ArticleController.update = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+
 // Retrieve a list of articles with extended details, including tags
 ArticleController.getArticlesWithDetails = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; // Current page, default to 1
-    const perPage = parseInt(req.query.perPage) || 10; // Articles per page, default to 10
-
+    const page = parseInt(req.query.page) || 1;
+    const perPage = parseInt(req.query.perPage) || 10;
     const offset = (page - 1) * perPage;
-    
+
+    // Step 1: Retrieve articles, including tags and categories
     const articles = await ArticleModel.findAndCountAll({
-      attributes: ['id', 'title', 'description', 'thumbnail', 'published_at'],
+      attributes: ['id', 'title', 'description', 'thumbnail', 'author_id', 'published_at'],
       include: [
-        {
-          model: UserModel,
-          as: 'author',
-          attributes: ['name', 'last_name'],
-        },
         {
           model: Article_tagModel,
           as: 'article_tags',
-          attributes:['createdAt'],
-          include: [
-            {
-              model: TagModel,
-              as: 'tag',
-              attributes: ['title'],
-            },
-          ],
+          attributes: ['createdAt'],
+          include: {
+            model: TagModel,
+            as: 'tag',
+            attributes: ['title'],
+          },
         },
         {
           model: CategoryModel,
@@ -127,26 +122,31 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
         },
       ],
       limit: perPage,
-      offset: offset,
+      offset,
     });
 
+    // Step 2: Retrieve the list of authors (USER_ENTITY data)
+    const authorIds = articles.rows.map((article) => article.author_id);
+    const authors = await UserModel.findAll({
+      attributes: ['ID', 'FIRST_NAME', 'LAST_NAME'],
+      where: { ID: authorIds },
+    });
+
+    // Step 3: Merge the authors with the corresponding articles
+    const articlesWithAuthors = articles.rows.map((article) => ({
+      ...article.toJSON(), // Convert to plain object
+      author: authors.find((author) => author.ID === article.author_id),
+    }));
 
     const totalArticles = articles.count;
     const totalPages = Math.ceil(totalArticles / perPage);
 
     res.json({
-      articles: articles.rows,
-      pagination: {
-        page,
-        perPage,
-        totalArticles,
-        totalPages,
-      },
+      articles: articlesWithAuthors,
+      pagination: { page, perPage, totalArticles, totalPages },
     });
-
-    
-  } catch (error) { 
-    console.log(error)
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

@@ -68,8 +68,8 @@ module.exports = (dbInstance, Sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: 'user',
-        key: 'id'
+        model: 'USER_ENTITY',
+        key: 'ID'
       }
     },
     category_id: {

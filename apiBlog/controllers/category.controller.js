@@ -6,15 +6,17 @@ const CategoryController = {};
 CategoryController.getAll = async (req, res) => {
   try {
     const categories = await CategoryModel.findAll();
-    if (!!categories) {
-        return res.status(404).json({ error: 'No categories found' });
-    }else {
+
+    if (categories.length === 0) {
+      return res.status(404).json({ error: 'No categories found' });
+    } else {
       res.status(200).json(categories);
     }
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 // Get category by ID
 CategoryController.getByPk = async (req, res) => {
