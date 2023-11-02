@@ -31,14 +31,18 @@ module.exports = (dbInstance, Sequelize) => {
     },
     article_id: {
       type: Sequelize.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'article',
+        key: 'id'
+      }
     },
     user_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: 'user',
-        key: 'id'
+        model: 'USER_ENTITY',
+        key: 'ID'
       }
     }
   }, {
@@ -52,6 +56,13 @@ module.exports = (dbInstance, Sequelize) => {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "comment_article",
+        using: "BTREE",
+        fields: [
+          { name: "article_id" },
         ]
       },
       {

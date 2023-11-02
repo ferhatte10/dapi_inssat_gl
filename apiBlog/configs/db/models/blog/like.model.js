@@ -1,32 +1,32 @@
 module.exports = (dbInstance, Sequelize) => {
 
 
-  return dbInstance.define('follower', {
+  return dbInstance.define('like', {
     id: {
       autoIncrement: true,
       type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    follower_id: {
+    article_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: 'user',
+        model: 'article',
         key: 'id'
       }
     },
-    following_id: {
+    user_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: 'user',
-        key: 'id'
+        model: 'USER_ENTITY',
+        key: 'ID'
       }
     }
   }, {
     dbInstance,
-    tableName: 'follower',
+    tableName: 'like',
     timestamps: true,
     indexes: [
       {
@@ -38,17 +38,17 @@ module.exports = (dbInstance, Sequelize) => {
         ]
       },
       {
-        name: "follower_author",
+        name: "like_article",
         using: "BTREE",
         fields: [
-          { name: "following_id" },
+          { name: "article_id" },
         ]
       },
       {
-        name: "following_author",
+        name: "like_user",
         using: "BTREE",
         fields: [
-          { name: "follower_id" },
+          { name: "user_id" },
         ]
       },
     ]
