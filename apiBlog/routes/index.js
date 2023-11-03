@@ -32,4 +32,8 @@ router.use('/likes', require('./like.route'));
 router.use('/tags', require('./tag.route'));
 router.use('/article-tags', require('./article_tag.route'));
 
+
+//Dealing with images upload & fetch
+router.use('/uploads', require('./upload.route'));
+
 module.exports = router;

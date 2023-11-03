@@ -12,6 +12,9 @@ services:
       - ../apiBlog/.env
     depends_on: # using server db .. if you want to use local db please change the env vars of the api-blog
       - mariadb
+    volumes:
+      - ../apiBlog/uploads:/app/uploads # Define the path to your uploads directory
+  # Note : we can use volume for persistent files 'my_uploads' or we can save files directly inside the project folder (i've used /app/uploads with multer instead of apiBlog/uploads)
 
   # Api gateway:
   gateway:
@@ -26,6 +29,7 @@ services:
       - "5000:5000"
     env_file:
       - ../gateway/.env
+    
 
   dapiauth:
     container_name: dapiauth
@@ -57,3 +61,7 @@ services:
       - "3306:3306"
     environment:
       MARIADB_ROOT_PASSWORD: FpTzQzhw3Qy2FV2E0Ch1
+  
+  
+volumes:
+  my_uploads: # Define a named volume for storing uploaded images
