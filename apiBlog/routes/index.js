@@ -4,6 +4,7 @@ const router = express.Router();
 
 // import the instance of keycloak from the index.js file
 const {keycloak} = require('../index');
+const {GrantManager} = require("keycloak-connect");
 const KeycloakService = keycloak.getKeycloak();
 
 // router.get('/',secure(getJwksService()), // This will protect the route with another library than keycloak-connect which is deprecated
@@ -16,19 +17,20 @@ router.get('/',
             success: true,
             message: {
                 message: 'Welcome to the blog api',
-                documentation: `${req.originalUrl}api-doc`
+                documentation: `${req.originalUrl}api-doc`,
+                claims : req.claims
             },
         });
     }
 );
 
 // Mounting each route under the right path
-router.use('/users', KeycloakService.protect(), require('./user.route'));
-router.use('/categories', KeycloakService.protect(), require('./category.route'));
-router.use('/articles', KeycloakService.protect(), require('./article.route'));
-router.use('/comments', KeycloakService.protect(), require('./comment.route'));
-router.use('/likes', KeycloakService.protect(), require('./like.route'));
-router.use('/tags', KeycloakService.protect(), require('./tag.route'));
-router.use('/article-tags', KeycloakService.protect(), require('./article_tag.route'));
+router.use('/users', require('./user.route'));
+router.use('/categories', require('./category.route'));
+router.use('/articles', require('./article.route'));
+router.use('/comments', require('./comment.route'));
+router.use('/likes', require('./like.route'));
+router.use('/tags', require('./tag.route'));
+router.use('/article-tags', require('./article_tag.route'));
 
 module.exports = router;

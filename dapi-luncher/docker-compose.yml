@@ -1,7 +1,7 @@
 services:
   # Api blog
   api-blog:
-    # container_name: api-blog
+    container_name: api-blog
     build: ../apiBlog
     security_opt:
       - no-new-privileges:true
@@ -10,7 +10,7 @@ services:
       replicas: 1
     env_file:
       - ../apiBlog/.env
-    depends_on: # using server db .. if you want to use local db please change the env vars of the api-blog
+    depends_on:
       - mariadb
 
   # Api gateway:
@@ -27,6 +27,7 @@ services:
     env_file:
       - ../gateway/.env
 
+  # Api auth
   dapiauth:
     container_name: dapiauth
     build: ../auth

@@ -16,7 +16,7 @@ RUN /opt/keycloak/bin/kc.sh build --db mariadb --transaction-xa-enabled=false
 
 ENV KC_DB=mariadb
 ENV KC_DB_PASSWORD=FpTzQzhw3Qy2FV2E0Ch1
-ENV KC_DB_URL=jdbc:mariadb://mariadb:3306/intranet_auth
+ENV KC_DB_URL=jdbc:mariadb://89.88.125.50:3306/intranet_auth
 ENV KC_DB_USERNAME=root
 ENV KC_TRANSACTION_XA_ENABLED=false
 
