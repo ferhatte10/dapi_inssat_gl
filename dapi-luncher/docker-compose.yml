@@ -10,7 +10,8 @@ services:
       replicas: 1
     env_file:
       - ../apiBlog/.env
-    depends_on: # using server db .. if you want to use local db please change the env vars of the api-blog
+    depends_on:
+      # using server db .. if you want to use local db please change the env vars of the api-blog
       - mariadb
 
   # Api gateway:
@@ -36,13 +37,12 @@ services:
     depends_on:
       - mariadb
     ports:
-      - "8080:8080"
+      - "5009:5009"
     command: start --optimized
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
 
-  
   # MariaDB
   mariadb:
     container_name: mariadb
@@ -52,7 +52,7 @@ services:
     restart: always
     command: --init-file /data/application/init.sql
     volumes:
-        - ./init.sql:/data/application/init.sql
+      - ./init.sql:/data/application/init.sql
     ports:
       - "3306:3306"
     environment:
