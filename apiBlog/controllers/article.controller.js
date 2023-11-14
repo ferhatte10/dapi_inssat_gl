@@ -152,7 +152,7 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
   }
 };
 
-// Get articles by category
+// Get articles by category ID
 ArticleController.getArticlesByCategory = async (req, res) => {
   const categoryId = parseInt(req.params.categoryId);
 
@@ -177,7 +177,7 @@ ArticleController.getArticlesByCategory = async (req, res) => {
 };
 
 
-// Get articles by tag
+// Get articles by tag Id
 ArticleController.getArticlesByTag = async (req, res) => {
   const tagId = parseInt(req.params.tagId);
 
@@ -208,7 +208,7 @@ ArticleController.getArticlesByTag = async (req, res) => {
 };
 
 
-// Get articles by multiple tags
+// Get articles by multiple tags id
 ArticleController.getArticlesByTags = async (req, res) => {
   const tagIds = req.query.tagIds;
 
@@ -244,7 +244,7 @@ ArticleController.getArticlesByTags = async (req, res) => {
   }
 }
 
-// Get articles by author
+// Get articles by author id
 ArticleController.getArticlesByAuthor = async (req, res) => {
   const authorId = parseInt(req.params.authorId);
 
@@ -282,6 +282,56 @@ ArticleController.getArticlesByTimePeriod = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+// Get articles by category name
+ArticleController.getArticlesByCategoryName = async (req, res) => {
+  const categoryName = req.params.categoryName;
+
+  try {
+    const category = await Category.findOne({
+      where: { title: categoryName },
+      include: {
+        model: Article,
+        as: 'articles',
+      },
+    });
+
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    res.json(category.articles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+// Get articles by author name
+ArticleController.getArticlesByAuthorName = async (req, res) => {
+  const authorName = req.params.authorName;
+
+  try {
+    const author = await Author.findOne({
+      where: { name: authorName },
+      include: {
+        model: Article,
+        as: 'articles',
+      },
+    });
+
+    if (!author) {
+      return res.status(404).json({ error: 'Author not found' });
+    }
+
+    res.json(author.articles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 
 // TODO: Add More controllers methods to manage the additional routes 
 
