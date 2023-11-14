@@ -1,4 +1,4 @@
-FROM node:lts as build
+FROM node:lts
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
