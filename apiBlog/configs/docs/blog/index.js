@@ -63,6 +63,12 @@ module.exports = {
         '/article/time/{time}': {
             ...require('./articles/getArticlesByTimePeriod')
         },
+        '/article/category/name/{categoryName}': {
+            ...require('./articles/getArticlesByCategoryName')
+        },
+        '/article/author/name/{authorName}': {
+            ...require('./articles/getArticlesByAuthorName')
+        },
         '/likes/{id}': {
             ...require('./likes/getLike'),
             ...require('./likes/createLike')
