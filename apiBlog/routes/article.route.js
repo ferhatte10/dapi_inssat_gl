@@ -14,7 +14,7 @@ router.put('/:id', ArticleController.update);
 router.get('/details', ArticleController.getArticlesWithDetails);
 
 // Retrieve a list of articles by category
-router.get('/categories/:categoryId', ArticleController.getArticlesByCategory);
+router.get('/category/:categoryId', ArticleController.getArticlesByCategory);
 
 // Retrieve a list of articles by tag
 router.get('/tag/:tagId', ArticleController.getArticlesByTag);

@@ -48,6 +48,21 @@ module.exports = {
         '/article/details': {
             ...require('./articles/getArticlesDetails')
         },
+        '/article/category/{categoryId}': {
+            ...require('./articles/getArticlesByCategory')
+        },
+        '/article/tag/{tagId}': {
+            ...require('./articles/getArticlesByTag')
+        },
+        '/article/tags/{tagsId}': {
+            ...require('./articles/getArticlesByTags')
+        },
+        '/article/author/{authorId}': {
+            ...require('./articles/getArticlesByAuthor')
+        },
+        '/article/time/{time}': {
+            ...require('./articles/getArticlesByTimePeriod')
+        },
         '/likes/{id}': {
             ...require('./likes/getLike'),
             ...require('./likes/createLike')

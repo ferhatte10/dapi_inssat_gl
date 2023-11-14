@@ -5,6 +5,26 @@ module.exports = {
             description: 'The id of the article',
             example: 1
         },
+        CategoryId: {
+            type: 'integer',
+            description: 'The id of a specific Category',
+            example: 1
+        },
+        TagId: {
+            type: 'integer',
+            description: 'The id of a specific Tag',
+            example: 1
+        },
+        TagsId: {
+            type: 'array',
+            description: 'Multiple id of a specific Tag',
+            example: [1, 2]
+        },
+        AuthorId: {
+            type: 'integer',
+            description: 'The id of a specific Author',
+            example: 1
+        },
         Article: {
             type: 'object',
             properties: {
