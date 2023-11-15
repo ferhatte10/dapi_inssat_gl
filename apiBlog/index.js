@@ -1,6 +1,9 @@
 const app = require('express')()
 const db = require('./configs/db/config/db')
-const {PORT} = require('./configs/env')
+const {PORT, SEED_ACTIVATED} = require('./configs/env')
+
+const { seedAll } = require('./seeders');
+
 
 const { setupCors } = require('./configs/cors')
 const { setupLogging } = require("./configs/logging")
@@ -19,6 +22,8 @@ exports.keycloak = setupKeycloak(app) // This will setup the keycloak middleware
 
 db.dbInstance.sync().then(() => { // This will sync the database with the models (update any changes)
     console.log("Database is synced")
+    // This will seed the database with the data
+    if(SEED_ACTIVATED) seedAll()
 }).catch((err) => {
     console.log(err)
 })

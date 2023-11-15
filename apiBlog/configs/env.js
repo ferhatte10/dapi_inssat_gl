@@ -18,7 +18,8 @@ const {
     CORS_ORIGIN,
     JWKS_URI,
     DB_LOGGING,
-    UPLOADS_PATH
+    UPLOADS_PATH,
+    SEED_ACTIVATED
 } = process.env
 
 assert(DB_HOST, "DB_HOST (database host) is required")
@@ -30,6 +31,7 @@ assert(DB_NAME_AUTH, "DB_NAME_AUTH (database name) is required")
 assert(CORS_ORIGIN, "CORS_ORIGIN () is required")
 assert(JWKS_URI, "JWKS_URI (jwks uri) is required")
 assert(UPLOADS_PATH, "UPLOADS_PATH is required")
+assert(SEED_ACTIVATED, "UPLOADS_PATH is required")
 
 module.exports = {
     PORT,
@@ -44,5 +46,6 @@ module.exports = {
     },
     CORS_ORIGIN: CORS_ORIGIN.split(","),
     JWKS_URI,
-    UPLOADS_PATH
+    UPLOADS_PATH,
+    SEED_ACTIVATED
 }
