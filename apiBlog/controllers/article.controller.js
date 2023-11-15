@@ -132,17 +132,24 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
       where: { ID: authorIds },
     });
 
-    // Step 3: Merge the authors with the corresponding articles
-    const articlesWithAuthors = articles.rows.map((article) => ({
-      ...article.toJSON(), // Convert to plain object
-      author: authors.find((author) => author.ID === article.author_id),
-    }));
+    // Step 3: Map articles to include tags and authors
+    const articlesWithDetails = articles.rows.map((article) => {
+      const articleData = article.toJSON();
+      const article_tags = articleData.article_tags.map((articleTag) => articleTag.tag.title);
+
+
+      return {
+        ...articleData,
+        author: authors.find((author) => author.ID === article.author_id),
+        article_tags,
+      };
+    });
 
     const totalArticles = articles.count;
     const totalPages = Math.ceil(totalArticles / perPage);
 
     res.json({
-      articles: articlesWithAuthors,
+      articles: articlesWithDetails,
       pagination: { page, perPage, totalArticles, totalPages },
     });
   } catch (error) {
@@ -150,6 +157,7 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 
 
