@@ -1,9 +1,8 @@
-const KeycloakService = require("./auth.keycloak");
+const {initKeycloak} = require("./auth.keycloak");
 
-const keycloakInstance = new KeycloakService();
-keycloakInstance.initKeycloak();
+const keycloakInstance = initKeycloak();
 
 exports.setupKeycloak = (app) => {
-    app.use(keycloakInstance.getKeycloak().middleware());
+    app.use(keycloakInstance.middleware());
     return keycloakInstance;
 }

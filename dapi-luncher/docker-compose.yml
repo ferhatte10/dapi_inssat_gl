@@ -11,8 +11,7 @@ services:
     env_file:
       - ../apiBlog/.env
     depends_on:
-      - mariadb
-
+      - db
   # Api gateway:
   gateway:
     container_name: gateway
@@ -23,7 +22,7 @@ services:
     depends_on:
       - api-blog
     ports:
-      - "5000:5000"
+      - 5000:5000
     env_file:
       - ../gateway/.env
 
@@ -35,26 +34,29 @@ services:
       - no-new-privileges:true
     restart: always
     depends_on:
-      - mariadb
+      - db
+    volumes:
+      - ../auth/data:/opt/keycloak/data
+      - ../auth/themes:/opt/keycloak/themes
     ports:
-      - "8080:8080"
-    command: start --optimized
+      - 8080:8080
+    command: start --optimized --import-realm --spi-theme-welcome-theme=inssat
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-
   
-  # MariaDB
-  mariadb:
-    container_name: mariadb
-    image: mariadb:latest
+  # postgres
+  db:
+    container_name: db
+    image: postgres:latest
     security_opt:
       - no-new-privileges:true
     restart: always
-    command: --init-file /data/application/init.sql
     volumes:
-        - ./init.sql:/data/application/init.sql
+        - ./db_data:/var/lib/postgresql/data
+        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "3306:3306"
+      - 5432:5432
     environment:
-      MARIADB_ROOT_PASSWORD: FpTzQzhw3Qy2FV2E0Ch1
+      - POSTGRES_USER=appservices
+      - POSTGRES_PASSWORD=4gv!stWsevk8@hcgs51454fh
