@@ -7,7 +7,9 @@ const uploadArticleImagesMiddleware = require('../middlewares/uploadArticleImage
 
 // Define routes
 router.get('/', ArticleController.getAll);
-//router.get('/:id', ArticleController.getByPk);
+
+router.get('/:id', ArticleController.getByPk);
+
 router.delete('/:id', ArticleController.deleteByPk);
 
 router.post('/', uploadArticleImagesMiddleware, ArticleController.create);
