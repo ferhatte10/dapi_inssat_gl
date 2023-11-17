@@ -41,12 +41,12 @@ services:
       - ../auth/themes:/opt/keycloak/themes
     ports:
       - 8080:8080
-    command: start --optimized --import-realm --spi-theme-welcome-theme=inssat
+    command: ["start", "--optimized", "--import-realm", "--spi-theme-welcome-theme=inssat"]
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
   
-  # MariaDB
+  # db
   db:
     container_name: db
     image: mariadb:latest
