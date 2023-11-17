@@ -36,7 +36,6 @@ services:
     depends_on:
       - db
     volumes:
-      - ../auth/data:/opt/keycloak/data
       - ../auth/themes:/opt/keycloak/themes
     ports:
       - 8080:8080
@@ -45,18 +44,21 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
   
-  # postgres
+  # MariaDB
   db:
     container_name: db
-    image: postgres:latest
+    image: mariadb:latest
     security_opt:
       - no-new-privileges:true
     restart: always
+    command: ["--init-file=/data/application/init.sql"]
     volumes:
-        - ./db_data:/var/lib/postgresql/data
-        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+        - db_data:/var/lib/mysql
+        - ./init.sql:/data/application/init.sql
     ports:
-      - 5432:5432
+      - "3306:3306"
     environment:
-      - POSTGRES_USER=appservices
-      - POSTGRES_PASSWORD=4gv!stWsevk8@hcgs51454fh
+      MARIADB_ROOT_PASSWORD: 4mvstWAvkShcgsOMG5fh
+
+volumes:
+  db_data:

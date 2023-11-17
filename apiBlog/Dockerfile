@@ -1,13 +1,24 @@
-FROM node:lts
+# Use the LTS version of Node.js as the base image
+FROM node:lts as build
 
-RUN mkdir -p /usr/src/app
+# Set the working directory within the container
 WORKDIR /usr/src/app
 
-COPY package.json package.json
+# Copy the package.json and package-lock.json files
+COPY package*.json ./
+
+# Install project dependencies
 RUN npm install
 
+# Copy the rest of the application code
 COPY . .
 
+# Download the wait-for-it script
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/wait-for-it
+RUN chmod +x /usr/local/bin/wait-for-it
+
+# Expose port 3000
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+# waiting for dependencies to be available and then starts the application
+CMD ["sh", "-c", "wait-for-it -t 2 db:3306 && sleep 2s && npm start"]

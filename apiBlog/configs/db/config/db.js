@@ -4,7 +4,7 @@ const init_models = require("../models/init-models")
 const dbInstance = new Sequelize(SQL.DB_NAME, SQL.DB_USER, SQL.DB_PASS, {
   host: SQL.DB_HOST,
   port: SQL.DB_PORT,
-  dialect: 'postgres',
+  dialect: 'mariadb',
   // define: {
   //   timestamps: false
   // },
