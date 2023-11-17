@@ -98,9 +98,6 @@ ArticleController.update = async (req, res) => {
 // Retrieve a list of articles with extended details, including tags
 ArticleController.getArticlesWithDetails = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const perPage = parseInt(req.query.perPage) || 10;
-    const offset = (page - 1) * perPage;
 
     // Step 1: Retrieve articles, including tags and categories
     const articles = await ArticleModel.findAndCountAll({
@@ -121,9 +118,7 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
           as: 'category',
           attributes: ['title'],
         },
-      ],
-      limit: perPage,
-      offset,
+      ]
     });
 
     // Step 2: Retrieve the list of authors (USER_ENTITY data)
@@ -146,18 +141,71 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
       };
     });
 
-    const totalArticles = articles.count;
-    const totalPages = Math.ceil(totalArticles / perPage);
-
-    res.json({
-      articles: articlesWithDetails,
-      pagination: { page, perPage, totalArticles, totalPages },
-    });
+    res.json(articlesWithDetails);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+// Endpoint pour récupérer les détails d'un article, y compris les tags et l'auteur
+ArticleController.getArticleWithDetails = async (req, res) => {
+  const articleId = parseInt(req.params.articleId);
+
+  try {
+    // Étape 1 : Récupérer les détails de l'article, y compris les tags et la catégorie
+    const article = await ArticleModel.findOne({
+      where: { id: articleId },
+      include: [
+        {
+          model: Article_tagModel,
+          as: 'article_tags',
+          attributes: ['createdAt'],
+          include: {
+            model: TagModel,
+            as: 'tag',
+            attributes: ['title'],
+          },
+        },
+        {
+          model: CategoryModel,
+          as: 'category',
+          attributes: ['title'],
+        },
+      ],
+    });
+
+    if (!article) {
+      return res.status(404).json({ error: 'Article not found' });
+    }
+
+    // Étape 2 : Récupérer les informations sur l'auteur
+    const author = await UserModel.findOne({
+      attributes: ['ID', 'FIRST_NAME', 'LAST_NAME'],
+      where: { ID: article.author_id },
+    });
+
+    // Étape 3 : Mapper les détails de l'article pour inclure les tags et l'auteur
+    const articleData = article.toJSON();
+    const article_tags = articleData.article_tags.map((articleTag) => articleTag.tag.title);
+
+    const articleWithDetails = {
+      ...articleData,
+      author: {
+        ID: author.ID,
+        FIRST_NAME: author.FIRST_NAME,
+        LAST_NAME: author.LAST_NAME,
+      },
+      article_tags,
+    };
+
+    res.json(articleWithDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 
 // Get articles by category ID
 ArticleController.getArticlesByCategory = async (req, res) => {

@@ -1,14 +1,5 @@
 module.exports = {
     paths: {
-        '/blog': {
-            ...require('./blogs/getBlogs'),
-            ...require('./blogs/createBlog'),
-        },
-        '/blog/{uuid}': {
-            ...require('./blogs/getBlog'),
-            // ...require('./deleteBlog'),
-            // ...require('./updateBlog')
-        },
         '/tags/{id}': {
             ...require('./tags/getTag'),
             ...require('./tags/createTag')
@@ -45,28 +36,31 @@ module.exports = {
             ...require('./articles/updateArticle'),
             ...require('./articles/deleteArticle')
         },
-        '/article/details': {
+        '/articles/details': {
             ...require('./articles/getArticlesDetails')
         },
-        '/article/category/{categoryId}': {
+        '/articles/details/{id}': {
+            ...require('./articles/getArticleDetails')
+        },
+        '/articles/category/{categoryId}': {
             ...require('./articles/getArticlesByCategory')
         },
-        '/article/tag/{tagId}': {
+        '/articles/tag/{tagId}': {
             ...require('./articles/getArticlesByTag')
         },
-        '/article/tags/{tagsId}': {
+        '/articles/tags/{tagsId}': {
             ...require('./articles/getArticlesByTags')
         },
-        '/article/author/{authorId}': {
+        '/articles/author/{authorId}': {
             ...require('./articles/getArticlesByAuthor')
         },
-        '/article/time/{time}': {
+        '/articles/time/{time}': {
             ...require('./articles/getArticlesByTimePeriod')
         },
-        '/article/category/name/{categoryName}': {
+        '/articles/category/name/{categoryName}': {
             ...require('./articles/getArticlesByCategoryName')
         },
-        '/article/author/name/{authorName}': {
+        '/articles/author/name/{authorName}': {
             ...require('./articles/getArticlesByAuthorName')
         },
         '/likes/{id}': {

@@ -1,4 +1,3 @@
-const blog = require('./blog.component')
 const tag = require('./tag.component')
 const category = require('./category.component')
 const comment = require('./comment.component')
@@ -19,7 +18,6 @@ module.exports = {
             },
         },
         schemas: {
-            ...blog,
             ...tag,
             ...category,
             ...comment,

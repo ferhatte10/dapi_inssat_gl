@@ -10,13 +10,16 @@ router.get('/', ArticleController.getAll);
 //router.get('/:id', ArticleController.getByPk);
 router.delete('/:id', ArticleController.deleteByPk);
 
-router.post('/', uploadArticleImagesMiddleware,  ArticleController.create);
+router.post('/', uploadArticleImagesMiddleware, ArticleController.create);
 
 router.put('/:id', ArticleController.update);
 
 // Additional routes
 // Retrieve a list of articles with extended details including author info and tags title
 router.get('/details', ArticleController.getArticlesWithDetails);
+
+// A specific article with extended details including author info and tags title
+router.get('/details/:id', ArticleController.getArticleWithDetails);
 
 // Retrieve a list of articles by category
 router.get('/category/:categoryId', ArticleController.getArticlesByCategory);
