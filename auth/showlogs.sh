@@ -1,1 +1,0 @@
-docker container logs dapiauth -f

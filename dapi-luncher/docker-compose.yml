@@ -58,7 +58,7 @@ services:
         - db_data:/var/lib/mysql
         - ./init.sql:/data/application/init.sql
     ports:
-      - "3306:3306"
+      - 3306:3306
     environment:
       MARIADB_ROOT_PASSWORD: 4mvstWAvkShcgsOMG5fh
 
