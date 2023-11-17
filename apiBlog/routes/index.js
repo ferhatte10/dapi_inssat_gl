@@ -23,13 +23,13 @@ router.get('/',
 );
 
 // Mounting each route under the right path
-router.use('/users', KeycloakService.protect(), require('./user.route'));
-router.use('/categories', KeycloakService.protect(), require('./category.route'));
-router.use('/articles', KeycloakService.protect(), require('./article.route'));
-router.use('/comments', KeycloakService.protect(), require('./comment.route'));
-router.use('/likes', KeycloakService.protect(), require('./like.route'));
-router.use('/tags', KeycloakService.protect(), require('./tag.route'));
-router.use('/article-tags', KeycloakService.protect(), require('./article_tag.route'));
+router.use('/users', require('./user.route'));
+router.use('/categories', require('./category.route'));
+router.use('/articles', require('./article.route'));
+router.use('/comments', require('./comment.route'));
+router.use('/likes', require('./like.route'));
+router.use('/tags', require('./tag.route'));
+router.use('/article-tags', require('./article_tag.route'));
 
 
 //Dealing with images upload & fetch
