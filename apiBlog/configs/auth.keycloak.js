@@ -1,25 +1,30 @@
-const Keycloak = require('keycloak-connect');
-class KeycloakManager {
-    constructor() {
-        this._keycloak = null;
-    }
+let Keycloak = require('keycloak-connect')
 
-    initKeycloak() {
-        if (this._keycloak) {
-            console.warn("Trying to init Keycloak again!");
-        } else {
-            console.info("Initializing Keycloak...");
-            this._keycloak = new Keycloak({});
-        }
-    }
+let _keycloak
 
-    getKeycloak() {
-        if (!this._keycloak) {
-            console.warn('Keycloak has not been initialized. \n Init ...');
-            this.initKeycloak();
-        }
-        return this._keycloak;
+function initKeycloak() {
+    if (_keycloak) {
+        console.warn("Trying to init Keycloak again!");
+        return _keycloak
+    }
+    else {
+        console.info("Initializing Keycloak...");
+        _keycloak = new Keycloak({});
+        return _keycloak
     }
 }
 
-module.exports = KeycloakManager;
+function getKeycloak() {
+    if (!_keycloak){
+        console.warn('Keycloak has not been initialized. \n Init ...');
+        initKeycloak()
+    }
+    return _keycloak
+}
+
+
+
+module.exports = {
+    initKeycloak,
+    getKeycloak,
+}

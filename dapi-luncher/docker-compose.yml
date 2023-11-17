@@ -1,21 +1,20 @@
 services:
   # Api blog
   api-blog:
-    # container_name: api-blog
+    container_name: api-blog
     build: ../apiBlog
     security_opt:
       - no-new-privileges:true
     restart: always
     deploy:
-      replicas: 1
+      replicas: 1 # comment the container_name if > 1
     env_file:
       - ../apiBlog/.env
-    depends_on: # using server db .. if you want to use local db please change the env vars of the api-blog
-      - mariadb
     volumes:
       - ../apiBlog/uploads:/app/uploads # Define the path to your uploads directory
   # Note : we can use volume for persistent files 'my_uploads' or we can save files directly inside the project folder (i've used /app/uploads with multer instead of apiBlog/uploads)
-
+    depends_on:
+      - db
   # Api gateway:
   gateway:
     container_name: gateway
@@ -26,10 +25,9 @@ services:
     depends_on:
       - api-blog
     ports:
-      - "5000:5000"
+      - 5000:5000
     env_file:
       - ../gateway/.env
-    
 
   dapiauth:
     container_name: dapiauth
@@ -38,30 +36,33 @@ services:
       - no-new-privileges:true
     restart: always
     depends_on:
-      - mariadb
+      - db
+    volumes:
+      - ../auth/themes:/opt/keycloak/themes
     ports:
-      - "8080:8080"
-    command: start --optimized
+      - 8080:8080
+    command: start --optimized --import-realm --spi-theme-welcome-theme=inssat
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-
   
   # MariaDB
-  mariadb:
-    container_name: mariadb
+  db:
+    container_name: db
     image: mariadb:latest
     security_opt:
       - no-new-privileges:true
     restart: always
-    command: --init-file /data/application/init.sql
+    command: ["--init-file=/data/application/init.sql"]
     volumes:
+        - db_data:/var/lib/mysql
         - ./init.sql:/data/application/init.sql
     ports:
       - "3306:3306"
     environment:
-      MARIADB_ROOT_PASSWORD: FpTzQzhw3Qy2FV2E0Ch1
-  
-  
+      MARIADB_ROOT_PASSWORD: 4mvstWAvkShcgsOMG5fh
+
+
 volumes:
   my_uploads: # Define a named volume for storing uploaded images
+  db_data:

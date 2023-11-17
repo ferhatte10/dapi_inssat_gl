@@ -7,9 +7,9 @@ const CONFIGURATION = {
   host: SQL.DB_HOST,
   port: SQL.DB_PORT,
   dialect: 'mariadb',
-  define: {
-    timestamps: false
-  },
+  // define: {
+  //   timestamps: false
+  // },
   logging: SQL.DB_LOGGING === "true" ? console.log : false
 }
 

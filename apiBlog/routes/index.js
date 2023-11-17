@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 // import the instance of keycloak from the index.js file
-const {keycloak} = require('../index');
-const KeycloakService = keycloak.getKeycloak();
+const {getKeycloak} = require('../configs/auth.keycloak');
+const KeycloakService = getKeycloak();
 
 // router.get('/',secure(getJwksService()), // This will protect the route with another library than keycloak-connect which is deprecated
 
@@ -23,14 +23,13 @@ router.get('/',
 );
 
 // Mounting each route under the right path
-// TODO : add , KeycloakService.protect() middleware with correct roles
-router.use('/users', require('./user.route'));
-router.use('/categories', require('./category.route'));
-router.use('/articles', require('./article.route'));
-router.use('/comments', require('./comment.route'));
-router.use('/likes', require('./like.route'));
-router.use('/tags', require('./tag.route'));
-router.use('/article-tags', require('./article_tag.route'));
+router.use('/users', KeycloakService.protect(), require('./user.route'));
+router.use('/categories', KeycloakService.protect(), require('./category.route'));
+router.use('/articles', KeycloakService.protect(), require('./article.route'));
+router.use('/comments', KeycloakService.protect(), require('./comment.route'));
+router.use('/likes', KeycloakService.protect(), require('./like.route'));
+router.use('/tags', KeycloakService.protect(), require('./tag.route'));
+router.use('/article-tags', KeycloakService.protect(), require('./article_tag.route'));
 
 
 //Dealing with images upload & fetch

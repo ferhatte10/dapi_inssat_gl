@@ -1,5 +1,4 @@
-# Use the LTS version of Node.js as the base image
-FROM node:lts as build
+FROM node:lts
 
 # Set the working directory within the container
 WORKDIR /usr/src/app
@@ -10,7 +9,6 @@ COPY package*.json ./
 # Install project dependencies
 RUN npm install
 
-# Copy the rest of the application code
 COPY . .
 
 # Download the wait-for-it script
@@ -21,4 +19,4 @@ RUN chmod +x /usr/local/bin/wait-for-it
 EXPOSE 3000
 
 # waiting for dependencies to be available and then starts the application
-CMD ["sh", "-c", "wait-for-it -t 2 mariadb:3306 -- wait-for-it -t 2 dapiauth:8080 && sleep 2s && npm start"]
+CMD ["sh", "-c", "wait-for-it -t 2 db:3306 && sleep 2s && npm start"]
