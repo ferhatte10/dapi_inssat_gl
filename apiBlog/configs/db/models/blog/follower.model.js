@@ -11,18 +11,18 @@ module.exports = (dbInstance, Sequelize) => {
     follower_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: {
-        model: 'USER_ENTITY',
-        key: 'ID'
-      }
+      // references: {
+      //   model: 'USER_ENTITY',
+      //   key: 'ID'
+      // }
     },
     following_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: {
-        model: 'USER_ENTITY',
-        key: 'ID'
-      }
+      // references: {
+      //   model: 'USER_ENTITY',
+      //   key: 'ID'
+      // }
     }
   }, {
     dbInstance,
@@ -37,20 +37,20 @@ module.exports = (dbInstance, Sequelize) => {
           { name: "id" },
         ]
       },
-      {
-        name: "follower_author",
-        using: "BTREE",
-        fields: [
-          { name: "following_id" },
-        ]
-      },
-      {
-        name: "following_author",
-        using: "BTREE",
-        fields: [
-          { name: "follower_id" },
-        ]
-      },
+      // {
+      //   name: "follower_author",
+      //   using: "BTREE",
+      //   fields: [
+      //     { name: "following_id" },
+      //   ]
+      // },
+      // {
+      //   name: "following_author",
+      //   using: "BTREE",
+      //   fields: [
+      //     { name: "follower_id" },
+      //   ]
+      // },
     ]
   });
 };

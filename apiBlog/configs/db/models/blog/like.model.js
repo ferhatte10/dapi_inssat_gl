@@ -19,10 +19,10 @@ module.exports = (dbInstance, Sequelize) => {
     user_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      references: {
-        model: 'USER_ENTITY',
-        key: 'ID'
-      }
+      // references: {
+      //   model: 'USER_ENTITY',
+      //   key: 'ID'
+      // }
     }
   }, {
     dbInstance,
@@ -44,13 +44,13 @@ module.exports = (dbInstance, Sequelize) => {
           { name: "article_id" },
         ]
       },
-      {
-        name: "like_user",
-        using: "BTREE",
-        fields: [
-          { name: "user_id" },
-        ]
-      },
+      // {
+      //   name: "like_user",
+      //   using: "BTREE",
+      //   fields: [
+      //     { name: "user_id" },
+      //   ]
+      // },
     ]
   });
 };

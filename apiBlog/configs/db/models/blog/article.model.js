@@ -65,12 +65,12 @@ module.exports = (dbInstance, Sequelize) => {
       allowNull: false
     },
     author_id: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING(36),
       allowNull: false,
-      references: {
-        model: 'USER_ENTITY',
-        key: 'ID'
-      }
+      // references: {
+      //   model: 'USER_ENTITY',
+      //   key: 'ID'
+      // }
     },
     category_id: {
       type: Sequelize.INTEGER,
@@ -93,13 +93,13 @@ module.exports = (dbInstance, Sequelize) => {
           { name: "id" },
         ]
       },
-      {
-        name: "article_author",
-        using: "BTREE",
-        fields: [
-          { name: "author_id" },
-        ]
-      },
+      // {
+      //   name: "article_author",
+      //   using: "BTREE",
+      //   fields: [
+      //     { name: "author_id" },
+      //   ]
+      // },
       {
         name: "article_category",
         using: "BTREE",

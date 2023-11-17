@@ -9,3 +9,9 @@ stressTest/__pycache__/
 
 .idea/
 .vscode/
+
+
+*/uploads/
+
+#mac files ignore
+.DS_Store
