@@ -1,10 +1,11 @@
 const {
-  article : ArticleModel,
-  user : UserModel,
-  tag : TagModel,
-  article_tag : Article_tagModel,
-  category : CategoryModel
-} = require('../configs/db/config/db'); 
+  article: ArticleModel,
+  user: UserModel,
+  tag: TagModel,
+  article_tag: Article_tagModel,
+  category: CategoryModel,
+  Sequelize
+} = require('../configs/db/config/db');
 
 const ArticleController = {};
 
@@ -97,9 +98,6 @@ ArticleController.update = async (req, res) => {
 // Retrieve a list of articles with extended details, including tags
 ArticleController.getArticlesWithDetails = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const perPage = parseInt(req.query.perPage) || 10;
-    const offset = (page - 1) * perPage;
 
     // Step 1: Retrieve articles, including tags and categories
     const articles = await ArticleModel.findAndCountAll({
@@ -120,9 +118,7 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
           as: 'category',
           attributes: ['title'],
         },
-      ],
-      limit: perPage,
-      offset,
+      ]
     });
 
     // Step 2: Retrieve the list of authors (USER_ENTITY data)
@@ -145,19 +141,251 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
       };
     });
 
-    const totalArticles = articles.count;
-    const totalPages = Math.ceil(totalArticles / perPage);
-
-    res.json({
-      articles: articlesWithDetails,
-      pagination: { page, perPage, totalArticles, totalPages },
-    });
+    res.json(articlesWithDetails);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
 
+// Endpoint pour récupérer les détails d'un article, y compris les tags et l'auteur
+ArticleController.getArticleWithDetails = async (req, res) => {
+  const articleId = parseInt(req.params.id);
+
+  try {
+    // Étape 1 : Récupérer les détails de l'article, y compris les tags et la catégorie
+    const article = await ArticleModel.findOne({
+      where: { id: articleId },
+      include: [
+        {
+          model: Article_tagModel,
+          as: 'article_tags',
+          attributes: ['createdAt'],
+          include: {
+            model: TagModel,
+            as: 'tag',
+            attributes: ['title'],
+          },
+        },
+        {
+          model: CategoryModel,
+          as: 'category',
+          attributes: ['title'],
+        },
+      ],
+    });
+
+    if (!article) {
+      return res.status(404).json({ error: 'Article not found' });
+    }
+
+    // Étape 2 : Récupérer les informations sur l'auteur
+    const author = await UserModel.findOne({
+      attributes: ['ID', 'FIRST_NAME', 'LAST_NAME'],
+      where: { ID: article.author_id },
+    });
+
+    // Étape 3 : Mapper les détails de l'article pour inclure les tags et l'auteur
+    const articleData = article.toJSON();
+    const article_tags = articleData.article_tags.map((articleTag) => articleTag.tag.title);
+
+    const articleWithDetails = {
+      ...articleData,
+      author: {
+        ID: author.ID,
+        FIRST_NAME: author.FIRST_NAME,
+        LAST_NAME: author.LAST_NAME,
+      },
+      article_tags,
+    };
+
+    res.json(articleWithDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+// Get articles by category ID
+ArticleController.getArticlesByCategory = async (req, res) => {
+  const categoryId = parseInt(req.params.categoryId);
+
+  try {
+    // Recherchez la catégorie par son ID
+    const category = await CategoryModel.findByPk(categoryId);
+
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    // Recherchez les articles associés à la catégorie
+    const articles = await ArticleModel.findAll({
+      where: { category_id: categoryId },
+    });
+
+    res.json(articles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+// Get articles by tag Id
+ArticleController.getArticlesByTag = async (req, res) => {
+  const tagId = parseInt(req.params.tagId);
+
+  try {
+    // Recherchez le tag par son ID
+    const tag = await TagModel.findByPk(tagId);
+
+    if (!tag) {
+      return res.status(404).json({ error: 'Tag not found' });
+    }
+
+    // Recherchez les articles associés à ce tag en utilisant la table de liaison article_tag
+    const articles = await ArticleModel.findAll({
+      include: [
+        {
+          model: Article_tagModel,
+          as: 'article_tags',
+          where: { tag_id: tagId },
+        },
+      ],
+    });
+
+    res.json(articles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+// Get articles by multiple tags id
+ArticleController.getArticlesByTags = async (req, res) => {
+  const tagIds = req.query.tagIds;
+
+  try {
+    // Recherchez les tags correspondants par leurs IDs
+    const tags = await TagModel.findAll({
+      where: { id: tagIds },
+    });
+
+    if (!tags || tags.length === 0) {
+      return res.status(404).json({ error: 'Tags not found' });
+    }
+
+    // Recherchez les articles associés à ces tags en utilisant la table de liaison article_tag
+    const articles = await ArticleModel.findAll({
+      include: [
+        {
+          model: ArticleTagModel,
+          as: 'article_tags',
+          where: {
+            tag_id: {
+              [Sequelize.Op.in]: tagIds,
+            },
+          },
+        },
+      ],
+    });
+
+    res.json(articles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+// Get articles by author id
+ArticleController.getArticlesByAuthor = async (req, res) => {
+  const authorId = parseInt(req.params.authorId);
+
+  try {
+    // Recherchez les articles de l'auteur spécifié
+    const articles = await ArticleModel.findAll({
+      where: { author_id: authorId },
+    });
+
+    res.json(articles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// Get articles by time period
+ArticleController.getArticlesByTimePeriod = async (req, res) => {
+  const dateStart = new Date(req.query.dateStart);
+  const dateEnd = new Date(req.query.dateEnd);
+
+  try {
+    // Recherchez les articles publiés dans la période de temps spécifiée
+    const articles = await ArticleModel.findAll({
+      where: {
+        published_at: {
+          [Sequelize.Op.between]: [dateStart, dateEnd],
+        },
+      },
+    });
+
+    res.json(articles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// Get articles by category name
+ArticleController.getArticlesByCategoryName = async (req, res) => {
+  const categoryName = req.params.categoryName;
+
+  try {
+    const category = await Category.findOne({
+      where: { title: categoryName },
+      include: {
+        model: Article,
+        as: 'articles',
+      },
+    });
+
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    res.json(category.articles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+// Get articles by author name
+ArticleController.getArticlesByAuthorName = async (req, res) => {
+  const authorName = req.params.authorName;
+
+  try {
+    const author = await Author.findOne({
+      where: { name: authorName },
+      include: {
+        model: Article,
+        as: 'articles',
+      },
+    });
+
+    if (!author) {
+      return res.status(404).json({ error: 'Author not found' });
+    }
+
+    res.json(author.articles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 
 

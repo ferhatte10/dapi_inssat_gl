@@ -35,6 +35,7 @@ CategoryController.getByPk = async (req, res) => {
   }
 };
 
+
 // Delete category by ID
 CategoryController.deleteByPk = async (req, res) => {
   const id = parseInt(req.params.id);
