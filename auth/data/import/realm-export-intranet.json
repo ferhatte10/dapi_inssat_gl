@@ -46,6 +46,15 @@
   "roles": {
     "realm": [
       {
+        "id": "cd4b18d5-850e-485f-aaff-22604c332e0e",
+        "name": "apprenticeship-manager",
+        "description": "must access all marks for all students\nmust be able to read evaluation tickets system\nmust CRUD relation tutor-supervisor-student",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "e4e8cf3b-ef09-49ee-8d86-0c597a9af336",
+        "attributes": {}
+      },
+      {
         "id": "4edbf9e6-bf78-4e2a-b8bb-4c9f79106d68",
         "name": "offline_access",
         "description": "${role_offline-access}",
@@ -76,9 +85,54 @@
         "attributes": {}
       },
       {
+        "id": "32c4ea09-35cc-4895-85b1-a15d429e48aa",
+        "name": "student-tutor",
+        "description": "student's enssat manager\nmust access apprenticeship / internship interface [READONLY by default]\nmust access the learning/course interface - some data can be updated",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "e4e8cf3b-ef09-49ee-8d86-0c597a9af336",
+        "attributes": {}
+      },
+      {
         "id": "87b1f366-7eaa-4dc1-9fc7-1edc256d0240",
         "name": "uma_authorization",
         "description": "${role_uma_authorization}",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "e4e8cf3b-ef09-49ee-8d86-0c597a9af336",
+        "attributes": {}
+      },
+      {
+        "id": "67612f05-7cd8-4ee2-93ad-0ac01cb3564c",
+        "name": "student",
+        "description": "Must access their ADE\nMust access to their courses\nMust access to their marks\nMust access ENSSAT's news",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "e4e8cf3b-ef09-49ee-8d86-0c597a9af336",
+        "attributes": {}
+      },
+      {
+        "id": "627a2d88-1bbb-413a-b41e-359e1958926c",
+        "name": "teacher",
+        "description": "Must access their ADE\nMust access their courses\nMust access student's marks linked to their courses\nMust access ENSSAT's news",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "e4e8cf3b-ef09-49ee-8d86-0c597a9af336",
+        "attributes": {}
+      },
+      {
+        "id": "4b614b8a-433a-4081-9484-660748ab1d1e",
+        "name": "student-supervisor",
+        "description": "student's company manager\nmust access apprenticeship / internship interface - must be able to update data",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "e4e8cf3b-ef09-49ee-8d86-0c597a9af336",
+        "attributes": {}
+      },
+      {
+        "id": "d1d045f3-de19-4b68-8ca8-5456c8eb286a",
+        "name": "news-manager",
+        "description": "must access news manager pages : must be able to CRUD ENSSAT's news",
         "composite": false,
         "clientRole": false,
         "containerId": "e4e8cf3b-ef09-49ee-8d86-0c597a9af336",
@@ -829,7 +883,7 @@
         "+"
       ],
       "notBefore": 0,
-      "bearerOnly": false,
+      "bearerOnly": true,
       "consentRequired": false,
       "standardFlowEnabled": false,
       "implicitFlowEnabled": false,
@@ -1638,9 +1692,9 @@
     "user": "noreply@dapi-services.fr"
   },
   "loginTheme": "inssat",
-  "accountTheme": "",
+  "accountTheme": "inssat",
   "adminTheme": "",
-  "emailTheme": "",
+  "emailTheme": "inssat",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
