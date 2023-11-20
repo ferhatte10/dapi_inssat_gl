@@ -3767,16 +3767,16 @@ CREATE TABLE `USER_ENTITY` (
 LOCK TABLES `USER_ENTITY` WRITE;
 /*!40000 ALTER TABLE `USER_ENTITY` DISABLE KEYS */;
 INSERT INTO `USER_ENTITY` VALUES
-('166bca2a-ff60-42b8-b2c1-fe6117e1bb98','littleplay2000@gmail.com','littleplay2000@gmail.com','','',NULL,'Staffy','Stuff','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','staff',1699898483424,NULL,0),
-('442b3914-b945-40e7-9b22-086bdf6fd9b2','fsaidoun@enssat.fr','fsaidoun@enssat.fr','','',NULL,'Ferhat','SAIDOUN','fd363fb6-a3fb-495f-b42c-d4a354f0ee78','ferhat',1699950866617,NULL,0),
-('46623042-cc53-4539-86f7-affbfc750831','fsaidoun@enssat.fr','fsaidoun@enssat.fr','','',NULL,'Ferhat','SAIDOUN','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','fsaidoun',1698421129547,NULL,0),
-('78ffa712-de81-4f8b-b699-5071ba6a303e','noreply@dapi-services.fr','noreply@dapi-services.fr','','',NULL,NULL,NULL,'fd363fb6-a3fb-495f-b42c-d4a354f0ee78','admin',1698151412426,NULL,0),
-('7fa64509-566b-4a67-bb5e-05f78508cb65','tamakuapp@gmail.com','tamakuapp@gmail.com','','',NULL,'Theriz','Ateetcher','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','teacher',1699882323944,NULL,0),
-('87188b4b-1347-4503-bd42-2b3b05f5a6a1',NULL,'9f469a6f-bf05-492b-bbed-f5d24db1e862','\0','',NULL,NULL,NULL,'e4e8cf3b-ef09-49ee-8d86-0c597a9af336','service-account-intranet-back',1698418752605,'d058fa38-9df4-4ee9-9bfa-902923b6ae32',0),
-('b16f53ed-6570-4222-9ea3-4d3109e05c83','zraji@enssat.fr','zraji@enssat.fr','','',NULL,'zakaria','zak','fd363fb6-a3fb-495f-b42c-d4a354f0ee78','zakaria',1698762199237,NULL,0),
-('b6c3d84b-37ce-43cc-9dc2-ce66231ea8e9','test@dapi.fr','test@dapi.fr','','',NULL,'dapi','enssat','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','test',1698220979697,NULL,0),
-('b9aa99a7-244a-4ed7-a419-9f1640f2e011','lbiot@enssat.fr','lbiot@enssat.fr','','',NULL,'Imma','Classical-Student','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','ics',1699882229678,NULL,0),
-('fe90673a-f076-497d-b085-85ca87ef07ae','digitalaccessportalinnovation@gmail.com','digitalaccessportalinnovation@gmail.com','','',NULL,'Roger','Beusouin De Maindoeuvre','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','apprenticemanager',1700212876424,NULL,0);
+('166bca2a-ff60-42b8-b2c1-fe6117e1bb98','littleplay2000@gmail.com','littleplay2000@gmail.com','1','1',NULL,'Staffy','Stuff','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','staff',1699898483424,NULL,0),
+('442b3914-b945-40e7-9b22-086bdf6fd9b2','fsaidoun@enssat.fr','fsaidoun@enssat.fr','1','1',NULL,'Ferhat','SAIDOUN','fd363fb6-a3fb-495f-b42c-d4a354f0ee78','ferhat',1699950866617,NULL,0),
+('46623042-cc53-4539-86f7-affbfc750831','fsaidoun@enssat.fr','fsaidoun@enssat.fr','1','1',NULL,'Ferhat','SAIDOUN','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','fsaidoun',1698421129547,NULL,0),
+('78ffa712-de81-4f8b-b699-5071ba6a303e','noreply@dapi-services.fr','noreply@dapi-services.fr','1','1',NULL,NULL,NULL,'fd363fb6-a3fb-495f-b42c-d4a354f0ee78','admin',1698151412426,NULL,0),
+('7fa64509-566b-4a67-bb5e-05f78508cb65','tamakuapp@gmail.com','tamakuapp@gmail.com','1','1',NULL,'Theriz','Ateetcher','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','teacher',1699882323944,NULL,0),
+('87188b4b-1347-4503-bd42-2b3b05f5a6a1',NULL,'9f469a6f-bf05-492b-bbed-f5d24db1e862','\0','1',NULL,NULL,NULL,'e4e8cf3b-ef09-49ee-8d86-0c597a9af336','service-account-intranet-back',1698418752605,'d058fa38-9df4-4ee9-9bfa-902923b6ae32',0),
+('b16f53ed-6570-4222-9ea3-4d3109e05c83','zraji@enssat.fr','zraji@enssat.fr','1','1',NULL,'zakaria','zak','fd363fb6-a3fb-495f-b42c-d4a354f0ee78','zakaria',1698762199237,NULL,0),
+('b6c3d84b-37ce-43cc-9dc2-ce66231ea8e9','test@dapi.fr','test@dapi.fr','1','1',NULL,'dapi','enssat','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','test',1698220979697,NULL,0),
+('b9aa99a7-244a-4ed7-a419-9f1640f2e011','lbiot@enssat.fr','lbiot@enssat.fr','1','1',NULL,'Imma','Classical-Student','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','ics',1699882229678,NULL,0),
+('fe90673a-f076-497d-b085-85ca87ef07ae','digitalaccessportalinnovation@gmail.com','digitalaccessportalinnovation@gmail.com','1','1',NULL,'Roger','Beusouin De Maindoeuvre','e4e8cf3b-ef09-49ee-8d86-0c597a9af336','apprenticemanager',1700212876424,NULL,0);
 /*!40000 ALTER TABLE `USER_ENTITY` ENABLE KEYS */;
 UNLOCK TABLES;
 
