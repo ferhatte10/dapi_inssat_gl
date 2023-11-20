@@ -4,6 +4,7 @@ module.exports = {
         summary: "Delete a tag by ID",
         description: "Delete a tag by its unique ID.",
         operationId: "deleteTagById",
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

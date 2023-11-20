@@ -1,6 +1,6 @@
 const app = require('express')()
 const db = require('./configs/db/config/db')
-// const {secure, getJwksService} = require("./configs/auth")
+const {secure, getJwksService} = require("./configs/auth")
 const {PORT, SEED_ACTIVATED} = require('./configs/env')
 const { seedAll } = require('./seeders');
 
@@ -22,13 +22,16 @@ const keycloakInstance = setupKeycloak(app) // This will setup keycloak and retu
 db.dbInstance.sync().then(() => { // This will sync the database with the models (update any changes)
     console.log("Database is synced")
     // This will seed the database with the data
-    if(SEED_ACTIVATED) seedAll()
+    if(SEED_ACTIVATED === "true"){
+        seedAll()
+    }
 }).catch((err) => {
     console.log(err)
 })
 
-// app.use('/api_blog',secure(getJwksService()), require('./routes'))
-app.use('/api_blog',keycloakInstance.protect(), require('./routes'))
+// TODO : add to use the alternative of keycloak-js library app.use('/api_blog',secure(getJwksService()), require('./routes'))
+// app.use('/api_blog',keycloakInstance.protect(), require('./routes'))
+app.use('/api_blog',secure(getJwksService()),require('./routes'))
 
 app.use(`*`, (req, res) => { 
   res.status(404).json({error: "Endpoint doesn't exists"})

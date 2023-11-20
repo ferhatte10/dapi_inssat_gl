@@ -4,11 +4,7 @@ module.exports = {
         summary: "Get articles by author name",
         description: "Article GET endpoint to retrieve a list of articles by author name.",
         operationId: "getArticlesByAuthorName",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "authorName",

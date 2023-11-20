@@ -4,11 +4,7 @@ module.exports = {
         summary: "Update follower by ID",
         description: "Follower PUT endpoint to update an existing follower by ID.",
         operationId: "updateFollower",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

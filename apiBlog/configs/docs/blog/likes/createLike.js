@@ -4,11 +4,7 @@ module.exports = {
         summary: "Create a new like",
         description: "Create a new like.",
         operationId: "createLike",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         requestBody: {
             description: "New like data",
             required: true,

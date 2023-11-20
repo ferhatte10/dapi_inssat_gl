@@ -5,11 +5,7 @@ module.exports = {
         summary: "Get articles by multiple tags",
         description: "Article GET endpoint to retrieve a list of articles by multiple tag IDs.",
         operationId: "getArticlesByTags",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "tagsId",

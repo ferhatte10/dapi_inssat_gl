@@ -4,11 +4,7 @@ module.exports = {
         summary: "Delete a like by ID",
         description: "Delete a like by its unique ID.",
         operationId: "deleteLikeById",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

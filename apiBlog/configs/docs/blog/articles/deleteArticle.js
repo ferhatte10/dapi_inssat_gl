@@ -4,11 +4,7 @@ module.exports = {
         summary: "Delete an article by ID",
         description: "Delete an article by its unique ID.",
         operationId: "deleteArticle",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

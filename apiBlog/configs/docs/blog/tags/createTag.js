@@ -4,6 +4,7 @@ module.exports = {
         summary: "Create a new tag",
         description: "Create a new tag.",
         operationId: "createTag",
+        ...require('../../security'),
         requestBody: {
             content: {
                 'application/json': {

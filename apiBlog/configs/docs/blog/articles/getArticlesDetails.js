@@ -4,6 +4,7 @@ module.exports = {
         summary: "Retrieve a list of articles with extended details",
         description: "Retrieve a list of articles with extended details, including tags.",
         operationId: "getArticlesWithDetails",
+        ...require('../../security'),
         parameters: [
             {
                 name: "page",

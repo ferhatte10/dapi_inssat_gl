@@ -4,18 +4,14 @@ module.exports = {
         summary: "Get all articles",
         description: "articles GET endpoint",
         operationId: "getArticles",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         responses: {
             '200': {
                 description: "Articles were obtained",
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: "#/components/schemas/Article"
+                            $ref: "#/components/schemas/schemaArticle/Article"
                         }
                     }
                 }

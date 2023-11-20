@@ -883,7 +883,7 @@
         "+"
       ],
       "notBefore": 0,
-      "bearerOnly": true,
+      "bearerOnly": false,
       "consentRequired": false,
       "standardFlowEnabled": false,
       "implicitFlowEnabled": false,
@@ -913,6 +913,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -927,6 +928,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -941,6 +943,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -1576,6 +1579,22 @@
             "access.token.claim": "true",
             "claim.name": "group"
           }
+        },
+        {
+          "id": "591efa27-750d-4ad5-9a46-456371549937",
+          "name": "ade_link",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "multivalued": "false",
+            "user.attribute": "ade_link",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "ade_link",
+            "jsonType.label": "String"
+          }
         }
       ]
     },
@@ -1612,6 +1631,7 @@
           "consentRequired": false,
           "config": {
             "multivalued": "true",
+            "userinfo.token.claim": "true",
             "user.attribute": "foo",
             "id.token.claim": "true",
             "access.token.claim": "true",
@@ -1687,6 +1707,7 @@
     "port": "465",
     "host": "smtp-fr.securemail.pro",
     "replyTo": "",
+    "host": "smtp-fr.securemail.pro",
     "from": "intranet-noreply@dapi-services.fr",
     "fromDisplayName": "Inssat auth server",
     "user": "noreply@dapi-services.fr"

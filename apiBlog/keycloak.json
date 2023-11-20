@@ -5,7 +5,7 @@
   "resource": "intranet-back",
   "bearer-only": true,
   "credentials": {
-    "secret": "1o2wU8DVLwWDEhft6b0r2VpNiETP07p2"
+    "secret": "CoPSjt6coAhESGdMgGcFD2HO7mWx6Fsm"
   },
   "confidential-port": 0
 }

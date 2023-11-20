@@ -1,6 +1,6 @@
 const {createRemoteJWKSet} = require("jose")
 const { secure } = require('express-oauth-jwt')
-const {JWKS_URI} = require("./env")
+const {AUTH} = require("./env")
 
 let _jwksService
 
@@ -10,7 +10,7 @@ function initJwksService() {
     }
     else {
         try {
-            _jwksService = createRemoteJWKSet(new URL(JWKS_URI))
+            _jwksService = createRemoteJWKSet(new URL(AUTH.JWKS_URI))
         } catch (e) {
             throw new Error("error while connecting to the auth server")
         }

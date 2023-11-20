@@ -4,11 +4,7 @@ module.exports = {
         summary: "Create a new category",
         description: "Create a new category with the provided data.",
         operationId: "createCategory",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         requestBody: {
             required: true,
             content: {

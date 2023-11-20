@@ -4,11 +4,7 @@ module.exports = {
         summary: "Get a specific comment by ID",
         description: "Retrieve a single comment by its ID.",
         operationId: "getCommentById",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

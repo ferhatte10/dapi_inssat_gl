@@ -2,7 +2,6 @@ const Sequelize = require("sequelize")
 const {SQL} = require("../../env")
 const init_models = require("../models/blog/init-models")
 
-
 const CONFIGURATION = {
   host: SQL.DB_HOST,
   port: SQL.DB_PORT,
@@ -12,10 +11,6 @@ const CONFIGURATION = {
   // },
   logging: SQL.DB_LOGGING === "true" ? console.log : false
 }
-
-
-
-
 
 //Note : we can consider dbInstance(s) as an array of objects 'sequelize'
 //so that we can iterate on each instance and synchronize it to the DB in the index.js main file    

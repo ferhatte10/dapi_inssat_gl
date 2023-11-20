@@ -4,11 +4,7 @@ module.exports = {
         summary: "Create a new comment",
         description: "Create a new comment.",
         operationId: "createComment",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         requestBody: {
             description: "Comment object to be created",
             required: true,

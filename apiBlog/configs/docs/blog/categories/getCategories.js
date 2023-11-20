@@ -4,11 +4,7 @@ module.exports = {
         summary: "Get all categories",
         description: "Get all categories.",
         operationId: "getAllCategories",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         responses: {
             '200': {
                 description: "Categories were obtained",

@@ -4,6 +4,7 @@ module.exports = {
         summary: "Get all tags",
         description: "Retrieve a list of all tags.",
         operationId: "getAllTags",
+        ...require('../../security'),
         responses: {
             '200': {
                 description: "Tags obtained successfully",

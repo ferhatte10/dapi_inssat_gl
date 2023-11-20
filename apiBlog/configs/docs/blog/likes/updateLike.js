@@ -4,11 +4,7 @@ module.exports = {
         summary: "Update a like by ID",
         description: "Update a like by its unique ID.",
         operationId: "updateLikeById",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

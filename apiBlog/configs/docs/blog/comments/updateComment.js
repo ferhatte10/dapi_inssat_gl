@@ -4,11 +4,7 @@ module.exports = {
         summary: "Update a comment by ID",
         description: "Update an existing comment by its ID.",
         operationId: "updateComment",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

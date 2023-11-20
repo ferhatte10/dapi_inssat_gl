@@ -4,11 +4,7 @@ module.exports = {
         summary: "Create a new article",
         description: "Create a new article.",
         operationId: "createArticle",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         requestBody: {
             content: {
                 'application/json': {

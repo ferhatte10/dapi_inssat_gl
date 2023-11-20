@@ -4,11 +4,7 @@ module.exports = {
         summary: "Get a category by ID",
         description: "Get a category by its unique ID.",
         operationId: "getCategoryById",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

@@ -4,6 +4,7 @@ module.exports = {
         summary: "Update a tag by ID",
         description: "Update a tag by its unique ID.",
         operationId: "updateTagById",
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

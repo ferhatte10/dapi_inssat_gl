@@ -4,11 +4,7 @@ module.exports = {
         summary: "Delete a specific comment by ID",
         description: "Delete a single comment by its ID.",
         operationId: "deleteCommentById",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

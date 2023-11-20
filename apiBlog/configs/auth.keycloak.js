@@ -1,5 +1,5 @@
-let Keycloak = require('keycloak-connect')
-
+const Keycloak = require('keycloak-connect')
+const {AUTH} = require('./env')
 let _keycloak
 
 function initKeycloak() {
@@ -9,7 +9,7 @@ function initKeycloak() {
     }
     else {
         console.info("Initializing Keycloak...");
-        _keycloak = new Keycloak({});
+        _keycloak = new Keycloak( {}, AUTH.KEYCLOAK_CONFIG);
         return _keycloak
     }
 }

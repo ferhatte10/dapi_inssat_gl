@@ -4,11 +4,7 @@ module.exports = {
         summary: "Create a new follower",
         description: "Follower POST endpoint to create a new follower.",
         operationId: "createFollower",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         requestBody: {
             content: {
                 'application/json': {

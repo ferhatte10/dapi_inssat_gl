@@ -3,10 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 // import the instance of keycloak from the index.js file
-const {keycloak} = require('../index');
-const KeycloakService = keycloak.getKeycloak();
+const {getKeycloak} = require('../configs/auth.keycloak');
+const KeycloakService = getKeycloak();
 
-// router.get('/',secure(getJwksService()), // This will protect the route with another library than keycloak-connect which is deprecated
 
 router.get('/',
     (req, res) =>

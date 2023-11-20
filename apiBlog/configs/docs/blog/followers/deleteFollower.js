@@ -4,11 +4,7 @@ module.exports = {
         summary: "Delete a specific follower by ID",
         description: "Follower DELETE endpoint to delete a follower by their ID.",
         operationId: "deleteFollowerById",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

@@ -4,6 +4,7 @@ module.exports = {
         summary: "Get a specific tag by ID",
         description: "Retrieve a specific tag by its unique ID.",
         operationId: "getTagById",
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",

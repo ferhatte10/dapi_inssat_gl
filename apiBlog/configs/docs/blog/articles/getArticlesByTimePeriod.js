@@ -4,11 +4,7 @@ module.exports = {
         summary: "Get articles by time period",
         description: "Article GET endpoint to retrieve a list of articles within a specified time period.",
         operationId: "getArticlesByTimePeriod",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "dateStart",

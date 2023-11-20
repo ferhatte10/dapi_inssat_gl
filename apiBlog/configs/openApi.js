@@ -1,6 +1,8 @@
 const swaggerUI = require("swagger-ui-express")
 const swaggerJsDoc = require("swagger-jsdoc")
 const docs = require('./docs')
+const {AUTH} = require('./env')
+
 
 let options = {
     customCssUrl: '/api_blog/css/openapi.css',
@@ -9,6 +11,8 @@ let options = {
 }
 
 const specs = swaggerJsDoc({definition : docs,apis : []})
+
+
 
 exports.setUpDocumentation = (app) => {
     

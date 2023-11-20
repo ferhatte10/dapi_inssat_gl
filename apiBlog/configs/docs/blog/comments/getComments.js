@@ -4,11 +4,7 @@ module.exports = {
         summary: "Get all comments",
         description: "Retrieve a list of all comments.",
         operationId: "getAllComments",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         responses: {
             '200': {
                 description: "Comments retrieved successfully",

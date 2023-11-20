@@ -4,11 +4,7 @@ module.exports = {
         summary: "Get articles by tag",
         description: "Article GET endpoint to retrieve a list of articles by tag ID.",
         operationId: "getArticlesByTag",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "tagId",

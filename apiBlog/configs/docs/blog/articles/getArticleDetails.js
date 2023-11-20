@@ -5,11 +5,7 @@ module.exports = {
         summary: "Get article with extended details",
         description: "Article GET endpoint to retrieve detailed information about a specific article, including tags and author details.",
         operationId: "getArticleWithDetails",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "articleId",

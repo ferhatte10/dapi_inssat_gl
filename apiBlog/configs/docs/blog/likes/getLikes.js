@@ -4,11 +4,7 @@ module.exports = {
         summary: "Get all likes",
         description: "Retrieve a list of all likes.",
         operationId: "getAllLikes",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         responses: {
             '200': {
                 description: "Likes were obtained",

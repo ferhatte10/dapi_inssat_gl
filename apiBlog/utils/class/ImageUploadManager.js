@@ -37,9 +37,6 @@ class ImageUploadManager {
   getFullImageUrl(filename) {
 
     console.log( `${this.baseUrl}/uploads/${filename}`)
-    console.log( `${this.baseUrl}/uploads/${filename}`)
-    console.log( `${this.baseUrl}/uploads/${filename}`)
-    console.log( `${this.baseUrl}/uploads/${filename}`)
     return `${this.baseUrl}/api_blog/uploads/${filename}`;
   }
 

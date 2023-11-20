@@ -4,11 +4,7 @@ module.exports = {
         summary: "Get followers by Following ID",
         description: "Follower GET endpoint to retrieve a list of followers by Following ID.",
         operationId: "getFollowersByFollowingId",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "followingId",

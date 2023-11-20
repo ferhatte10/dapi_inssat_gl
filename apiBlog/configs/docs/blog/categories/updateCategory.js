@@ -4,11 +4,7 @@ module.exports = {
         summary: "Update a category by ID",
         description: "Update a category by its unique ID.",
         operationId: "updateCategoryById",
-        security: [
-            {
-                AuthToken: []
-            }
-        ],
+        ...require('../../security'),
         parameters: [
             {
                 name: "id",
