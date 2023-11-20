@@ -1,33 +1,33 @@
 services:
   # Api blog
-#  api-blog:
-#    container_name: api-blog
-#    build: ../apiBlog
-#    security_opt:
-#      - no-new-privileges:true
-#    restart: always
-#    deploy:
-#      replicas: 1 # comment the container_name if > 1
-#    env_file:
-#      - ../apiBlog/.env
-#    volumes:
-#      - ../apiBlog/uploads:/app/uploads # Define the path to your uploads directory
-#  # Note : we can use volume for persistent files 'my_uploads' or we can save files directly inside the project folder (i've used /app/uploads with multer instead of apiBlog/uploads)
-#    depends_on:
-#      - db
-#  # Api gateway:
-#  gateway:
-#    container_name: gateway
-#    build: ../gateway
-#    security_opt:
-#      - no-new-privileges:true
-#    restart: always
-#    depends_on:
-#      - api-blog
-#    ports:
-#      - 5000:5000
-#    env_file:
-#      - ../gateway/.env
+  api-blog:
+    container_name: api-blog
+    build: ../apiBlog
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+    deploy:
+      replicas: 1 # comment the container_name if > 1
+    env_file:
+      - ../apiBlog/.env
+    volumes:
+      - ../apiBlog/uploads:/app/uploads # Define the path to your uploads directory
+  # Note : we can use volume for persistent files 'my_uploads' or we can save files directly inside the project folder (i've used /app/uploads with multer instead of apiBlog/uploads)
+    depends_on:
+      - db
+  # Api gateway:
+  gateway:
+    container_name: gateway
+    build: ../gateway
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+    depends_on:
+      - api-blog
+    ports:
+      - 5000:5000
+    env_file:
+      - ../gateway/.env
 
   dapiauth:
     container_name: dapiauth

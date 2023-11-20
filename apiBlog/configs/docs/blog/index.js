@@ -27,12 +27,12 @@ module.exports = {
             ...require('./comments/updateComment'),
             ...require('./comments/deleteComment')
         },
-        '/articles/{id}': {
-            ...require('./articles/getArticle'),
-            ...require('./articles/createArticle')
-        },
         '/articles': {
             ...require('./articles/getArticles'),
+            ...require('./articles/createArticle'),
+        },
+        '/articles/{id}': {
+            ...require('./articles/getArticle'),
             ...require('./articles/updateArticle'),
             ...require('./articles/deleteArticle')
         },

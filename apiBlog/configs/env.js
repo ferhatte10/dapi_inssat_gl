@@ -61,15 +61,12 @@ module.exports = {
         TOKEN_REFRESH_URL,
         JWKS_URI,
         KEYCLOAK_CONFIG : {
-            "realm": REALM,
-            "auth-server-url": AUTH_SERVER_URL,
-            "ssl-required": SSL_REQUIRED,
-            "resource": RESOURCE,
-            "bearer-only": BEARER_ONLY,
-            "credentials": {
-            "secret": SECRET
-            },
-            "confidential-port": 0
+            'confidential-port': 0,
+            'auth-server-url': AUTH_SERVER_URL,
+            'ssl-required': SSL_REQUIRED,
+            'resource': RESOURCE,
+            'bearer-only': BEARER_ONLY,
+            realm: REALM
         }
     },
     PORT,
