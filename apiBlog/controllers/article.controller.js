@@ -151,7 +151,6 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
 // Endpoint pour récupérer les détails d'un article, y compris les tags et l'auteur
 ArticleController.getArticleWithDetails = async (req, res) => {
   const articleId = parseInt(req.params.id);
-
   try {
     // Étape 1 : Récupérer les détails de l'article, y compris les tags et la catégorie
     const article = await ArticleModel.findOne({
@@ -184,6 +183,8 @@ ArticleController.getArticleWithDetails = async (req, res) => {
       attributes: ['ID', 'FIRST_NAME', 'LAST_NAME'],
       where: { ID: article.author_id },
     });
+
+    console.log(author)
 
     // Étape 3 : Mapper les détails de l'article pour inclure les tags et l'auteur
     const articleData = article.toJSON();

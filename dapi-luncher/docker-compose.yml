@@ -11,7 +11,7 @@ services:
     env_file:
       - ../apiBlog/.env
     volumes:
-      - ../apiBlog/uploads:/app/uploads # Define the path to your uploads directory
+      - ../apiBlog/uploads:/usr/src/app/uploads # Define the path to your uploads directory
   # Note : we can use volume for persistent files 'my_uploads' or we can save files directly inside the project folder (i've used /app/uploads with multer instead of apiBlog/uploads)
     depends_on:
       - db
