@@ -15,3 +15,6 @@ stressTest/__pycache__/
 
 #mac files ignore
 .DS_Store
+
+
+auth/data/tmp/*

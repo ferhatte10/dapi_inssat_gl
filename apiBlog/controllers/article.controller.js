@@ -59,16 +59,91 @@ ArticleController.deleteByPk = async (req, res) => {
 };
 
 // Create a new article
-ArticleController.create = async (req, res) => {
-  const newArticle = req.body;
+// ArticleController.create = async (req, res) => {
+//   const newArticle = req.body;
 
+//   try {
+//     const createdArticle = await ArticleModel.create(newArticle);
+//     res.status(201).json(createdArticle);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
+
+ArticleController.create = async (req, res) => {
+  const currentDate = new Date();
+  const pt = currentDate.toISOString();
+
+  const {  
+    title, 
+    description, 
+    content, 
+    thumbnail, 
+    principal_image, 
+    status, 
+    flag_count=0, 
+    like_count=0, 
+    is_pinned=0, 
+    is_blacklisted=0, 
+    comment_authorized=0, 
+    published_at = pt, 
+    author_id, 
+    category_id, 
+    tags  
+  } = req.body;
+  console.log(req.body)
   try {
-    const createdArticle = await ArticleModel.create(newArticle);
+    //
+    // Step 1: Create the article
+    const createdArticle = await ArticleModel.create({
+      title,
+      description,
+      content,
+      thumbnail,
+      principal_image,
+      status,
+      flag_count,
+      like_count,
+      is_pinned,
+      is_blacklisted,
+      comment_authorized,
+      published_at,
+      author_id,
+      category_id,
+    });
+
+    // Retrieve the ID of the newly created article
+    const articleId = createdArticle.id;
+
+    // Step 2: Create tags if they don't exist and link them to the article
+    if (tags && tags.length > 0) {
+      const tagNames = tags.split('|'); // Split the string into an array of tag names
+      
+      for (const tagName of tagNames) {
+        let tag = await TagModel.findOne({ where: { title: tagName } });
+    
+        // If the tag doesn't exist, create it
+        if (!tag) {
+          tag = await TagModel.create({ title: tagName });
+        }
+    
+        // Link Article with Tags using the pivot table (article_tag)
+        await Article_tagModel.create({
+          tag_id: tag.id,
+          article_id: articleId,
+        });
+      }
+    }
+    
+
     res.status(201).json(createdArticle);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+
+
 
 // Update article by ID
 ArticleController.update = async (req, res) => {
@@ -387,6 +462,35 @@ ArticleController.getArticlesByAuthorName = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+
+
+
+ArticleController.getLastSharedArticle = async (req, res) => {
+  try {
+    const lastSharedArticle = await ArticleModel.findOne({
+      attributes:['id', 'title', 'description', 'thumbnail', 'principal_image'],
+      where: {
+        published_at: {
+          // Ensure the article has been published
+          [Sequelize.Op.ne]: null, 
+        },
+      },
+      // Fetch the latest update
+      order: [['updatedAt', 'DESC']], 
+    });
+
+    if (!lastSharedArticle) {
+      return res.status(404).json({ error: 'No article found' });
+    }
+
+    res.json(lastSharedArticle);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 
 
 

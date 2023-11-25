@@ -1,4 +1,8 @@
-const CategoryModel = require('../configs/db/config/db').category;
+const {
+  category : CategoryModel,
+  article : ArticleModel,
+  Sequelize
+} = require('../configs/db/config/db');
 
 const CategoryController = {};
 
@@ -92,5 +96,48 @@ CategoryController.update = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+
+// Retrieve four categories ordered by the number of associated articles
+//TODO: must use include to get the data ==> avoid using 2 fetching request instead sequelize can use join.
+CategoryController.getCategoriesByArticleCount = async (req, res) => {
+  try {
+    // Find article counts grouped by category_id
+    const articleCounts = await ArticleModel.findAll({
+      attributes: ['category_id', [Sequelize.fn('COUNT', Sequelize.col('*')), 'articleCount']],
+      group: ['category_id'],
+    });
+
+    // Fetch all categories
+    const allCategories = await CategoryModel.findAll();
+
+    // Map category IDs to their corresponding article counts
+    const categoryCountsMap = {};
+    articleCounts.forEach((count) => {
+      categoryCountsMap[count.get('category_id')] = count.get('articleCount');
+    });
+
+    // Sort the categories by the number of articles in descending order
+    const sortedCategories = allCategories.sort(
+      (categoryA, categoryB) => (categoryCountsMap[categoryB.id] || 0) - (categoryCountsMap[categoryA.id] || 0)
+    );
+
+    // Extract the top 4 categories with article counts
+    const topCategories = sortedCategories.slice(0, 4).map((category) => ({
+      id: category.id,
+      title: category.title,
+      parent_id: category.parent_id,
+      createdAt: category.createdAt,
+      updatedAt: category.updatedAt,
+      articleCount: categoryCountsMap[category.id] || 0, // Default count to 0 if not found
+    }));
+
+    res.json(topCategories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 
 module.exports = CategoryController;

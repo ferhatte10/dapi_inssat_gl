@@ -38,6 +38,13 @@ router.get('/author/:authorId', ArticleController.getArticlesByAuthor);
 router.get('/time-period', ArticleController.getArticlesByTimePeriod);
 // exemple de requete = GET /articles/time-period?dateStart=2023-01-01&dateEnd=2023-12-31
 
+
+
+// Retrieve the latest shared article (latest update).
+router.get('/last-shared-article', ArticleController.getLastSharedArticle);
+
+
+//INFO : to avoid conflict with GET /details, we've put the getById here (last ;).
 router.get('/:id', ArticleController.getByPk);
 
 

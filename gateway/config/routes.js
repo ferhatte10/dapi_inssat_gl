@@ -15,6 +15,9 @@ exports.ROUTES = [
             headers: {
                 "Connection": "keep-alive"
             },
+            onProxyRes: function (proxyRes, req, res) {
+                proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+            },
             //followRedirects: true,
             pathRewrite: {
                 //[`^/api_blog`]: '',

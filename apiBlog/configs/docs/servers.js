@@ -5,7 +5,7 @@ module.exports = {
             description: "Prod server gateway",
         },
         {
-            url: "http://localhost:5000/api_blog",
+            url: "http://localhost:5009/api_blog",
             description: "Local server gateway",
         },
         {
