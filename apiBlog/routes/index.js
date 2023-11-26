@@ -14,7 +14,7 @@ router.use('/tags', require('./tag.route'));
 router.use('/article-tags', require('./article_tag.route'));
 router.use('/followers', require('./follower.route'));
 
-//Dealing with images upload & fetch
-router.use('/uploads', require('./upload.route'));
+// //Dealing with images upload & fetch
+// router.use('/uploads', require('./upload.route'));
 
 module.exports = router;

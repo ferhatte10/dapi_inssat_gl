@@ -10,6 +10,10 @@ const { setupDatabase } = require('./configs/syncDatabase')
 const port = PORT || 3000
 
 
+// import ./upload.route
+const uploadRouter = require('./routes/upload.route');
+
+
 setupLogging(app) // This will log all requests to the console
 setUpDocumentation(app) // This will serve the documentation
 setupCors(app) // This will setup cors
@@ -30,9 +34,18 @@ app.get('/api_blog',
     }
 )
 
+
+//Dealing with images upload & fetch
+//we are facing some difficulties in the front when fetching the article then fetching the images 
+//the images are not loaded correctly
+//as a result we are not securing the images routes for the moment.
+//TODO: secure the uploads routes.
+app.use('/api_blog/uploads', uploadRouter);
+
 app.use('/api_blog',secure(getJwksService()), require('./routes'))
 
-app.use(`*`, (req, res) => { 
+
+app.use(`*`, (req, res) => {
   res.status(404).json({error: "Endpoint doesn't exists"})
 })
 
@@ -40,4 +53,3 @@ app.use(`*`, (req, res) => {
 app.listen(port, () => {
   console.log(`Api-blog listening on port ${port}`)
 })
-
