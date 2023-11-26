@@ -2,7 +2,8 @@ gateway/node_modules/
 gateway/.env.development
 
 apiBlog/node_modules/
-apiBlog/.env.development
+
+auth/data/tmp/
 
 stressTest/venv/
 stressTest/__pycache__/

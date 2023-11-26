@@ -1,10 +1,9 @@
-const {API_BLOG_URL} = require("./env")
+const {API_BLOG_URL,ENSSAT_BLOG_URL,ADE_URL} = require("./env")
 
 exports.ROUTES = [
 
     {
         url: '/api_blog',
-        auth: false,
         // rateLimit: {
         //     windowMs: 15 * 60 * 1000,
         //     max: 10
@@ -15,6 +14,9 @@ exports.ROUTES = [
             headers: {
                 "Connection": "keep-alive"
             },
+            onProxyRes: function (proxyRes, req, res) {
+                proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+            },
             //followRedirects: true,
             pathRewrite: {
                 //[`^/api_blog`]: '',
@@ -23,13 +25,8 @@ exports.ROUTES = [
     },
     {
         url: '/blogs_enssat',
-        auth: false,
-        // rateLimit: {
-        //     windowMs: 15 * 60 * 1000,
-        //     max: 10
-        // },
         proxy: {
-            target: "http://blog.enssat.fr/feeds/posts/default",
+            target: ENSSAT_BLOG_URL,
             changeOrigin: true,
             headers: {
                 "Connection": "keep-alive"
@@ -37,7 +34,6 @@ exports.ROUTES = [
             onProxyRes: function (proxyRes, req, res) {
                 proxyRes.headers['Access-Control-Allow-Origin'] = '*';
             },
-            // followRedirects: true,
             pathRewrite: {
                 [`^/blogs_enssat`]: '',
             },
@@ -45,13 +41,8 @@ exports.ROUTES = [
     },
     {
         url: '/ade',
-        auth: false,
-        // rateLimit: {
-        //     windowMs: 15 * 60 * 1000,
-        //     max: 10
-        // },
         proxy: {
-            target: "https://planning.univ-rennes1.fr/jsp/custom/modules/plannings",
+            target: ADE_URL,
             changeOrigin: true,
             headers: {
                 "Connection": "keep-alive"
@@ -59,7 +50,6 @@ exports.ROUTES = [
             onProxyRes: function (proxyRes, req, res) {
                 proxyRes.headers['Access-Control-Allow-Origin'] = '*';
             },
-            // followRedirects: true,
             pathRewrite: {
                 [`^/ade`]: '',
             },

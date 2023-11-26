@@ -43,7 +43,10 @@ services:
     ports:
       - 8080:8080
     command:
-      - start --optimized --import-realm --spi-theme-welcome-theme=inssat
+      - start
+      - --optimized
+      - --import-realm
+      - --spi-theme-welcome-theme=inssat
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin

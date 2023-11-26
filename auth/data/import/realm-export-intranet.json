@@ -5,7 +5,7 @@
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
-  "accessTokenLifespan": 600,
+  "accessTokenLifespan": 1800,
   "accessTokenLifespanForImplicitFlow": 900,
   "ssoSessionIdleTimeout": 18000,
   "ssoSessionMaxLifespan": 36000,
@@ -80,6 +80,15 @@
             ]
           }
         },
+        "clientRole": false,
+        "containerId": "e4e8cf3b-ef09-49ee-8d86-0c597a9af336",
+        "attributes": {}
+      },
+      {
+        "id": "3d29f050-d7d9-4a16-a42f-84525d0ae337",
+        "name": "external",
+        "description": "someone not from school environment",
+        "composite": false,
         "clientRole": false,
         "containerId": "e4e8cf3b-ef09-49ee-8d86-0c597a9af336",
         "attributes": {}
@@ -476,7 +485,19 @@
       "attributes": {},
       "realmRoles": [],
       "clientRoles": {},
-      "subGroups": []
+      "subGroups": [
+        {
+          "id": "dc3d01b0-9cf0-40fc-be47-08c4f61e536f",
+          "name": "student-supervisor",
+          "path": "/external/student-supervisor",
+          "attributes": {},
+          "realmRoles": [
+            "student-supervisor"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        }
+      ]
     },
     {
       "id": "02fc612a-9e01-4385-985a-cd7bc7c0df04",
@@ -485,14 +506,39 @@
       "attributes": {},
       "realmRoles": [],
       "clientRoles": {},
-      "subGroups": []
+      "subGroups": [
+        {
+          "id": "c20ee5f1-4794-4995-8bbe-5b3093562abe",
+          "name": "apprenticeship-manager",
+          "path": "/staff/apprenticeship-manager",
+          "attributes": {},
+          "realmRoles": [
+            "apprenticeship-manager"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        },
+        {
+          "id": "1a7fa4bf-0ab3-4616-b034-9aff31bf6ee5",
+          "name": "news-manager",
+          "path": "/staff/news-manager",
+          "attributes": {},
+          "realmRoles": [
+            "news-manager"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        }
+      ]
     },
     {
       "id": "7bbe885d-49c7-48a5-8439-64e6eee4de49",
       "name": "student",
       "path": "/student",
       "attributes": {},
-      "realmRoles": [],
+      "realmRoles": [
+        "student"
+      ],
       "clientRoles": {},
       "subGroups": [
         {
@@ -597,9 +643,23 @@
       "name": "teacher",
       "path": "/teacher",
       "attributes": {},
-      "realmRoles": [],
+      "realmRoles": [
+        "teacher"
+      ],
       "clientRoles": {},
-      "subGroups": []
+      "subGroups": [
+        {
+          "id": "88ccdd92-f5fe-46af-a8e1-72aae50809b6",
+          "name": "student-tutor",
+          "path": "/teacher/student-tutor",
+          "attributes": {},
+          "realmRoles": [
+            "student-tutor"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        }
+      ]
     }
   ],
   "defaultRole": {
@@ -621,9 +681,9 @@
   "otpPolicyPeriod": 30,
   "otpPolicyCodeReusable": false,
   "otpSupportedApplications": [
-    "totpAppFreeOTPName",
     "totpAppGoogleName",
-    "totpAppMicrosoftAuthenticatorName"
+    "totpAppMicrosoftAuthenticatorName",
+    "totpAppFreeOTPName"
   ],
   "webAuthnPolicyRpEntityName": "keycloak",
   "webAuthnPolicySignatureAlgorithms": [
@@ -806,7 +866,9 @@
       "publicClient": true,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": 0,
@@ -844,7 +906,9 @@
       "publicClient": false,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": 0,
@@ -865,7 +929,7 @@
     {
       "id": "d058fa38-9df4-4ee9-9bfa-902923b6ae32",
       "clientId": "intranet-back",
-      "name": "back end service",
+      "name": "Back end service",
       "description": "",
       "rootUrl": "https://api.dapi-services.fr",
       "adminUrl": "",
@@ -894,7 +958,7 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "client.secret.creation.time": "1698418752",
+        "client.secret.creation.time": "1700491710",
         "backchannel.logout.session.required": "true",
         "post.logout.redirect.uris": "+",
         "display.on.consent.screen": "false",
@@ -979,11 +1043,13 @@
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
         "",
-        "http://localhost:3000/*",
+        "http://localhost:*",
         "https://intranet.dapi-services.fr/*"
       ],
       "webOrigins": [
-        "+"
+        "",
+        "3001",
+        "*"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -1047,7 +1113,9 @@
       "publicClient": false,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": 0,
@@ -1192,7 +1260,8 @@
           "consentRequired": false,
           "config": {
             "id.token.claim": "true",
-            "access.token.claim": "true"
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
           }
         }
       ]
@@ -1566,6 +1635,22 @@
           }
         },
         {
+          "id": "591efa27-750d-4ad5-9a46-456371549937",
+          "name": "ade_link",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "false",
+            "userinfo.token.claim": "true",
+            "user.attribute": "ade_link",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "ade_link",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "fb5719c7-ed02-42bb-b69d-46c3468f9fc2",
           "name": "group membership",
           "protocol": "openid-connect",
@@ -1573,27 +1658,11 @@
           "consentRequired": false,
           "config": {
             "full.path": "true",
-            "userinfo.token.claim": "true",
             "multivalued": "true",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "group"
-          }
-        },
-        {
-          "id": "591efa27-750d-4ad5-9a46-456371549937",
-          "name": "ade_link",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-attribute-mapper",
-          "consentRequired": false,
-          "config": {
-            "userinfo.token.claim": "true",
-            "multivalued": "false",
-            "user.attribute": "ade_link",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "ade_link",
-            "jsonType.label": "String"
           }
         }
       ]
@@ -1707,7 +1776,6 @@
     "port": "465",
     "host": "smtp-fr.securemail.pro",
     "replyTo": "",
-    "host": "smtp-fr.securemail.pro",
     "from": "intranet-noreply@dapi-services.fr",
     "fromDisplayName": "Inssat auth server",
     "user": "noreply@dapi-services.fr"
@@ -1735,14 +1803,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "oidc-usermodel-property-mapper",
-            "saml-user-attribute-mapper",
-            "oidc-usermodel-attribute-mapper",
             "saml-role-list-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
+            "saml-user-attribute-mapper",
+            "oidc-full-name-mapper",
+            "oidc-usermodel-attribute-mapper",
             "oidc-address-mapper",
             "saml-user-property-mapper",
-            "oidc-full-name-mapper"
+            "oidc-sha256-pairwise-sub-mapper",
+            "oidc-usermodel-property-mapper"
           ]
         }
       },
@@ -1822,13 +1890,13 @@
         "config": {
           "allowed-protocol-mapper-types": [
             "saml-role-list-mapper",
-            "saml-user-property-mapper",
-            "oidc-full-name-mapper",
-            "oidc-address-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
-            "saml-user-attribute-mapper",
             "oidc-usermodel-attribute-mapper",
-            "oidc-usermodel-property-mapper"
+            "saml-user-attribute-mapper",
+            "oidc-address-mapper",
+            "saml-user-property-mapper",
+            "oidc-usermodel-property-mapper",
+            "oidc-full-name-mapper",
+            "oidc-sha256-pairwise-sub-mapper"
           ]
         }
       }
