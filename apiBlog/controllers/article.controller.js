@@ -7,6 +7,9 @@ const {
   Sequelize
 } = require('../configs/db/config/db');
 
+const uploadManager = require('../utils/imageUploadManager');
+
+
 const ArticleController = {};
 
 // Get all articles
@@ -81,6 +84,7 @@ ArticleController.create = async (req, res) => {
     thumbnail, 
     principal_image, 
     status, 
+    //Todo: adding default values... otherwise the model should be modified ==> add allow null or set default value on the model.
     flag_count=0, 
     like_count=0, 
     is_pinned=0, 
@@ -156,6 +160,9 @@ ArticleController.update = async (req, res) => {
     if (!article) {
       return res.status(404).json({ error: 'Article not found' });
     }
+
+    uploadManager.removeFile(article.thumbnail);
+    uploadManager.removeFile(article.principal_image);
 
     await ArticleModel.update(updatedData, {
       where: { id: id },

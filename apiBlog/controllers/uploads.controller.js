@@ -12,12 +12,10 @@ UploadController.fetch = async (req, res) => {
     uploadManager.retrieveFile(filePath, res);
 }
 
+//the following method is not saving it's just going to return the response based on the inserted file data.
+//please check the uploads routes middlewares
 UploadController.save = async (req, res) => {
     try {
-         
-  console.log(req.file)
-  console.log(req.body)
-  console.log(req.file)
       if (req.file instanceof Error) {
         console.error('File upload error:', req.file);
         return res.status(500).json({ error: 'File upload error' });

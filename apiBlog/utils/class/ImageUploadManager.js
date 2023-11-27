@@ -2,18 +2,41 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
+const contentTypeMap = {
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.png': 'image/png',
+  '.gif': 'image/gif',
+};
 class ImageUploadManager {
   constructor(uploadDir, baseUrl) {
     this.uploadDir = uploadDir;
     this.baseUrl = baseUrl;
     this.initializeDirectory();
-    this.upload = multer({ storage: this.createStorageEngine() });
+    this.setupMulter();
   }
 
   initializeDirectory() {
     if (!fs.existsSync(this.uploadDir)) {
       fs.mkdirSync(this.uploadDir, { recursive: true });
     }
+  }
+
+  setupMulter() {
+    this.upload = multer({
+      storage: this.createStorageEngine(),
+      limits: {
+        fileSize: 3 * 1024 * 1024, // 3MB file size limit
+      },
+      fileFilter: (req, file, cb) => {
+        const allowedTypes = Object.values(contentTypeMap); // Allowed file types
+        if (!allowedTypes.includes(file.mimetype)) {
+          req.fileValidationError = 'Invalid file type. Allowed types: JPEG, PNG';
+          return cb(null, false); // false indicates failure
+        }
+        cb(null, true); // Indicates success
+      },
+    });
   }
 
   createStorageEngine() {
@@ -35,14 +58,20 @@ class ImageUploadManager {
   }
 
   getFullImageUrl(filename) {
-
-    console.log( `${this.baseUrl}/uploads/${filename}`)
     return `${this.baseUrl}/api_blog/uploads/${filename}`;
   }
 
   // New method to retrieve files
   retrieveFile(filePath, res) {
     try {
+      const fileExtension = path.extname(filePath).toLowerCase();
+      
+      const contentType = contentTypeMap[fileExtension];
+
+      if (!contentType) {
+        return res.status(400).json({ error: 'Invalid file type' });
+      }
+
       const fullPath = path.join(this.uploadDir, filePath);
 
       if (!fs.existsSync(fullPath) || !fs.lstatSync(fullPath).isFile()) {
@@ -50,8 +79,6 @@ class ImageUploadManager {
       }
 
       const stat = fs.statSync(fullPath);
-      const fileExtension = path.extname(filePath);
-      const contentType = getContentType(fileExtension);
 
       res.writeHead(200, {
         'Content-Type': contentType,
@@ -65,16 +92,23 @@ class ImageUploadManager {
       res.status(500).json({ error: 'Server error' });
     }
   }
+  removeFile(fileName) {
+    const filePath = path.join(this.uploadDir, fileName);
+
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error('Error deleting file:', err);
+        return;
+      }
+      console.log('File deleted successfully');
+    });
+  }
 }
 
+
+
 function getContentType(fileExtension) {
-  const contentTypeMap = {
-    '.jpg': 'image/jpeg',
-    '.jpeg': 'image/jpeg',
-    '.png': 'image/png',
-    '.gif': 'image/gif',
-    '.pdf': 'application/pdf',
-  };
+ 
 
   return contentTypeMap[fileExtension] || 'application/octet-stream';
 }

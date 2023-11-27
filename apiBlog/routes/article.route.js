@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const ArticleController = require('../controllers/article.controller');
+const {verifyRequestFile} = require('../validators/commonly_used.validator')
+const {verifyArticle} = require('../validators/article.validator')
+const {verifyRequestParamId} = require('../validators/commonly_used.validator')
+
+// const multipart = require('connect-multiparty');
+// const multipartMiddleware = multipart();
 
 // Import the uploadImagesMiddleware
 const uploadArticleImagesMiddleware = require('../middlewares/uploadArticleImagesMiddleware');
@@ -10,9 +16,10 @@ router.get('/', ArticleController.getAll);
 
 router.delete('/:id', ArticleController.deleteByPk);
 
-router.post('/', uploadArticleImagesMiddleware, ArticleController.create);
+//we are using uploadArticleImagesMiddleware that will check and look for images files then save them on the server and prepare req.thumbnail & req.principal_image ==> other middlewares ==> store on the DB
+router.post('/', uploadArticleImagesMiddleware, verifyRequestFile, verifyArticle, ArticleController.create);
 
-router.put('/:id', ArticleController.update);
+router.put('/:id', verifyRequestParamId, uploadArticleImagesMiddleware, verifyRequestFile, verifyArticle, ArticleController.update);
 
 // Additional routes
 

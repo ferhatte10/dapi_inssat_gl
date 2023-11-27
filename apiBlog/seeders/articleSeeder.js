@@ -24,9 +24,6 @@ const articleSeeder = async () => {
         ]
     });
     
-    console.log("alreadySeededCategory",alreadySeededCategory )
-    console.log("lastInsertedUser", lastInsertedUser)
-    console.log("lastInsertedCategory", lastInsertedCategory)
     if(!alreadySeededCategory)
    {
     if(!lastInsertedUser || !lastInsertedCategory)
