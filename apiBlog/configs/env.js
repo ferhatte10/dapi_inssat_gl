@@ -20,6 +20,7 @@ const {
     DB_LOGGING,
     UPLOADS_PATH,
     SEED_ACTIVATED,
+    API_GATEWAY_URL,
     TOKEN_REFRESH_URL,
     REALM,
     AUTH_SERVER_URL,
@@ -46,6 +47,7 @@ assert(SSL_REQUIRED,"AUTH SSL_REQUIRED is required")
 assert(RESOURCE,"AUTH RESOURCE is required")
 assert(BEARER_ONLY,"AUTH BEARER_ONLY is required")
 assert(SECRET,"AUTH SECRET is required")
+assert(API_GATEWAY_URL,"API_GATEWAY_URL is required")
 
 module.exports = {
     SQL: {
@@ -72,5 +74,6 @@ module.exports = {
     PORT,
     CORS_ORIGIN: CORS_ORIGIN.split(","),
     UPLOADS_PATH,
-    SEED_ACTIVATED
+    SEED_ACTIVATED,
+    API_GATEWAY_URL
 }
