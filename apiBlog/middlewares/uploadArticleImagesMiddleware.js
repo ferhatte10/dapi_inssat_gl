@@ -7,11 +7,6 @@ const uploadArticleImagesMiddleware = (req, res, next) => {
     upload(req, res, (err) => {
       if (err) {
         console.error('Error uploading images:', err);
-        console.log(err)
-        console.log(err)
-        console.log(req.file)
-        console.log(req.files)
-        console.log(err)
         return res.status(500).json({ error: 'Image upload error' });
       }
    

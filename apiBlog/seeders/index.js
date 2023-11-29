@@ -14,9 +14,6 @@ const seedAll = async () => {
 
     if(articles)
       await article_tagsSeeder();
-    // console.log('categories', categories)
-    // console.log('tags', tags)
-    // console.log('articles', articles)
 
     // Execute other seeders as needed
     console.log('All seeders executed successfully');
