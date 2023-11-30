@@ -57,6 +57,7 @@ ArticleController.deleteByPk = async (req, res) => {
 
     res.json({ message: 'Article deleted' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Internal server error' });
   }
 };
