@@ -45,19 +45,65 @@ ArticleController.deleteByPk = async (req, res) => {
   const id = parseInt(req.params.id);
 
   try {
-    const article = await ArticleModel.findByPk(id);
+    const article = await ArticleModel.findByPk(id, { include: 'article_tags' });
 
     if (!article) {
       return res.status(404).json({ error: 'Article not found' });
     }
 
+    // Delete associated ArticleTags first
+    if (article.article_tags && article.article_tags.length > 0) {
+      await Article_tagModel.destroy({
+        where: { article_id: id },
+      });
+    }
+
+    // Then delete the Article
     await ArticleModel.destroy({
       where: { id: id },
     });
 
-    res.json({ message: 'Article deleted' });
+    res.json({ message: 'Article and associated tags deleted' });
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+//delete articles by a list of Ids
+ArticleController.deleteMultipleByIds = async (req, res) => {
+  const { ids } = req.body; 
+
+  try {
+    // Find all articles based on the provided IDs
+    const articles = await ArticleModel.findAll({
+      where: { id: ids },
+      include: 'article_tags', 
+    });
+
+    if (articles.length === 0) {
+      return res.status(404).json({ error: 'No articles found with the provided IDs' });
+    }
+
+    for (const article of articles) {
+      // Delete associated ArticleTags first for each article
+      if (article.article_tags && article.article_tags.length > 0) {
+
+        await Article_tagModel.destroy({
+          where: { article_id: article.id },
+        });
+      }
+    }
+
+    // Then delete all articles
+    await ArticleModel.destroy({
+      where: { id: ids },
+    });
+
+    res.json({ message: 'Articles and associated tags deleted', ids : ids });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -374,7 +420,7 @@ ArticleController.getArticlesByTags = async (req, res) => {
     const articles = await ArticleModel.findAll({
       include: [
         {
-          model: ArticleTagModel,
+          model: Article_tagModel,
           as: 'article_tags',
           where: {
             tag_id: {

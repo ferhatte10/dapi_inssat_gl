@@ -9,6 +9,14 @@ exports.verifyRequestParamId = (req, res, next) => {
   } 
   next();
 };
+exports.verifyRequestBodyIds = (req, res, next) => {
+  // Validate the ID from URL params
+  const { error: idError } = Joi.array().items(Joi.number()).validate(req.body.ids);
+  if (idError) { 
+    return res.status(400).json({ error: idError.message});
+  }
+  next();
+};
 
 exports.verifyRequestFile = (req, res, next) => {
   // I am checking if the file is not null/empty
