@@ -14,7 +14,7 @@ const uploadArticleImagesMiddleware = require('../middlewares/uploadArticleImage
 // Define routes
 router.get('/', ArticleController.getAll);
 
-router.delete('/:id', ArticleController.deleteByPk);
+router.delete('/:id', verifyRequestParamId,ArticleController.deleteByPk);
 
 //we are using uploadArticleImagesMiddleware that will check and look for images files then save them on the server and prepare req.thumbnail & req.principal_image ==> other middlewares ==> store on the DB
 router.post('/', uploadArticleImagesMiddleware, verifyRequestFile, verifyArticle, ArticleController.create);
@@ -27,7 +27,7 @@ router.put('/:id', verifyRequestParamId, uploadArticleImagesMiddleware, verifyRe
 router.get('/details', ArticleController.getArticlesWithDetails);
 // A specific article with extended details including author info and tags title
 
-router.get('/details/:id', ArticleController.getArticleWithDetails);
+router.get('/details/:id', verifyRequestParamId,ArticleController.getArticleWithDetails);
 // Retrieve a list of articles by category
 
 router.get('/category/:categoryId', ArticleController.getArticlesByCategory);
@@ -52,7 +52,7 @@ router.get('/last-shared-article', ArticleController.getLastSharedArticle);
 
 
 //INFO : to avoid conflict with GET /details, we've put the getById here (last ;).
-router.get('/:id', ArticleController.getByPk);
+router.get('/:id', verifyRequestParamId, ArticleController.getByPk);
 
 
 // TODO:

@@ -90,14 +90,14 @@ ArticleController.create = async (req, res) => {
     is_pinned=0, 
     is_blacklisted=0, 
     comment_authorized=0, 
-    published_at = pt, 
-    author_id, 
+    published_at = pt,
     category_id, 
     tags  
   } = req.body;
-  console.log(req.body)
+
+  const author_id = req.claims.sub
+
   try {
-    //
     // Step 1: Create the article
     const createdArticle = await ArticleModel.create({
       title,
@@ -122,15 +122,15 @@ ArticleController.create = async (req, res) => {
     // Step 2: Create tags if they don't exist and link them to the article
     if (tags && tags.length > 0) {
       const tagNames = tags.split('|'); // Split the string into an array of tag names
-      
+
       for (const tagName of tagNames) {
         let tag = await TagModel.findOne({ where: { title: tagName } });
-    
+
         // If the tag doesn't exist, create it
         if (!tag) {
           tag = await TagModel.create({ title: tagName });
         }
-    
+
         // Link Article with Tags using the pivot table (article_tag)
         await Article_tagModel.create({
           tag_id: tag.id,
@@ -202,7 +202,10 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
         },
       ]
     });
-
+    // if there is no article
+    if (!articles) {
+      return res.status(404).json({ error: 'Article not found' });
+    }
     // Step 2: Retrieve the list of authors (USER_ENTITY data)
     const authorIds = articles.rows.map((article) => article.author_id);
     const authors = await UserModel.findAll({
@@ -261,12 +264,18 @@ ArticleController.getArticleWithDetails = async (req, res) => {
     }
 
     // Étape 2 : Récupérer les informations sur l'auteur
-    const author = await UserModel.findOne({
+    let author = await UserModel.findOne({
       attributes: ['ID', 'FIRST_NAME', 'LAST_NAME'],
       where: { ID: article.author_id },
     });
 
-    console.log(author)
+    if (!author) {
+        author = {
+          ID: 'Unknown',
+          FIRST_NAME: 'Unknown',
+          LAST_NAME: 'Unknown',
+        }
+    }
 
     // Étape 3 : Mapper les détails de l'article pour inclure les tags et l'auteur
     const articleData = article.toJSON();

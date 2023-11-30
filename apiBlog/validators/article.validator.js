@@ -40,16 +40,11 @@ exports.verifyArticle = (req, res, next) => {
     is_blacklisted: Joi.boolean().truthy('true', '1').falsy('false', '0').optional().default(false),
     comment_authorized: Joi.boolean().truthy('true', '1').falsy('false', '0').default(true),
     published_at: Joi.date().optional(),
-
-    author_id: Joi.alternatives().try(Joi.number().integer(), Joi.string().required()).messages({
-      'number.empty': 'Author ID is required',
-      'number.integer': 'Author ID must be an integer',
-    }),
     category_id: Joi.alternatives().try(Joi.number().integer(), Joi.string().required()).messages({
       'number.empty': 'Category ID is required',
       'number.integer': 'Category ID must be an integer',
     }),
-    tags: Joi.string().optional(),
+    tags: Joi.string().optional().allow(''),
   });
    console.log(req.body)
   const { error } = schema.validate(req.body);

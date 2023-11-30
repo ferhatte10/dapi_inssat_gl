@@ -10,10 +10,10 @@ const seedAll = async () => {
   try {
     const categories = await categorySeeder(); 
     const tags = await tagSeeder();
-    const articles = await articleSeeder();
+    // const articles = await articleSeeder();
 
-    if(articles)
-      await article_tagsSeeder();
+    // if(articles)
+    //   await article_tagsSeeder();
 
     // Execute other seeders as needed
     console.log('All seeders executed successfully');

@@ -8,7 +8,7 @@ module.exports = {
         ...require('../../security'),
         parameters: [
             {
-                name: "articleId",
+                name: "id",
                 in: "path",
                 schema: {
                     type: 'integer',

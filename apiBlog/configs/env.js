@@ -22,12 +22,6 @@ const {
     SEED_ACTIVATED,
     API_GATEWAY_URL,
     TOKEN_REFRESH_URL,
-    REALM,
-    AUTH_SERVER_URL,
-    SSL_REQUIRED,
-    RESOURCE,
-    BEARER_ONLY,
-    SECRET
 } = process.env
 
 assert(DB_HOST, "DB_HOST (database host) is required")
@@ -41,12 +35,6 @@ assert(UPLOADS_PATH, "UPLOADS_PATH is required")
 assert(SEED_ACTIVATED, "UPLOADS_PATH is required")
 assert(JWKS_URI, "AUTH JWKS_URI (jwks uri) is required")
 assert(TOKEN_REFRESH_URL,"AUTH TOKEN_REFRESH_URL is required")
-assert(REALM,"AUTH REALM is required")
-assert(AUTH_SERVER_URL,"AUTH AUTH_SERVER_URL is required")
-assert(SSL_REQUIRED,"AUTH SSL_REQUIRED is required")
-assert(RESOURCE,"AUTH RESOURCE is required")
-assert(BEARER_ONLY,"AUTH BEARER_ONLY is required")
-assert(SECRET,"AUTH SECRET is required")
 assert(API_GATEWAY_URL,"API_GATEWAY_URL is required")
 
 module.exports = {
@@ -61,15 +49,7 @@ module.exports = {
     },
     AUTH : {
         TOKEN_REFRESH_URL,
-        JWKS_URI,
-        KEYCLOAK_CONFIG : {
-            'confidential-port': 0,
-            'auth-server-url': AUTH_SERVER_URL,
-            'ssl-required': SSL_REQUIRED,
-            'resource': RESOURCE,
-            'bearer-only': BEARER_ONLY,
-            realm: REALM
-        }
+        JWKS_URI
     },
     PORT,
     CORS_ORIGIN: CORS_ORIGIN.split(","),
