@@ -74,7 +74,6 @@ ArticleController.deleteByPk = async (req, res) => {
 //delete articles by a list of Ids
 ArticleController.deleteMultipleByIds = async (req, res) => {
   const ids  = req.query.ids
-  console.log(ids)
   try {
     // Find all articles based on the provided IDs
     const articles = await ArticleModel.findAll({
