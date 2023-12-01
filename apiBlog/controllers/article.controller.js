@@ -123,22 +123,22 @@ ArticleController.create = async (req, res) => {
   const currentDate = new Date();
   const pt = currentDate.toISOString();
 
-  const {  
-    title, 
-    description, 
-    content, 
-    thumbnail, 
-    principal_image, 
-    status, 
+  const {
+    title,
+    description,
+    content,
+    thumbnail,
+    principal_image,
+    status,
     //Todo: adding default values... otherwise the model should be modified ==> add allow null or set default value on the model.
-    flag_count=0, 
-    like_count=0, 
-    is_pinned=0, 
-    is_blacklisted=0, 
-    comment_authorized=0, 
+    flag_count=0,
+    like_count=0,
+    is_pinned=0,
+    is_blacklisted=0,
+    comment_authorized=0,
     published_at = pt,
-    category_id, 
-    tags  
+    category_id,
+    tags
   } = req.body;
 
   const author_id = req.claims.sub
@@ -184,7 +184,7 @@ ArticleController.create = async (req, res) => {
         });
       }
     }
-    
+
 
     res.status(201).json(createdArticle);
   } catch (error) {
@@ -300,7 +300,7 @@ ArticleController.getArticleWithDetails = async (req, res) => {
         {
           model: CategoryModel,
           as: 'category',
-          attributes: ['title'],
+          attributes: ['id','title'],
         },
       ],
     });
@@ -316,11 +316,11 @@ ArticleController.getArticleWithDetails = async (req, res) => {
     });
 
     if (!author) {
-        author = {
-          ID: 'Unknown',
-          FIRST_NAME: 'Unknown',
-          LAST_NAME: 'Unknown',
-        }
+      author = {
+        ID: 'Unknown',
+        FIRST_NAME: 'Unknown',
+        LAST_NAME: 'Unknown',
+      }
     }
 
     // Étape 3 : Mapper les détails de l'article pour inclure les tags et l'auteur
@@ -350,24 +350,60 @@ ArticleController.getArticlesByCategory = async (req, res) => {
   const categoryId = parseInt(req.params.categoryId);
 
   try {
-    // Recherchez la catégorie par son ID
+    // Step 1: Find the category by its ID
     const category = await CategoryModel.findByPk(categoryId);
 
     if (!category) {
       return res.status(404).json({ error: 'Category not found' });
     }
 
-    // Recherchez les articles associés à la catégorie
+    // Step 2: Find articles associated with the category and include article details
     const articles = await ArticleModel.findAll({
       where: { category_id: categoryId },
+      include: [
+        {
+          model: Article_tagModel,
+          as: 'article_tags',
+          attributes: ['createdAt'],
+          include: {
+            model: TagModel,
+            as: 'tag',
+            attributes: ['title'],
+          },
+        },
+        {
+          model: CategoryModel,
+          as: 'category',
+          attributes: ['title'],
+        },
+      ],
     });
 
-    res.json(articles);
+    // Step 3: Fetch author details separately for each article
+    const articlesWithDetails = await Promise.all(articles.map(async (article) => {
+      const articleData = article.toJSON();
+      const article_tags = articleData.article_tags.map((articleTag) => articleTag.tag.title);
+
+      // Fetch author details in a separate query
+      const author = await UserModel.findOne({
+        attributes: ['ID', 'FIRST_NAME', 'LAST_NAME'],
+        where: { ID: article.author_id },
+      });
+
+      return {
+        ...articleData,
+        author: author ? author.toJSON() : { ID: 'Unknown', FIRST_NAME: 'Unknown', LAST_NAME: 'Unknown' },
+        article_tags,
+      };
+    }));
+
+    res.json(articlesWithDetails);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 
 // Get articles by tag Id
@@ -535,11 +571,11 @@ ArticleController.getLastSharedArticle = async (req, res) => {
       where: {
         published_at: {
           // Ensure the article has been published
-          [Sequelize.Op.ne]: null, 
+          [Sequelize.Op.ne]: null,
         },
       },
       // Fetch the latest update
-      order: [['updatedAt', 'DESC']], 
+      order: [['updatedAt', 'DESC']],
     });
 
     if (!lastSharedArticle) {
