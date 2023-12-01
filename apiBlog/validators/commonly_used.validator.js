@@ -11,9 +11,20 @@ exports.verifyRequestParamId = (req, res, next) => {
 };
 exports.verifyRequestBodyIds = (req, res, next) => {
   // Validate the ID from URL params
-  const { error: idError } = Joi.array().items(Joi.number()).validate(req.body.ids);
-  if (idError) { 
-    return res.status(400).json({ error: idError.message});
+  let ids = {ids : req.query.ids}
+  // if ids.ids is not an array and it an integer, we convert it to an array
+    if(!Array.isArray(ids.ids) && typeof parseInt(ids.ids,10) === "number"){
+        ids.ids = Array.of(parseInt(ids.ids,10))
+    }else if(Array.isArray(ids.ids)){
+        ids.ids = ids.ids.map(id => parseInt(id,10))
+    }
+  req.query.ids = ids.ids
+  let schema = Joi.object({
+    ids : Joi.array().items(Joi.number()).required()
+  })
+  const { error } = schema.validate(ids);
+  if (error) {
+    return res.status(400).json({ error: error.message});
   }
   next();
 };

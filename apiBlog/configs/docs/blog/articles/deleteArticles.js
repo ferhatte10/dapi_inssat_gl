@@ -1,27 +1,30 @@
 module.exports = {
     delete: {
         tags: ['Article'],
-        summary: "Delete an article by ID",
-        description: "Delete an article by its unique ID.",
-        operationId: "deleteArticle",
+        summary: "Delete articles by IDs",
+        description: "Delete an articles by its unique ID.",
+        operationId: "deleteArticles",
         ...require('../../security'),
-        "consumes": [
-            "application/x-www-form-urlencoded"
-        ],
         parameters: [
             {
-                name: "id",
-                in: "path",
-                schema: {
-                    $ref: "#/components/schemas/schemaArticle/Id"
-                },
+                "name": "ids",
+                "in": "query",
+                "description": "IDs of the articles to delete",
                 required: true,
-                description: "ID of the article to delete"
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    uniqueItems: true,
+
+                }
             }
         ],
         responses: {
             '200': {
-                description: "Article deleted successfully",
+                description: "Articles deleted successfully",
                 content: {
                     'application/json': {
                         schema: {
@@ -29,7 +32,7 @@ module.exports = {
                             properties: {
                                 message: {
                                     type: 'string',
-                                    example: "Article deleted"
+                                    example: "Articles deleted"
                                 }
                             }
                         }
@@ -37,7 +40,7 @@ module.exports = {
                 }
             },
             '404': {
-                description: "Article not found",
+                description: "Articles not found",
                 content: {
                     'application/json': {
                         schema: {
@@ -49,7 +52,7 @@ module.exports = {
                                 },
                                 "message": {
                                     type: 'string',
-                                    example: "Article not found"
+                                    example: "Articles not found"
                                 },
                                 "data": {
                                     type: 'object',

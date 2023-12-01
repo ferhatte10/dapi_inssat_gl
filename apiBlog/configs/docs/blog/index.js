@@ -30,6 +30,7 @@ module.exports = {
         '/articles': {
             ...require('./articles/getArticles'),
             ...require('./articles/createArticle'),
+            ...require('./articles/deleteArticles')
         },
         '/articles/{id}': {
             ...require('./articles/getArticle'),

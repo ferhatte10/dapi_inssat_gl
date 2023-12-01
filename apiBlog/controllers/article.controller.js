@@ -73,13 +73,13 @@ ArticleController.deleteByPk = async (req, res) => {
 
 //delete articles by a list of Ids
 ArticleController.deleteMultipleByIds = async (req, res) => {
-  const { ids } = req.body; 
-
+  const ids  = req.query.ids
+  console.log(ids)
   try {
     // Find all articles based on the provided IDs
     const articles = await ArticleModel.findAll({
       where: { id: ids },
-      include: 'article_tags', 
+      include: 'article_tags',
     });
 
     if (articles.length === 0) {
@@ -101,7 +101,7 @@ ArticleController.deleteMultipleByIds = async (req, res) => {
       where: { id: ids },
     });
 
-    res.json({ message: 'Articles and associated tags deleted', ids : ids });
+    res.json({ message: 'Articles and associated tags deleted' });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal server error' });
