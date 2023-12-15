@@ -61,6 +61,6 @@ module.exports = function(dbInstance, Sequelize) {
     dbName: 'intranet_auth',
     tableName: 'USER_ENTITY',
     timestamps: false,
-  }
-);
+    schema: 'intranet_auth',
+  });
 };

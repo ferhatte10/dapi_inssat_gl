@@ -42,7 +42,7 @@ app.get('/api_blog',
 //TODO: secure the uploads routes.
 app.use('/api_blog/uploads', uploadRouter);
 
-app.use('/api_blog',secure(getJwksService()), require('./routes'))
+app.use('/api_blog', require('./routes'))
 
 
 app.use(`*`, (req, res) => {

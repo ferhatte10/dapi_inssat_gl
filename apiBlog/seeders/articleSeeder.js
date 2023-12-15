@@ -29,9 +29,9 @@ const articleSeeder = async () => {
     if(!lastInsertedUser || !lastInsertedCategory)
     return 0;
 
-      //  lastInsertedUser = {
-      //       ID: 'c6688fa2-daa6-45a2-b490-28a29303ed2d'
-      //  }
+       lastInsertedUser = {
+            ID: '0d89d9e9-f9b0-4949-bac2-86c32031cc03'
+       }
         // Sample data to be inserted
         const articles = [
             {

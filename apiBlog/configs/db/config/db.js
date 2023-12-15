@@ -20,6 +20,8 @@ const CONFIGURATION = {
  
 const dbInstance = new Sequelize(SQL.DB_NAME, SQL.DB_USER, SQL.DB_PASS, CONFIGURATION)
 dbInstance.auth = new Sequelize(SQL.DB_NAME_AUTH, SQL.DB_USER, SQL.DB_PASS,  CONFIGURATION)
+dbInstance.auth.dialect.supports.schemas = true
+
 
 
 const db = init_models(dbInstance, Sequelize)

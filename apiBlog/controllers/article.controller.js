@@ -246,6 +246,14 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
           as: 'category',
           attributes: ['title'],
         },
+        {
+          model: UserModel,
+          as: 'author',
+          on: {
+              id : Sequelize.where(Sequelize.col('article.author_id'), '=', Sequelize.col('author.ID'))
+            },
+            attributes: ['FIRST_NAME', 'LAST_NAME'],
+        }
       ]
     });
     // if there is no article
@@ -253,26 +261,27 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
       return res.status(404).json({ error: 'Article not found' });
     }
     // Step 2: Retrieve the list of authors (USER_ENTITY data)
-    const authorIds = articles.rows.map((article) => article.author_id);
-    const authors = await UserModel.findAll({
-      attributes: ['ID', 'FIRST_NAME', 'LAST_NAME'],
-      where: { ID: authorIds },
-    });
+    // const authorIds = articles.rows.map((article) => article.author_id);
+    // const authors = await UserModel.findAll({
+    //   attributes: ['ID', 'FIRST_NAME', 'LAST_NAME'],
+    //   where: { ID: authorIds },
+    // });
 
     // Step 3: Map articles to include tags and authors
-    const articlesWithDetails = articles.rows.map((article) => {
-      const articleData = article.toJSON();
-      const article_tags = articleData.article_tags.map((articleTag) => articleTag.tag.title);
 
+    // const articlesWithDetails = articles.rows.map((article) => {
+    //   const articleData = article.toJSON();
+    //   const article_tags = articleData.article_tags.map((articleTag) => articleTag.tag.title);
+    //
+    //
+    //   return {
+    //     ...articleData,
+    //     author: authors.find((author) => author.ID === article.author_id),
+    //     article_tags,
+    //   };
+    // });
 
-      return {
-        ...articleData,
-        author: authors.find((author) => author.ID === article.author_id),
-        article_tags,
-      };
-    });
-
-    res.json(articlesWithDetails);
+    res.json(articles);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });

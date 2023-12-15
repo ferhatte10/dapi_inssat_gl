@@ -1,26 +1,25 @@
-var DataTypes = require("sequelize").DataTypes;
-var _article = require("./article.model");
-var _article_tag = require("./article_tag.model");
-var _category = require("./category.model");
-var _comment = require("./comment.model");
-var _follower = require("./follower.model");
-var _like = require("./like.model");
-var _tag = require("./tag.model");
+let _article = require("./article.model");
+let _article_tag = require("./article_tag.model");
+let _category = require("./category.model");
+let _comment = require("./comment.model");
+let _follower = require("./follower.model");
+let _like = require("./like.model");
+let _tag = require("./tag.model");
 
-var _user_entity = require('../auth/USER_ENTITY');
+let _user_entity = require('../auth/USER_ENTITY');
 
 function initModels(dbInstance, Sequelize) {
    //---> auth/keycloak models
-   var user_entity = _user_entity(dbInstance.auth, Sequelize);
+   let user_entity = _user_entity(dbInstance.auth, Sequelize);
 
    //---> blog models
-   var article = _article(dbInstance, Sequelize);
-   var article_tag = _article_tag(dbInstance, Sequelize);
-   var category = _category(dbInstance, Sequelize);
-   var comment = _comment(dbInstance, Sequelize);
-   var follower = _follower(dbInstance, Sequelize);
-   var like = _like(dbInstance, Sequelize);
-   var tag = _tag(dbInstance, Sequelize);
+   let article = _article(dbInstance, Sequelize);
+   let article_tag = _article_tag(dbInstance, Sequelize);
+   let category = _category(dbInstance, Sequelize);
+   let comment = _comment(dbInstance, Sequelize);
+   let follower = _follower(dbInstance, Sequelize);
+   let like = _like(dbInstance, Sequelize);
+   let tag = _tag(dbInstance, Sequelize);
 
   article_tag.belongsTo(article, { as: "article", foreignKey: "article_id"});
   article.hasMany(article_tag, { as: "article_tags", foreignKey: "article_id"});
@@ -34,8 +33,10 @@ function initModels(dbInstance, Sequelize) {
   comment.hasMany(comment, { as: "comments", foreignKey: "parent_id"});
   article_tag.belongsTo(tag, { as: "tag", foreignKey: "tag_id"});
   tag.hasMany(article_tag, { as: "article_tags", foreignKey: "tag_id"});
-  // article.belongsTo(user, { as: "author", foreignKey: "author_id"});
-  // user.hasMany(article, { as: "articles", foreignKey: "author_id"});
+
+  article.belongsTo(user_entity, { as: "author", foreignKey: "author_id"});
+  user_entity.hasMany(article, { as: "articles", foreignKey: "id"});
+
   // comment.belongsTo(user, { as: "user", foreignKey: "user_id"});
   // user.hasMany(comment, { as: "comments", foreignKey: "user_id"});
   // follower.belongsTo(user, { as: "follower", foreignKey: "follower_id"});
