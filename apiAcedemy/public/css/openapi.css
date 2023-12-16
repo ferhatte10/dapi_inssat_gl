@@ -1,0 +1,21 @@
+.swagger-ui .topbar { 
+        background-color: #556a68; 
+} 
+
+.swagger-ui .topbar .topbar-wrapper, .swagger-ui .topbar a {
+    justify-content: center;
+}
+
+.topbar-wrapper svg { 
+    display: none;
+}
+
+.topbar-wrapper .link {
+    max-width: 150px;
+}
+.topbar-wrapper .link:after {
+  content: url('/api_blog/images/logo.png');
+  width: 240px !important;
+  display: flex;
+  justify-content: center;
+}

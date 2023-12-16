@@ -34,6 +34,12 @@ router.get('/details/:id', verifyRequestParamId,ArticleController.getArticleWith
 // Retrieve a list of articles by category
 
 router.get('/category/:categoryId', ArticleController.getArticlesByCategory);
+
+
+
+
+
+
 // Retrieve a list of articles by tag
 
 router.get('/tag/:tagId', ArticleController.getArticlesByTag);
@@ -56,6 +62,12 @@ router.get('/last-shared-article', ArticleController.getLastSharedArticle);
 
 //INFO : to avoid conflict with GET /details, we've put the getById here (last ;).
 router.get('/:id', verifyRequestParamId, ArticleController.getByPk);
+
+
+
+
+
+
 
 
 // TODO:

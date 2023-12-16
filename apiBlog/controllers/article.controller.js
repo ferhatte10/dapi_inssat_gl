@@ -290,6 +290,7 @@ ArticleController.getArticlesWithDetails = async (req, res) => {
 
 // Endpoint pour récupérer les détails d'un article, y compris les tags et l'auteur
 ArticleController.getArticleWithDetails = async (req, res) => {
+  console.log("----->"+req.params.id)
   const articleId = parseInt(req.params.id);
   try {
     // Étape 1 : Récupérer les détails de l'article, y compris les tags et la catégorie
