@@ -18,3 +18,5 @@ stressTest/__pycache__/
 
 
 auth/data/tmp/*
+
+node_modules
