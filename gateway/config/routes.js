@@ -1,4 +1,4 @@
-const {API_BLOG_URL,ENSSAT_BLOG_URL,ADE_URL} = require("./env")
+const {API_BLOG_URL,API_ACADEMY_URL,ENSSAT_BLOG_URL,ADE_URL} = require("./env")
 
 exports.ROUTES = [
 
@@ -21,6 +21,18 @@ exports.ROUTES = [
             pathRewrite: {
                 //[`^/api_blog`]: '',
             },
+        }
+    },{
+        url: '/api_academy',
+        proxy: {
+            target: API_ACADEMY_URL,
+            changeOrigin: true,
+            headers: {
+                "Connection": "keep-alive"
+            },
+            onProxyRes: function (proxyRes, req, res) {
+                proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+            }
         }
     },
     {

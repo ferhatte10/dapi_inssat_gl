@@ -16,7 +16,7 @@ ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.s
 RUN chmod +x /usr/local/bin/wait-for-it
 
 # Expose port 3000
-EXPOSE 3000
+EXPOSE 3001
 
 # waiting for dependencies to be available and then starts the application
 CMD ["sh", "-c", "wait-for-it -t 2 db:3306 && sleep 2s && npm start"]

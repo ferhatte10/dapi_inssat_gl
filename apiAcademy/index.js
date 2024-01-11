@@ -7,7 +7,7 @@ const { setUpDocumentation } = require("./configs/openApi")
 const { setupBasics } = require('./configs/resReqConf')
 const { setupDatabase } = require('./configs/syncDatabase')
 
-const port = PORT || 3000
+const port = PORT || 3001
  
 
 
@@ -32,6 +32,7 @@ app.get('/api_academy',
 )
  
 
+// app.use('/api_academy', secure(getJwksService()), require('./routes'))
 app.use('/api_academy', require('./routes'))
 
 
