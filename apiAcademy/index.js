@@ -6,7 +6,7 @@ const { setupLogging } = require("./configs/logging")
 const { setUpDocumentation } = require("./configs/openApi")
 const { setupBasics } = require('./configs/resReqConf')
 const { setupDatabase } = require('./configs/syncDatabase')
-
+const {seedSections} = require('./seeders/sectionSeeder')
 const port = PORT || 3001
  
 

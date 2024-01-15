@@ -3,6 +3,7 @@ module.exports = function(dbInstance, Sequelize) {
     id: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true
     },
     content: {

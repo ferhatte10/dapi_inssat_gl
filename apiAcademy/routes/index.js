@@ -16,7 +16,5 @@ router.use('/periods', require('./period.route'));
 router.use('/sections', require('./section.route')); 
 router.use('/student-ma-tutors', require('./student_ma_tutor.route'));  
 
-//Dealing with images upload & fetch
-// router.use('/uploads', require('./upload.route'));
 
 module.exports = router;

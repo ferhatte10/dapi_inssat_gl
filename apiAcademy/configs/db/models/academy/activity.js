@@ -2,11 +2,12 @@ module.exports = function(dbInstance, Sequelize) {
   return dbInstance.define('activity', {
     id: {
       type: Sequelize.INTEGER,
+      autoIncrement: true,
       allowNull: false,
       primaryKey: true
     },
     name: {
-      type: Sequelize.STRING(30),
+      type: Sequelize.STRING(250),
       allowNull: false
     },
     position: {
@@ -49,6 +50,11 @@ module.exports = function(dbInstance, Sequelize) {
           { name: "section_id" },
         ]
       },
+      {
+        name: 'activity_pos_section_unique',
+        type: 'unique',
+        fields: ['position', 'section_id']
+      }
     ]
   });
 };

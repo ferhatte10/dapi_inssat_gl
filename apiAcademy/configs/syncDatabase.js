@@ -1,6 +1,7 @@
 const db = require('./db/config/db')
 const {SEED_ACTIVATED} = require("./env");
 const {seedAll} = require("../seeders");
+const {seedSections} = require("../seeders/sectionSeeder");
 
 
 exports.setupDatabase = () => {

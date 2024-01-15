@@ -3,6 +3,7 @@ module.exports = function(dbInstance, Sequelize) {
     id: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true
     },
     name: {
@@ -12,7 +13,11 @@ module.exports = function(dbInstance, Sequelize) {
     coefficient: {
       type: Sequelize.INTEGER,
       allowNull: false
-    }
+    },
+    position: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
   }, {
     dbInstance,
     tableName: 'assessment',

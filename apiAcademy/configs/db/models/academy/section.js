@@ -1,17 +1,19 @@
+const {max} = require("pg/lib/defaults");
 module.exports = function(dbInstance, Sequelize) {
   return dbInstance.define('section', {
     id: {
+      autoIncrement: true, // TODO: edit in vertabelo and same for other models
       type: Sequelize.INTEGER,
-      allowNull: false,
       primaryKey: true
     },
     title: {
-      type: Sequelize.STRING(30),
+      type: Sequelize.STRING(150),
+      unique: true, // TODO: edit in vertabelo
       allowNull: false
     },
     description: {
-      type: Sequelize.STRING(120),
-      allowNull: false
+      type: Sequelize.STRING(400),
+      allowNull: true
     }
   }, {
     dbInstance,
