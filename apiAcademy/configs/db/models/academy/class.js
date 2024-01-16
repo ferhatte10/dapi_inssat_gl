@@ -8,7 +8,8 @@ module.exports = function(dbInstance, Sequelize) {
     },
     name: {
       type: Sequelize.STRING(20),
-      allowNull: false
+      allowNull: false,
+      unique: true,//TODO: change vertabello
     },
     apprenticeship: {
       type: Sequelize.BOOLEAN,
