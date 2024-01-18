@@ -51,7 +51,6 @@ UserController.getByPk = async (req, res) => {
     }
     res.json(user);
   } catch (error) {
-    console.log(error)
     res.status(500).json({ error: 'Internal server error' });
   }
 };
