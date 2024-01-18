@@ -66,11 +66,7 @@ module.exports = (dbInstance, Sequelize) => {
     },
     author_id: {
       type: Sequelize.STRING(36),
-      allowNull: false,
-      // references: {
-      //   model: 'USER_ENTITY',
-      //   key: 'ID'
-      // }
+      allowNull: false
     },
     category_id: {
       type: Sequelize.INTEGER,
