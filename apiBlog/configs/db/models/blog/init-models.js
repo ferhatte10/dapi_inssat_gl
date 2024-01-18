@@ -11,7 +11,7 @@ let _user_attribute = require('../auth/USER_ATTRIBUTE');
 let _realm = require('../auth/REALM');
 
 function initModels(dbInstance, Sequelize) {
-   //---> auth/keycloak models
+    //---> auth/keycloak models
     let user_entity = _user_entity(dbInstance.auth, Sequelize);
     let user_attribute = _user_attribute(dbInstance.auth, Sequelize);
     let realm = _realm(dbInstance.auth, Sequelize);
@@ -38,38 +38,38 @@ function initModels(dbInstance, Sequelize) {
     article_tag.belongsTo(tag, { as: "tag", foreignKey: "tag_id"});
     tag.hasMany(article_tag, { as: "article_tags", foreignKey: "tag_id"});
 
-    article.belongsTo(user_entity, { as: "author", foreignKey: "user_id"});
+    article.belongsTo(user_entity, { as: "author", foreignKey: "ID"});
     user_entity.hasMany(article, { as: "articles", foreignKey: "author_id"});
 
-    user_attribute.belongsTo(user_entity, { as: "user", foreignKey: "user_id"});
-    user_entity.hasMany(user_attribute, { as: "user_attr", foreignKey: "user_id"});
+    user_attribute.belongsTo(user_entity, { as: "user", foreignKey: "ID"});
+    user_entity.hasMany(user_attribute, { as: "user_attr", foreignKey: "USER_ID"});
 
-    user_entity.belongsTo(realm, { as: "realm", foreignKey: "realm_id"});
-    realm.hasMany(user_entity, { as: "user_entities", foreignKey: "realm_id"});
+    user_entity.belongsTo(realm, { as: "realm", foreignKey: "REALM_ID"});
+    realm.hasMany(user_entity, { as: "user_entities", foreignKey: "REALM_ID"});
 
-  // comment.belongsTo(user, { as: "user", foreignKey: "user_id"});
-  // user.hasMany(comment, { as: "comments", foreignKey: "user_id"});
-  // follower.belongsTo(user, { as: "follower", foreignKey: "follower_id"});
-  // user.hasMany(follower, { as: "followers", foreignKey: "follower_id"});
-  // follower.belongsTo(user, { as: "following", foreignKey: "following_id"});
-  // user.hasMany(follower, { as: "following_followers", foreignKey: "following_id"});
-  // like.belongsTo(user, { as: "user", foreignKey: "user_id"});
-  // user.hasMany(like, { as: "likes", foreignKey: "user_id"});
+    // comment.belongsTo(user, { as: "user", foreignKey: "user_id"});
+    // user.hasMany(comment, { as: "comments", foreignKey: "user_id"});
+    // follower.belongsTo(user, { as: "follower", foreignKey: "follower_id"});
+    // user.hasMany(follower, { as: "followers", foreignKey: "follower_id"});
+    // follower.belongsTo(user, { as: "following", foreignKey: "following_id"});
+    // user.hasMany(follower, { as: "following_followers", foreignKey: "following_id"});
+    // like.belongsTo(user, { as: "user", foreignKey: "user_id"});
+    // user.hasMany(like, { as: "likes", foreignKey: "user_id"});
 
-  const user = user_entity;
-  return {
-    article,
-    article_tag,
-    category,
-    comment,
-    follower,
-    like,
-    tag,
-    user_entity,
-    user,
-    user_attribute,
-    realm,
-  };
+    const user = user_entity;
+    return {
+        article,
+        article_tag,
+        category,
+        comment,
+        follower,
+        like,
+        tag,
+        user_entity,
+        user,
+        user_attribute,
+        realm,
+    };
 }
 module.exports = initModels;
 
