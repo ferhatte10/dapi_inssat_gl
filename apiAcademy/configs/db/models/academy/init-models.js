@@ -1,29 +1,34 @@
-var DataTypes = require("sequelize").DataTypes; 
+let DataTypes = require("sequelize").DataTypes; 
 let _USER_ENTITY = require('../auth/USER_ENTITY');
 
-var _activity = require("./activity");
-var _assessment = require("./assessment");
-var _class_ = require("./class");
-var _company = require("./company");
-var _grade = require("./grade");
-var _impression = require("./impression");
-var _level = require("./level");
-var _period = require("./period");
-var _section = require("./section");
-var _student_ma_tutor = require("./student_ma_tutor");
+let _user_attribute = require('../auth/USER_ATTRIBUTE');
+let _realm = require('../auth/REALM');
+
+let _activity = require("./activity");
+let _assessment = require("./assessment");
+let _class_ = require("./class");
+let _company = require("./company");
+let _grade = require("./grade");
+let _impression = require("./impression");
+let _level = require("./level");
+let _period = require("./period");
+let _section = require("./section");
+let _student_ma_tutor = require("./student_ma_tutor");
 
 function initModels(sequelize) {
-  var USER_ENTITY = _USER_ENTITY(sequelize, DataTypes);
-  var activity = _activity(sequelize, DataTypes);
-  var assessment = _assessment(sequelize, DataTypes);
-  var class_ = _class_(sequelize, DataTypes);
-  var company = _company(sequelize, DataTypes);
-  var grade = _grade(sequelize, DataTypes);
-  var impression = _impression(sequelize, DataTypes);
-  var level = _level(sequelize, DataTypes);
-  var period = _period(sequelize, DataTypes);
-  var section = _section(sequelize, DataTypes);
-  var student_ma_tutor = _student_ma_tutor(sequelize, DataTypes);
+  let USER_ENTITY = _USER_ENTITY(sequelize, DataTypes);
+  let user_attribute = _user_attribute(sequelize, DataTypes);
+  let realm = _realm(sequelize, DataTypes);
+  let activity = _activity(sequelize, DataTypes);
+  let assessment = _assessment(sequelize, DataTypes);
+  let class_ = _class_(sequelize, DataTypes);
+  let company = _company(sequelize, DataTypes);
+  let grade = _grade(sequelize, DataTypes);
+  let impression = _impression(sequelize, DataTypes);
+  let level = _level(sequelize, DataTypes);
+  let period = _period(sequelize, DataTypes);
+  let section = _section(sequelize, DataTypes);
+  let student_ma_tutor = _student_ma_tutor(sequelize, DataTypes);
 
   grade.belongsTo(USER_ENTITY, { as: "student", foreignKey: "student_id"});
   USER_ENTITY.hasMany(grade, { as: "grades", foreignKey: "student_id"});
@@ -39,10 +44,10 @@ function initModels(sequelize) {
   activity.hasMany(impression, { as: "impressions", foreignKey: "activity_id"});
   grade.belongsTo(assessment, { as: "assessment", foreignKey: "assessment_id"});
   assessment.hasMany(grade, { as: "grades", foreignKey: "assessment_id"});
-  USER_ENTITY.belongsTo(class_, { as: "class", foreignKey: "class_id"});
-  class_.hasMany(USER_ENTITY, { as: "USER_ENTITies", foreignKey: "class_id"});
-  USER_ENTITY.belongsTo(company, { as: "company", foreignKey: "company_id"});
-  company.hasMany(USER_ENTITY, { as: "USER_ENTITies", foreignKey: "company_id"});
+  //USER_ENTITY.belongsTo(class_, { as: "class", foreignKey: "class_id"});
+  // class_.hasMany(USER_ENTITY, { as: "user", foreignKey: "class_id"}); TODO : USER does not have class_id
+  // USER_ENTITY.belongsTo(company, { as: "company", foreignKey: "company_id"}); // TODO : USER does not have company_id
+  // company.hasMany(USER_ENTITY, { as: "user", foreignKey: "company_id"});
   impression.belongsTo(level, { as: "level", foreignKey: "level_id"});
   level.hasMany(impression, { as: "impressions", foreignKey: "level_id"});
   grade.belongsTo(period, { as: "period", foreignKey: "period_id"});
@@ -53,6 +58,12 @@ function initModels(sequelize) {
   section.hasMany(activity, { as: "activities", foreignKey: "section_id"});
   grade.belongsTo(section, { as: "section", foreignKey: "section_id"});
   section.hasMany(grade, { as: "grades", foreignKey: "section_id"});
+
+  user_attribute.belongsTo(USER_ENTITY, { as: "user", foreignKey: "ID"});
+  USER_ENTITY.hasMany(user_attribute, { as: "user_attr", foreignKey: "USER_ID"});
+
+  USER_ENTITY.belongsTo(realm, { as: "realm", foreignKey: "REALM_ID"});
+  realm.hasMany(USER_ENTITY, { as: "user_entities", foreignKey: "REALM_ID"});
 
   return {
     USER_ENTITY,

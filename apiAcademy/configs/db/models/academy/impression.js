@@ -55,13 +55,13 @@ module.exports = function(dbInstance, Sequelize) {
           { name: "id" },
         ]
       },
-      {
-        name: "impression_USER_ENTITY",
-        using: "BTREE",
-        fields: [
-          { name: "student_id" },
-        ]
-      },
+      // {
+      //   name: "impression_USER_ENTITY",
+      //   using: "BTREE",
+      //   fields: [
+      //     { name: "student_id" },
+      //   ]
+      // },
       {
         name: "impression_activity",
         using: "BTREE",
