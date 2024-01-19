@@ -35,7 +35,7 @@ module.exports = function(dbInstance, Sequelize) {
       }
     },
     comment: {
-      type: Sequelize.STRING(120),
+      type: Sequelize.STRING(255),
       allowNull: false
     },
     section_id: {

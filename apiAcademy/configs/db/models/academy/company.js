@@ -19,7 +19,7 @@ module.exports = function(dbInstance, Sequelize) {
       allowNull: false
     },
     phone: {
-      type: Sequelize.STRING(13),
+      type: Sequelize.STRING(20),
       allowNull: false
     },
   }, {
