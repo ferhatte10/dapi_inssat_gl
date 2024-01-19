@@ -17,4 +17,7 @@ router.use('/sections', require('./section.route'));
 router.use('/student-ma-tutors', require('./student_ma_tutor.route'));  
 
 
+router.use('/user-class', require('./user_class.route'));
+router.use('/user-company', require('./user_company.route'));
+
 module.exports = router;
