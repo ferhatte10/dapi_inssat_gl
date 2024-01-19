@@ -442,6 +442,7 @@ ArticleController.getArticlesByCategoryPaginated = async (req, res) => {
     // Step 2: Find articles associated with the category and include article details with pagination
     const articles = await ArticleModel.findAndCountAll({
       where: { category_id: categoryId },
+      distinct:true,
       include: [
         {
           model: Article_tagModel,
