@@ -1,4 +1,4 @@
-const UserModel = require('../configs/db/config/db').user;
+const {USER_ENTITY : UserModel} = require('../configs/db/config/db'); 
 
 // Define the controller methods
 const UserController = {};
@@ -33,18 +33,18 @@ UserController.getByPk = async (req, res) => {
     //const user = await UserModel.findByPk(id);
     // get the user with given id in the intranet realm users
     let user = await UserModel.findOne({
-        where: { id: id },
-        include: [
-            {
-              association: 'realm',
-              where: { name: 'intranet' },
-              attributes: []
-            },
-            {
-              association: 'user_attr',
-              attributes: ['name', 'value']
-            }
-        ]
+      where: { id: id },
+      include: [
+        {
+          association: 'realm',
+          where: { name: 'intranet' },
+          attributes: []
+        },
+        {
+          association: 'user_attr',
+          attributes: ['name', 'value']
+        }
+      ]
     })
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
