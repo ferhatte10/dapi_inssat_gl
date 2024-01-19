@@ -1,5 +1,7 @@
 const app = require('express')()
 const {secure, getJwksService} = require("./configs/auth")
+const fileUpload = require('express-fileupload');
+
 const {PORT} = require('./configs/env')
 const { setupCors } = require('./configs/cors')
 const { setupLogging } = require("./configs/logging")
@@ -20,7 +22,12 @@ setupCors(app) // This will setup cors
 setupBasics(app) // This will setup the basics for the app as body parser and urlencoded ...
 setupDatabase() // This will sync the database with the models (update any changes) and seed the database with the data
 
-app.get('/api_blog',
+
+// Enable file uploads
+app.use(fileUpload());
+
+
+app.get('/api_blog', 
     (req, res) =>
     {
       return res.status(200).json(
@@ -35,12 +42,13 @@ app.get('/api_blog',
 )
 
 
-//Dealing with images upload & fetch
-//we are facing some difficulties in the front when fetching the article then fetching the images 
-//the images are not loaded correctly
-//as a result we are not securing the images routes for the moment.
-//TODO: secure the uploads routes.
-app.use('/api_blog/uploads', uploadRouter);
+//checking AUTH ==> this is required for 
+app.use(secure(getJwksService()));
+
+//new fresh upload system is deployed...
+app.use('/api_blog',  uploadRouter); 
+
+
 
 app.use('/api_blog', require('./routes'))
 

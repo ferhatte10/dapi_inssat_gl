@@ -7,7 +7,7 @@ const {
   Sequelize
 } = require('../configs/db/config/db');
 
-const uploadManager = require('../utils/imageUploadManager');
+// const uploadManager = require('../utils/imageUploadManager');
 
 
 const ArticleController = {};
@@ -143,6 +143,7 @@ ArticleController.create = async (req, res) => {
 
   const author_id = req.claims.sub
 
+  console.log(req.body)
   try {
     // Step 1: Create the article
     const createdArticle = await ArticleModel.create({
@@ -207,8 +208,8 @@ ArticleController.update = async (req, res) => {
       return res.status(404).json({ error: 'Article not found' });
     }
 
-    uploadManager.removeFile(article.thumbnail);
-    uploadManager.removeFile(article.principal_image);
+    // uploadManager.removeFile(article.thumbnail);
+    // uploadManager.removeFile(article.principal_image);
 
     await ArticleModel.update(updatedData, {
       where: { id: id },
@@ -347,6 +348,13 @@ ArticleController.getArticleWithDetails = async (req, res) => {
       article_tags,
     };
 
+    // Update view_count for the current article
+    // TODO: must create view_count 
+    await ArticleModel.update(
+      { like_count: Sequelize.literal('like_count + 1') }, // Increment like_count by 1
+      { where: { id: articleId } }
+    );
+
     res.json(articleWithDetails);
   } catch (error) {
     console.error(error);
@@ -408,6 +416,77 @@ ArticleController.getArticlesByCategory = async (req, res) => {
     }));
 
     res.json(articlesWithDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+ArticleController.getArticlesByCategoryPaginated = async (req, res) => {
+  console.log("|req.query")
+  console.log(req.query)
+  console.log(req.query)
+  const categoryId = parseInt(req.params.categoryId);
+  const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
+  const pageSize = parseInt(req.query.pageSize) || 10; // Default page size if not provided
+
+  try {
+    // Step 1: Find the category by its ID
+    const category = await CategoryModel.findByPk(categoryId);
+
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    // Step 2: Find articles associated with the category and include article details with pagination
+    const articles = await ArticleModel.findAndCountAll({
+      where: { category_id: categoryId },
+      include: [
+        {
+          model: Article_tagModel,
+          as: 'article_tags',
+          attributes: ['createdAt'],
+          include: {
+            model: TagModel,
+            as: 'tag',
+            attributes: ['title'],
+          },
+        },
+        {
+          model: CategoryModel,
+          as: 'category',
+          attributes: ['title'],
+        },
+      ],
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+    });
+
+    // Step 3: Fetch author details separately for each article
+    const articlesWithDetails = await Promise.all(articles.rows.map(async (article) => {
+      const articleData = article.toJSON();
+      const article_tags = articleData.article_tags.map((articleTag) => articleTag.tag.title);
+
+      // Fetch author details in a separate query
+      const author = await UserModel.findOne({
+        attributes: ['ID', 'FIRST_NAME', 'LAST_NAME'],
+        where: { ID: article.author_id },
+      });
+
+      return {
+        ...articleData,
+        author: author ? author.toJSON() : { ID: 'Unknown', FIRST_NAME: 'Unknown', LAST_NAME: 'Unknown' },
+        article_tags,
+      };
+    }));
+
+    res.json({
+      articles: articlesWithDetails,
+      totalItems: articles.count,
+      totalPages: Math.ceil(articles.count / pageSize),
+      currentPage: page,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });

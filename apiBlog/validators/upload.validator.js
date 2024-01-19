@@ -1,18 +1,39 @@
-const Joi = require('joi');
 
-exports.verifyUploadedFile = (req, res, next) => {
-  const schema = Joi.object({
-    title: Joi.string().required().max(20).messages({
-      'string.empty': 'title is required',
-      'string.max': 'title must not exceed 20 characters',
-    }),
-    parent_id: Joi.number().integer().allow(null),
-  });
+// Middleware to verify if there is a valid file
+const verifyIfValidFile = (req, res, next) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).json({ error: 'No file uploaded' });
+  }
 
-  const { error } = schema.validate(req.body);
-  if (error) {
-    return res.status(400).json({ error: error.details[0].message });
+  const file = req.files.file;
+  const fileType = file.mimetype;
+
+  if (fileType !== 'image/jpeg' && fileType !== 'image/png' && fileType !== 'application/pdf') {
+      return res.status(400).json({ error: 'Unsupported file type' });
   }
 
   next();
 };
+
+// Middleware to validate PDF files
+const validatePDF = (req, res, next) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).json({ error: 'No file uploaded' });
+  }
+
+  const file = req.files.file;
+  const fileType = file.mimetype;
+
+  if (fileType !== 'application/pdf') {
+      return res.status(400).json({ error: 'Invalid file type. Only PDF files are allowed.' });
+  }
+
+  next();
+};
+
+
+
+module.exports = {
+  verifyIfValidFile,
+  validatePDF
+}

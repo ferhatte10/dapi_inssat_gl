@@ -1,16 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const UploadController = require('../controllers/uploads.controller');
-const {verifyRequestFile} =  require('../validators/commonly_used.validator');
+const {
+    uploadFile,
+    getFile,
+    getFilesPaginated,
+    getDefaultFile
+} = require('../controllers/uploads.controller');
 
-// Import the imageUploadManager
-const uploadManager = require('../utils/imageUploadManager');
+const {
+    verifyIfValidFile,
+    validatePDF
+} = require('../validators/upload.validator');
 
 
-// router.delete('/:id', UploadController.deleteByPk);
-router.post('/', uploadManager.upload.single('image'), verifyRequestFile, UploadController.save); 
-// Define routes
-router.get('/*', UploadController.fetch);
+// Route for file upload
+router.post('/uploads', verifyIfValidFile, uploadFile);
 
- 
+// Endpoint to get default files
+router.get('/uploads/default/:fileName', getDefaultFile);
+
+// Endpoint to access a specific file
+router.get('/uploads/:userID/:folderName/:fileName', getFile);
+
+
+// Endpoint to get files paginated by user ID
+router.get('/uploads/:userID/:page', getFilesPaginated);
+
+
 module.exports = router;

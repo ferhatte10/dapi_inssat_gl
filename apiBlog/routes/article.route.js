@@ -8,8 +8,6 @@ const {verifyRequestParamId, verifyRequestBodyIds} = require('../validators/comm
 // const multipart = require('connect-multiparty');
 // const multipartMiddleware = multipart();
 
-// Import the uploadImagesMiddleware
-const uploadArticleImagesMiddleware = require('../middlewares/uploadArticleImagesMiddleware');
 
 // Define routes
 router.get('/', ArticleController.getAll);
@@ -20,9 +18,9 @@ router.delete('/:id', verifyRequestParamId,ArticleController.deleteByPk);
 router.delete('/', verifyRequestBodyIds, ArticleController.deleteMultipleByIds);
 
 //we are using uploadArticleImagesMiddleware that will check and look for images files then save them on the server and prepare req.thumbnail & req.principal_image ==> other middlewares ==> store on the DB
-router.post('/', uploadArticleImagesMiddleware, verifyRequestFile, verifyArticle, ArticleController.create);
+router.post('/', verifyArticle, ArticleController.create);
 
-router.put('/:id', verifyRequestParamId, uploadArticleImagesMiddleware, verifyRequestFile, verifyArticle, ArticleController.update);
+router.put('/:id', verifyRequestParamId, verifyRequestFile, verifyArticle, ArticleController.update);
 
 // Additional routes
 
@@ -33,7 +31,10 @@ router.get('/details', ArticleController.getArticlesWithDetails);
 router.get('/details/:id', verifyRequestParamId,ArticleController.getArticleWithDetails);
 // Retrieve a list of articles by category
 
-router.get('/category/:categoryId', ArticleController.getArticlesByCategory);
+router.get('/category/all/:categoryId', ArticleController.getArticlesByCategory);
+
+router.get('/category/:categoryId', ArticleController.getArticlesByCategoryPaginated);
+
 
 
 
