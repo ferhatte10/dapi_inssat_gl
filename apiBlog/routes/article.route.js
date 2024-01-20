@@ -24,6 +24,10 @@ router.put('/:id', verifyRequestParamId, verifyRequestFile, verifyArticle, Artic
 
 // Additional routes
 
+
+
+router.post('/filter', ArticleController.getFilteredArticles);
+
 // Retrieve a list of articles with extended details including author info and tags title
 router.get('/details', ArticleController.getArticlesWithDetails);
 // A specific article with extended details including author info and tags title
