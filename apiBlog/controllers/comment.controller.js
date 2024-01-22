@@ -1,4 +1,9 @@
-const CommentModel = require('../configs/db/config/db').comment;
+const {
+  comment : CommentModel,
+  article : ArticleModel,
+  Sequelize
+} = require('../configs/db/config/db');
+
 
 const CommentController = {};
 
@@ -56,8 +61,23 @@ CommentController.create = async (req, res) => {
 
   try {
     const createdComment = await CommentModel.create(newComment);
+    
+    const articleId = newComment.article_id;
+    const article = await ArticleModel.findByPk(articleId);
+
+    if (article) {
+      // Update comment_count on the article
+      article.comment_count = (article.comment_count || 0) + 1;
+
+      // Save the updated article
+      await article.save();
+    } else {
+      console.error(`Article with id ${articleId} not found.`);
+    }
+
     res.status(201).json(createdComment);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Internal server error' });
   }
 };

@@ -65,6 +65,10 @@ router.get('/time-period', ArticleController.getArticlesByTimePeriod);
 router.get('/last-shared-article', ArticleController.getLastSharedArticle);
 
 
+
+router.get('/:id/comments', ArticleController.getCommentsForArticle);
+
+
 //INFO : to avoid conflict with GET /details, we've put the getById here (last ;).
 router.get('/:id', verifyRequestParamId, ArticleController.getByPk);
 

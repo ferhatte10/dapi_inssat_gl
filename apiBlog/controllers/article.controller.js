@@ -1,6 +1,7 @@
 const {
   article: ArticleModel,
   user: UserModel,
+  comment:CommentModel,
   tag: TagModel,
   article_tag: Article_tagModel,
   category: CategoryModel,
@@ -202,26 +203,51 @@ ArticleController.update = async (req, res) => {
   const updatedData = req.body;
 
   try {
-    const article = await ArticleModel.findByPk(id);
+    // Step 1: Find the article by ID
+    const existingArticle = await ArticleModel.findByPk(id);
 
-    if (!article) {
+    // Check if the article with the specified ID exists
+    if (!existingArticle) {
       return res.status(404).json({ error: 'Article not found' });
     }
 
-    // uploadManager.removeFile(article.thumbnail);
-    // uploadManager.removeFile(article.principal_image);
+    // Step 2: Update the article with the new data
+    await existingArticle.update(updatedData);
 
-    await ArticleModel.update(updatedData, {
-      where: { id: id },
-    });
+    // Step 3: Update tags if provided
+    const { tags } = req.body;
 
-    // Fetch the updated article data
+    if (tags && tags.length > 0) {
+      // Remove existing tags linked to the article
+      await Article_tagModel.destroy({ where: { article_id: id } });
+
+      const tagNames = tags.split('|');
+
+      for (const tagName of tagNames) {
+        let tag = await TagModel.findOne({ where: { title: tagName } });
+
+        // If the tag doesn't exist, create it
+        if (!tag) {
+          tag = await TagModel.create({ title: tagName });
+        }
+
+        // Link Article with Tags using the pivot table (article_tag)
+        await Article_tagModel.create({
+          tag_id: tag.id,
+          article_id: id,
+        });
+      }
+    }
+
+    // Step 4: Fetch the updated article
     const updatedArticle = await ArticleModel.findByPk(id);
-    res.json(updatedArticle);
+
+    res.status(200).json(updatedArticle);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 
 // Retrieve a list of articles with extended details, including tags
@@ -793,6 +819,43 @@ ArticleController.getFilteredArticles = async (req, res) => {
 
 
 
+
+// Retrieve comments for a specific article
+ArticleController.getCommentsForArticle = async (req, res) => {
+  try {
+    const articleId = req.params.id; 
+
+    // Retrieve comments associated with the specified articleId
+    const comments = await CommentModel.findAll({
+      where: {
+        article_id: articleId,
+      },
+      attributes: ['id', 'title', 'content', 'user_id', 'createdAt'], // Adjust attributes as needed
+    });
+
+    // If there are no comments for the specified articleId
+    if (!comments) {
+      return res.status(404).json({ error: 'Comments not found for the specified article' });
+    }
+
+    // Fetch user information for each comment separately
+    const commentsWithUser = await Promise.all(comments.map(async (comment) => {
+      const user = await UserModel.findByPk(comment.user_id, {
+        attributes: ['FIRST_NAME', 'LAST_NAME'],
+      });
+
+      return {
+        ...comment.toJSON(),
+        user,
+      };
+    }));
+
+    res.json(commentsWithUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 // TODO: Add More controllers methods to manage the additional routes 
 
