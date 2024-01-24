@@ -30,9 +30,7 @@ app.get('/api_academy',
           });
     }
 )
- 
-
-// app.use('/api_academy', secure(getJwksService()), require('./routes'))
+app.use(secure(getJwksService()));
 app.use('/api_academy', require('./routes'))
 
 

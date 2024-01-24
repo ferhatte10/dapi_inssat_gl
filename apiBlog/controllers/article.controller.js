@@ -1,13 +1,14 @@
 const {
   article: ArticleModel,
   user: UserModel,
+  comment:CommentModel,
   tag: TagModel,
   article_tag: Article_tagModel,
   category: CategoryModel,
   Sequelize
 } = require('../configs/db/config/db');
 
-const uploadManager = require('../utils/imageUploadManager');
+// const uploadManager = require('../utils/imageUploadManager');
 
 
 const ArticleController = {};
@@ -143,6 +144,7 @@ ArticleController.create = async (req, res) => {
 
   const author_id = req.claims.sub
 
+  console.log(req.body)
   try {
     // Step 1: Create the article
     const createdArticle = await ArticleModel.create({
@@ -201,26 +203,51 @@ ArticleController.update = async (req, res) => {
   const updatedData = req.body;
 
   try {
-    const article = await ArticleModel.findByPk(id);
+    // Step 1: Find the article by ID
+    const existingArticle = await ArticleModel.findByPk(id);
 
-    if (!article) {
+    // Check if the article with the specified ID exists
+    if (!existingArticle) {
       return res.status(404).json({ error: 'Article not found' });
     }
 
-    uploadManager.removeFile(article.thumbnail);
-    uploadManager.removeFile(article.principal_image);
+    // Step 2: Update the article with the new data
+    await existingArticle.update(updatedData);
 
-    await ArticleModel.update(updatedData, {
-      where: { id: id },
-    });
+    // Step 3: Update tags if provided
+    const { tags } = req.body;
 
-    // Fetch the updated article data
+    if (tags && tags.length > 0) {
+      // Remove existing tags linked to the article
+      await Article_tagModel.destroy({ where: { article_id: id } });
+
+      const tagNames = tags.split('|');
+
+      for (const tagName of tagNames) {
+        let tag = await TagModel.findOne({ where: { title: tagName } });
+
+        // If the tag doesn't exist, create it
+        if (!tag) {
+          tag = await TagModel.create({ title: tagName });
+        }
+
+        // Link Article with Tags using the pivot table (article_tag)
+        await Article_tagModel.create({
+          tag_id: tag.id,
+          article_id: id,
+        });
+      }
+    }
+
+    // Step 4: Fetch the updated article
     const updatedArticle = await ArticleModel.findByPk(id);
-    res.json(updatedArticle);
+
+    res.status(200).json(updatedArticle);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 
 // Retrieve a list of articles with extended details, including tags
@@ -347,6 +374,13 @@ ArticleController.getArticleWithDetails = async (req, res) => {
       article_tags,
     };
 
+    // Update view_count for the current article
+    // TODO: must create view_count 
+    await ArticleModel.update(
+      { like_count: Sequelize.literal('like_count + 1') }, // Increment like_count by 1
+      { where: { id: articleId } }
+    );
+
     res.json(articleWithDetails);
   } catch (error) {
     console.error(error);
@@ -357,7 +391,8 @@ ArticleController.getArticleWithDetails = async (req, res) => {
 
 // Get articles by category ID
 ArticleController.getArticlesByCategory = async (req, res) => {
-  const categoryId = parseInt(req.params.categoryId);
+  
+  const categoryId = parseInt(req.params.id);
 
   try {
     // Step 1: Find the category by its ID
@@ -415,10 +450,79 @@ ArticleController.getArticlesByCategory = async (req, res) => {
 };
 
 
+ArticleController.getArticlesByCategoryPaginated = async (req, res) => {
+  const categoryId = parseInt(req.params.id);
+  const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
+  const pageSize = parseInt(req.query.pageSize) || 10; // Default page size if not provided
+
+  try {
+    // Step 1: Find the category by its ID
+    const category = await CategoryModel.findByPk(categoryId);
+
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    // Step 2: Find articles associated with the category and include article details with pagination
+    const articles = await ArticleModel.findAndCountAll({
+      where: { category_id: categoryId },
+      distinct:true,
+      include: [
+        {
+          model: Article_tagModel,
+          as: 'article_tags',
+          attributes: ['createdAt'],
+          include: {
+            model: TagModel,
+            as: 'tag',
+            attributes: ['title'],
+          },
+        },
+        {
+          model: CategoryModel,
+          as: 'category',
+          attributes: ['title'],
+        },
+      ],
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+    });
+
+    // Step 3: Fetch author details separately for each article
+    const articlesWithDetails = await Promise.all(articles.rows.map(async (article) => {
+      const articleData = article.toJSON();
+      const article_tags = articleData.article_tags.map((articleTag) => articleTag.tag.title);
+
+      // Fetch author details in a separate query
+      const author = await UserModel.findOne({
+        attributes: ['ID', 'FIRST_NAME', 'LAST_NAME'],
+        where: { ID: article.author_id },
+      });
+
+      return {
+        ...articleData,
+        author: author ? author.toJSON() : { ID: 'Unknown', FIRST_NAME: 'Unknown', LAST_NAME: 'Unknown' },
+        article_tags,
+      };
+    }));
+
+    res.json({
+      articles: articlesWithDetails,
+      totalItems: articles.count,
+      totalPages: Math.ceil(articles.count / pageSize),
+      currentPage: page,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 
 // Get articles by tag Id
 ArticleController.getArticlesByTag = async (req, res) => {
-  const tagId = parseInt(req.params.tagId);
+  const tagId = parseInt(req.params.id);
 
   try {
     // Recherchez le tag par son ID
@@ -485,7 +589,7 @@ ArticleController.getArticlesByTags = async (req, res) => {
 
 // Get articles by author id
 ArticleController.getArticlesByAuthor = async (req, res) => {
-  const authorId = parseInt(req.params.authorId);
+  const authorId = parseInt(req.params.id);
 
   try {
     // Recherchez les articles de l'auteur spécifié
@@ -601,6 +705,155 @@ ArticleController.getLastSharedArticle = async (req, res) => {
 
 
 
+ArticleController.getFilteredArticles = async (req, res) => {
+  const { category, tags, dateRange, search, page = 1, pageSize = 10  } = req.body;
+  const defaultCategoryRange = { category_id: { [Sequelize.Op.between]: [1, 1000] } };
+  const isCategoryValid = category !== null && category !== '';
+
+  try {
+    // Construct the base query with category
+    const baseQuery = {
+      where: isCategoryValid ? { category_id: category } : defaultCategoryRange,
+      include: [
+        {
+          model: Article_tagModel,
+          as: 'article_tags',
+          attributes: ['createdAt'],
+          include: {
+            model: TagModel,
+            as: 'tag',
+            attributes: ['title'],
+          },
+        },
+        {
+          model: CategoryModel,
+          as: 'category',
+          attributes: ['title'],
+        },
+      ],
+      distinct: 'article.id',
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+    };
+
+    // conditions for tags
+    if (tags && tags.length>0) {
+      baseQuery.include[0].where = { tag_id: { [Sequelize.Op.in]: tags } };
+    }
+ 
+    // INFO: dateRange is an array because we've had the idea that a user can select multiple time/date ranges to fetch an article
+    // but for the moment we are taking in consideration only one range.
+    if (dateRange && dateRange[0].startDate && dateRange[0].endDate) {
+      const startDate = new Date(dateRange[0].startDate);
+      const endDate   = new Date(dateRange[0].endDate);
+      
+      // INFO : the datePicker of the front is generating the thedate of the day before instead of the selected day (Ex : 2024-02-24 instead of selected day 2024-02-25)
+      // as a result i am checking if the dates are the same as a result i will add one  day to the endDate that way i can use the between to solve the problem.
+      // the front does not precise the full Datetime as a result we cant use equal operator with the createdAt....
+      if((dateRange[0].startDate !== dateRange[0].endDate)){
+        baseQuery.where.createdAt = {
+          [Sequelize.Op.between]: [startDate, endDate],
+        };
+      }else{
+        // const endDatePlusOneDay = new Date(endDate);
+        // endDatePlusOneDay.setDate(endDate.getDate() );
+        // const formattedEndDate = endDatePlusOneDay.toISOString();
+        
+
+        const startDatePlusOneDay = new Date(startDate);
+        startDatePlusOneDay.setDate(startDate.getDate() - 1);
+        const formattedStartDate = startDatePlusOneDay.toISOString();
+        
+        baseQuery.where.createdAt = {
+          [Sequelize.Op.between]: [formattedStartDate, endDate],
+        };
+      }
+    }
+
+    // conditions for search {title or content}
+    if (search) {
+      baseQuery.where[Sequelize.Op.or] = [
+        Sequelize.literal(`LOWER(article.title) LIKE LOWER('%${search}%')`),
+        Sequelize.literal(`LOWER(article.content) LIKE LOWER('%${search}%')`),
+      ];
+    }
+
+    // Fetch articles based on the constructed query
+    const articles = await ArticleModel.findAll(baseQuery);
+
+    // Fetch author details separately for each article
+    const articlesWithDetails = await Promise.all(articles.map(async (article) => {
+      const articleData = article.toJSON();
+      const article_tags = articleData.article_tags.map((articleTag) => articleTag.tag.title);
+
+      // Fetch author details in a separate query
+      const author = await UserModel.findOne({
+        attributes: ['ID', 'FIRST_NAME', 'LAST_NAME'],
+        where: { ID: article.author_id },
+      });
+
+      return {
+        ...articleData,
+        author: author ? author.toJSON() : { ID: 'Unknown', FIRST_NAME: 'Unknown', LAST_NAME: 'Unknown' },
+        article_tags,
+      };
+    }));
+    const totalItems = await ArticleModel.count({
+      where: baseQuery.where, // Ensure count query has the same where conditions
+    });
+  
+    res.json({
+      articles: articlesWithDetails,
+      totalItems,
+      totalPages: Math.ceil(totalItems / pageSize),
+      currentPage: page,
+    });
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
+
+// Retrieve comments for a specific article
+ArticleController.getCommentsForArticle = async (req, res) => {
+  try {
+    const articleId = req.params.id; 
+
+    // Retrieve comments associated with the specified articleId
+    const comments = await CommentModel.findAll({
+      where: {
+        article_id: articleId,
+      },
+      attributes: ['id', 'title', 'content', 'user_id', 'createdAt'], // Adjust attributes as needed
+    });
+
+    // If there are no comments for the specified articleId
+    if (!comments) {
+      return res.status(404).json({ error: 'Comments not found for the specified article' });
+    }
+
+    // Fetch user information for each comment separately
+    const commentsWithUser = await Promise.all(comments.map(async (comment) => {
+      const user = await UserModel.findByPk(comment.user_id, {
+        attributes: ['FIRST_NAME', 'LAST_NAME'],
+      });
+
+      return {
+        ...comment.toJSON(),
+        user,
+      };
+    }));
+
+    res.json(commentsWithUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 // TODO: Add More controllers methods to manage the additional routes 
 

@@ -15,6 +15,9 @@ let _period = require("./period");
 let _section = require("./section");
 let _student_ma_tutor = require("./student_ma_tutor");
 
+var _user_class = require("./user_class");
+var _user_company = require("./user_company");
+
 function initModels(sequelize) {
   let USER_ENTITY = _USER_ENTITY(sequelize, DataTypes);
   let user_attribute = _user_attribute(sequelize, DataTypes);
@@ -29,6 +32,9 @@ function initModels(sequelize) {
   let period = _period(sequelize, DataTypes);
   let section = _section(sequelize, DataTypes);
   let student_ma_tutor = _student_ma_tutor(sequelize, DataTypes);
+
+  var user_class = _user_class(sequelize, DataTypes);
+  var user_company = _user_company(sequelize, DataTypes);
 
   grade.belongsTo(USER_ENTITY, { as: "student", foreignKey: "student_id"});
   USER_ENTITY.hasMany(grade, { as: "grades", foreignKey: "student_id"});
@@ -65,6 +71,20 @@ function initModels(sequelize) {
   USER_ENTITY.belongsTo(realm, { as: "realm", foreignKey: "REALM_ID"});
   realm.hasMany(USER_ENTITY, { as: "user_entities", foreignKey: "REALM_ID"});
 
+
+  //------------------------------------------------------------------------
+
+  user_class.belongsTo(USER_ENTITY, { as: "user", foreignKey: "user_id"});
+  USER_ENTITY.hasMany(user_class, { as: "user_classes", foreignKey: "user_id"});
+  user_company.belongsTo(USER_ENTITY, { as: "user", foreignKey: "user_id"});
+  USER_ENTITY.hasMany(user_company, { as: "user_companies", foreignKey: "user_id"});
+  user_class.belongsTo(class_, { as: "class", foreignKey: "class_id"});
+  class_.hasMany(user_class, { as: "user_classes", foreignKey: "class_id"});
+  user_company.belongsTo(company, { as: "company", foreignKey: "company_id"});
+  company.hasMany(user_company, { as: "user_companies", foreignKey: "company_id"});
+
+  //------------------------------------------------------------------------
+
   return {
     USER_ENTITY,
     activity,
@@ -77,6 +97,8 @@ function initModels(sequelize) {
     period,
     section,
     student_ma_tutor,
+    user_class,
+    user_company
   };
 }
 module.exports = initModels;

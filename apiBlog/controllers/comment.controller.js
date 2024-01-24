@@ -1,4 +1,9 @@
-const CommentModel = require('../configs/db/config/db').comment;
+const {
+  comment : CommentModel,
+  article : ArticleModel,
+  Sequelize
+} = require('../configs/db/config/db');
+
 
 const CommentController = {};
 
@@ -29,7 +34,7 @@ CommentController.getByPk = async (req, res) => {
   }
 };
 
-// Delete comment by ID
+// Delete a comment by ID
 CommentController.deleteByPk = async (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -40,9 +45,21 @@ CommentController.deleteByPk = async (req, res) => {
       return res.status(404).json({ error: 'Comment not found' });
     }
 
+    const articleId = comment.article_id;
+
     await CommentModel.destroy({
       where: { id: id },
     });
+
+    // Update comment_count on the article
+    const article = await ArticleModel.findByPk(articleId);
+
+    if (article) {
+      article.comment_count = Math.max((article.comment_count || 0) - 1, 0);
+      await article.save();
+    } else {
+      console.error(`Article with id ${articleId} not found.`);
+    }
 
     res.json({ message: 'Comment deleted' });
   } catch (error) {
@@ -50,14 +67,30 @@ CommentController.deleteByPk = async (req, res) => {
   }
 };
 
+
 // Create a new comment
 CommentController.create = async (req, res) => {
   const newComment = req.body;
 
   try {
     const createdComment = await CommentModel.create(newComment);
+    
+    const articleId = newComment.article_id;
+    const article = await ArticleModel.findByPk(articleId);
+
+    if (article) {
+      // Update comment_count on the article
+      article.comment_count = (article.comment_count || 0) + 1;
+
+      // Save the updated article
+      await article.save();
+    } else {
+      console.error(`Article with id ${articleId} not found.`);
+    }
+
     res.status(201).json(createdComment);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Internal server error' });
   }
 };

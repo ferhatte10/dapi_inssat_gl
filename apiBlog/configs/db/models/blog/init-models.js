@@ -41,7 +41,7 @@ function initModels(dbInstance, Sequelize) {
     article.belongsTo(user_entity, { as: "author", foreignKey: "author_id"});
     user_entity.hasMany(article, { as: "articles", foreignKey: "author_id"});
 
-    user_attribute.belongsTo(user_entity, { as: "user", foreignKey: "ID"});
+    user_attribute.belongsTo(user_entity, { as: "user", foreignKey: "USER_ID"});
     user_entity.hasMany(user_attribute, { as: "user_attr", foreignKey: "USER_ID"});
 
     user_entity.belongsTo(realm, { as: "realm", foreignKey: "REALM_ID"});

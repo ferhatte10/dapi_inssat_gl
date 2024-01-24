@@ -45,6 +45,11 @@ module.exports = (dbInstance, Sequelize) => {
       allowNull: false,
       defaultValue: 0
     },
+    comment_count: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    },
     is_pinned: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
