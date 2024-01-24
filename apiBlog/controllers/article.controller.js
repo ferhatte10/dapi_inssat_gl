@@ -391,7 +391,8 @@ ArticleController.getArticleWithDetails = async (req, res) => {
 
 // Get articles by category ID
 ArticleController.getArticlesByCategory = async (req, res) => {
-  const categoryId = parseInt(req.params.categoryId);
+  
+  const categoryId = parseInt(req.params.id);
 
   try {
     // Step 1: Find the category by its ID
@@ -450,10 +451,7 @@ ArticleController.getArticlesByCategory = async (req, res) => {
 
 
 ArticleController.getArticlesByCategoryPaginated = async (req, res) => {
-  console.log("|req.query")
-  console.log(req.query)
-  console.log(req.query)
-  const categoryId = parseInt(req.params.categoryId);
+  const categoryId = parseInt(req.params.id);
   const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
   const pageSize = parseInt(req.query.pageSize) || 10; // Default page size if not provided
 
@@ -524,7 +522,7 @@ ArticleController.getArticlesByCategoryPaginated = async (req, res) => {
 
 // Get articles by tag Id
 ArticleController.getArticlesByTag = async (req, res) => {
-  const tagId = parseInt(req.params.tagId);
+  const tagId = parseInt(req.params.id);
 
   try {
     // Recherchez le tag par son ID
@@ -591,7 +589,7 @@ ArticleController.getArticlesByTags = async (req, res) => {
 
 // Get articles by author id
 ArticleController.getArticlesByAuthor = async (req, res) => {
-  const authorId = parseInt(req.params.authorId);
+  const authorId = parseInt(req.params.id);
 
   try {
     // Recherchez les articles de l'auteur spécifié

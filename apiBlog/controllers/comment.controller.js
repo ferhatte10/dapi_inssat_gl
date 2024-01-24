@@ -34,7 +34,7 @@ CommentController.getByPk = async (req, res) => {
   }
 };
 
-// Delete comment by ID
+// Delete a comment by ID
 CommentController.deleteByPk = async (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -45,15 +45,28 @@ CommentController.deleteByPk = async (req, res) => {
       return res.status(404).json({ error: 'Comment not found' });
     }
 
+    const articleId = comment.article_id;
+
     await CommentModel.destroy({
       where: { id: id },
     });
+
+    // Update comment_count on the article
+    const article = await ArticleModel.findByPk(articleId);
+
+    if (article) {
+      article.comment_count = Math.max((article.comment_count || 0) - 1, 0);
+      await article.save();
+    } else {
+      console.error(`Article with id ${articleId} not found.`);
+    }
 
     res.json({ message: 'Comment deleted' });
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 // Create a new comment
 CommentController.create = async (req, res) => {
