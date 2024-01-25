@@ -723,7 +723,6 @@
         }
       ],
       "attributes": {
-        "type": "staff"
       }
     },
     {
@@ -748,7 +747,6 @@
         }
       ],
       "attributes": {
-        "type": "external",
         "ade_link" : "rY6Apy3z.shu"
       }
     },
@@ -774,7 +772,6 @@
         }
       ],
       "attributes": {
-        "type": "staff",
         "ade_link" : "qnq5EZnJ.shu"
       }
     },
@@ -800,7 +797,6 @@
         }
       ],
       "attributes": {
-        "type": "student",
         "ade_link" : "V3LDjd3A.shu"
       }
     },
@@ -826,7 +822,6 @@
         }
       ],
       "attributes": {
-        "type": "supervisor-ma",
         "ade_link" : "zWo5EJYM.shu"
       }
     },
@@ -852,7 +847,6 @@
         }
       ],
       "attributes": {
-        "type": "teacher",
         "ade_link" : "83DDgN3x.shu"
       }
     },
@@ -878,7 +872,6 @@
         }
       ],
       "attributes": {
-        "type": "teacher",
         "ade_link" : "V3LNvlnA.shu"
       }
     }

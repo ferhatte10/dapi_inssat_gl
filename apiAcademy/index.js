@@ -8,8 +8,6 @@ const { setupBasics } = require('./configs/resReqConf')
 const { setupDatabase } = require('./configs/syncDatabase')
 const dotenv = require("dotenv");
 const port = PORT || 3001
- 
-
 
 setupLogging(app) // This will log all requests to the console
 setUpDocumentation(app) // This will serve the documentation
@@ -31,17 +29,12 @@ app.get('/api_academy',
     }
 )
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(secure(getJwksService()));
-}
-
+app.use(secure(getJwksService()));
 app.use('/api_academy', require('./routes'))
-
 
 app.use(`*`, (req, res) => {
   res.status(404).json({error: "Endpoint doesn't exists"})
 })
-
 
 app.listen(port, () => {
   console.log(`Api-academy listening on port ${port}`)

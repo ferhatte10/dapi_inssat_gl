@@ -1,4 +1,6 @@
-const {USER_ENTITY : UserModel} = require('../configs/db/config/db'); 
+
+
+const {USER_ENTITY : UserModel} = require('../configs/db/config/db');
 
 // Define the controller methods
 const UserController = {};
@@ -8,6 +10,7 @@ UserController.getAll = async (req, res) => {
   try {
 
     let users = await UserModel.findAll({
+      attributes: ["ID","FIRST_NAME","LAST_NAME","EMAIL"],
       include: [
         {
           association: 'realm',
@@ -15,7 +18,7 @@ UserController.getAll = async (req, res) => {
           attributes: []
         },
         {
-          association: 'user_attr',
+          association: 'USER_ATTRIBUTES',
           attributes: ['name', 'value']
         }
       ]
@@ -33,6 +36,7 @@ UserController.getByPk = async (req, res) => {
     //const user = await UserModel.findByPk(id);
     // get the user with given id in the intranet realm users
     let user = await UserModel.findOne({
+      attributes: ["ID","FIRST_NAME","LAST_NAME","EMAIL"],
       where: { id: id },
       include: [
         {
@@ -41,7 +45,7 @@ UserController.getByPk = async (req, res) => {
           attributes: []
         },
         {
-          association: 'user_attr',
+          association: 'USER_ATTRIBUTES',
           attributes: ['name', 'value']
         }
       ]
@@ -54,5 +58,4 @@ UserController.getByPk = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
 module.exports = UserController;

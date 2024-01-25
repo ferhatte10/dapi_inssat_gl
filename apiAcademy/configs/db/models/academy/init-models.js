@@ -1,6 +1,9 @@
 let DataTypes = require("sequelize").DataTypes; 
 let _USER_ENTITY = require('../auth/USER_ENTITY');
 
+let _USER_GROUP_MEMBERSHIP = require('../auth/USER_GROUP_MEMBERSHIP');
+let _KEYCLOAK_GROUP = require('../auth/KEYCLOAK_GROUP');
+
 let _user_attribute = require('../auth/USER_ATTRIBUTE');
 let _realm = require('../auth/REALM');
 
@@ -22,6 +25,10 @@ function initModels(sequelize) {
   let USER_ENTITY = _USER_ENTITY(sequelize, DataTypes);
   let user_attribute = _user_attribute(sequelize, DataTypes);
   let realm = _realm(sequelize, DataTypes);
+  let USER_GROUP_MEMBERSHIP = _USER_GROUP_MEMBERSHIP(sequelize, DataTypes);
+  let KEYCLOAK_GROUP = _KEYCLOAK_GROUP(sequelize, DataTypes);
+
+
   let activity = _activity(sequelize, DataTypes);
   let assessment = _assessment(sequelize, DataTypes);
   let class_ = _class_(sequelize, DataTypes);
@@ -66,10 +73,25 @@ function initModels(sequelize) {
   section.hasMany(grade, { as: "grades", foreignKey: "section_id"});
 
   user_attribute.belongsTo(USER_ENTITY, { as: "user", foreignKey: "ID"});
-  USER_ENTITY.hasMany(user_attribute, { as: "user_attr", foreignKey: "USER_ID"});
+  USER_ENTITY.hasMany(user_attribute, { as: "USER_ATTRIBUTES", foreignKey: "USER_ID"});
 
   USER_ENTITY.belongsTo(realm, { as: "realm", foreignKey: "REALM_ID"});
   realm.hasMany(USER_ENTITY, { as: "user_entities", foreignKey: "REALM_ID"});
+
+  USER_GROUP_MEMBERSHIP.belongsTo(USER_ENTITY, { as: "USER", foreignKey: "USER_ID"});
+  USER_ENTITY.hasMany(USER_GROUP_MEMBERSHIP, { as: "USER_GROUP_MEMBERSHIPS", foreignKey: "USER_ID"});
+
+
+  KEYCLOAK_GROUP.belongsTo(KEYCLOAK_GROUP, { as: "parent", foreignKey: "PARENT_GROUP"});
+  KEYCLOAK_GROUP.hasMany(KEYCLOAK_GROUP, { as: "children", foreignKey: "PARENT_GROUP"});
+
+  KEYCLOAK_GROUP.belongsTo(realm, { as: "realm", foreignKey: "REALM_ID"});
+  realm.hasMany(KEYCLOAK_GROUP, { as: "keycloak_groups", foreignKey: "REALM_ID"});
+
+  USER_GROUP_MEMBERSHIP.belongsTo(KEYCLOAK_GROUP, { as: "group", foreignKey: "GROUP_ID"});
+  KEYCLOAK_GROUP.hasMany(USER_GROUP_MEMBERSHIP, { as: "user_group_memberships", foreignKey: "GROUP_ID"});
+
+
 
 
   //------------------------------------------------------------------------
@@ -87,6 +109,10 @@ function initModels(sequelize) {
 
   return {
     USER_ENTITY,
+    user_attribute,
+    realm,
+    USER_GROUP_MEMBERSHIP,
+    KEYCLOAK_GROUP,
     activity,
     assessment,
     class_,
