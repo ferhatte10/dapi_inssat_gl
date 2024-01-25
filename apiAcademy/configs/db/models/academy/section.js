@@ -1,4 +1,3 @@
-const {max} = require("pg/lib/defaults");
 module.exports = function(dbInstance, Sequelize) {
   return dbInstance.define('section', {
     id: {
