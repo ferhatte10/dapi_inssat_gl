@@ -150,15 +150,6 @@
     ],
     "client": {
       "intranet-back": [
-        {
-          "id": "08c8dffb-ef11-40a6-b0c0-97e45d410609",
-          "name": "R_tags",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "d058fa38-9df4-4ee9-9bfa-902923b6ae32",
-          "attributes": {}
-        }
       ],
       "realm-management": [
         {
@@ -711,21 +702,187 @@
   "webAuthnPolicyPasswordlessAcceptableAaguids": [],
   "users": [
     {
-      "id": "87188b4b-1347-4503-bd42-2b3b05f5a6a1",
-      "createdTimestamp": 1698418752605,
-      "username": "service-account-intranet-back",
+      "id" : "1350b535-802f-499c-9aca-dc2d4e6a6e3d",
+      "username": "apprenticeship-manager",
       "enabled": true,
-      "totp": false,
-      "emailVerified": false,
-      "serviceAccountClientId": "intranet-back",
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
+      "email": "wudline.bf@gmail.com",
+      "emailVerified": true,
+      "firstName": "Fédélien",
+      "lastName": "Jean-Michel",
       "realmRoles": [
         "default-roles-intranet"
       ],
-      "notBefore": 0,
-      "groups": []
+      "groups": [
+        "staff/apprenticeship-manager"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "apprenticeship-manager",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "type": "staff"
+      }
+    },
+    {
+      "id" : "693ef56e-b634-4f8d-9139-d99f3136501a",
+      "username": "external",
+      "enabled": true,
+      "email": "kotatsu.iaido.brest@gmail.com",
+      "emailVerified": true,
+      "firstName": "Retex",
+      "lastName": "Lanna",
+      "realmRoles": [
+        "default-roles-intranet"
+      ],
+      "groups": [
+        "external"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "external",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "type": "external",
+        "ade_link" : "rY6Apy3z.shu"
+      }
+    },
+    {
+      "id" : "c6688fa2-daa6-45a2-b490-28a29303ed2d",
+      "username": "news-manager",
+      "enabled": true,
+      "email": "littleplay2000@gmail.com",
+      "emailVerified": true,
+      "firstName": "Reganam",
+      "lastName": "Niouz",
+      "realmRoles": [
+        "default-roles-intranet"
+      ],
+      "groups": [
+        "staff/news-manager"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "news-manager",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "type": "staff",
+        "ade_link" : "qnq5EZnJ.shu"
+      }
+    },
+    {
+      "id" : "0cabe1b3-e680-4cac-8d19-0fbeab35134e",
+      "username": "student",
+      "enabled": true,
+      "email": "pikapikapikatschu@outlook.fr",
+      "emailVerified": true,
+      "firstName": "Tneduts",
+      "lastName": "Ammy",
+      "realmRoles": [
+        "default-roles-intranet"
+      ],
+      "groups": [
+        "student"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "student",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "type": "student",
+        "ade_link" : "V3LDjd3A.shu"
+      }
+    },
+    {
+      "id" : "5a367934-4ed3-418b-882a-a71b54222ee1",
+      "username": "student-supervisor",
+      "enabled": true,
+      "email": "lbiot@enssat.fr",
+      "emailVerified": true,
+      "firstName": "Roger",
+      "lastName": "Besouin De Maindeuvre",
+      "realmRoles": [
+        "default-roles-intranet"
+      ],
+      "groups": [
+        "external/student-supervisor"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "student-supervisor",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "type": "supervisor-ma",
+        "ade_link" : "zWo5EJYM.shu"
+      }
+    },
+    {
+      "id" : "762efe1a-eda7-44d3-a6ec-1d513d54519c",
+      "username": "student-tutor",
+      "enabled": true,
+      "email": "ludivine.biotfalco@gmail.com",
+      "emailVerified": true,
+      "firstName": "Utter",
+      "lastName": "Tendragon",
+      "realmRoles": [
+        "default-roles-intranet"
+      ],
+      "groups": [
+        "teacher/student-tutor"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "student-tutor",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "type": "teacher",
+        "ade_link" : "83DDgN3x.shu"
+      }
+    },
+    {
+      "id" : "7fa64509-566b-4a67-bb5e-05f78508cb65",
+      "username": "teacher",
+      "enabled": true,
+      "email": "tamakuapp@gmail.com",
+      "emailVerified": true,
+      "firstName": "Theriz",
+      "lastName": "Ateetcher",
+      "realmRoles": [
+        "default-roles-intranet"
+      ],
+      "groups": [
+        "teacher"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "teacher",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "type": "teacher",
+        "ade_link" : "V3LNvlnA.shu"
+      }
     }
+
   ],
   "scopeMappings": [
     {

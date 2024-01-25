@@ -63,6 +63,7 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+#      KC_SPI_THEME_DEFAULT: inssat
   # db
   db:
     container_name: db

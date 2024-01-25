@@ -3,7 +3,8 @@ module.exports = function(dbInstance, Sequelize) {
     id: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     student_id: {
       type: Sequelize.STRING(36),

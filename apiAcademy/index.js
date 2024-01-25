@@ -6,7 +6,7 @@ const { setupLogging } = require("./configs/logging")
 const { setUpDocumentation } = require("./configs/openApi")
 const { setupBasics } = require('./configs/resReqConf')
 const { setupDatabase } = require('./configs/syncDatabase')
-const {seedSections} = require('./seeders/sectionSeeder')
+const dotenv = require("dotenv");
 const port = PORT || 3001
  
 
@@ -30,7 +30,11 @@ app.get('/api_academy',
           });
     }
 )
-app.use(secure(getJwksService()));
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(secure(getJwksService()));
+}
+
 app.use('/api_academy', require('./routes'))
 
 
