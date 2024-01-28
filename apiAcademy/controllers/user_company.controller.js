@@ -74,10 +74,33 @@ const deleteUserCompany = async (req, res) => {
   }
 };
 
+
+const getUserCompanyDetailsByUserId = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const userCompany = await UserCompany.findAll({
+      where: { user_id: id },
+      include: {
+        model: Company,
+        as: 'company',
+        attributes: ['name', 'address', 'city', 'phone']
+
+      }
+  });
+    if (!userCompany) {
+      return res.status(404).json({ message: 'User Company not found' });
+    }
+    res.json(userCompany);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllUserCompanies,
   getUserCompanyById,
   createUserCompany,
   updateUserCompany,
   deleteUserCompany,
+  getUserCompanyDetailsByUserId
 };

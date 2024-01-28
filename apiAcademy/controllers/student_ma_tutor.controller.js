@@ -125,6 +125,38 @@ const getStudentsAndTutorByMAId = async (req, res) => {
   }
 };
 
+const getStudentsAndTutorAndMaByStudentId = async (req, res) => {
+  const studentId = req.params.studentId;  
+
+  try {
+    const studentsMaTutor = await StudentMaTutor.findAll({
+      attributes: [],
+      where: { student_id: studentId },  
+      include: [
+        {
+          model: USER_ENTITY,
+          as: 'student',
+          attributes: ['ID', 'FIRST_NAME', 'LAST_NAME', 'EMAIL'],  
+        },
+        {
+          model: USER_ENTITY,
+          as: 'tutor',
+          attributes: ['ID', 'FIRST_NAME', 'LAST_NAME', 'EMAIL'],  
+        },
+        {
+          model: USER_ENTITY,
+          as: 'ma',
+          attributes: ['ID', 'FIRST_NAME', 'LAST_NAME', 'EMAIL'], // Add desired ma attributes
+        }
+      ],
+    });
+
+    res.status(200).json(studentsAndTutor);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to fetch students and their tutor by MA ID' });
+  }
+};
 
 module.exports = {
   getAllStudentMaTutors,
@@ -133,5 +165,6 @@ module.exports = {
   updateStudentMaTutor,
   deleteStudentMaTutor,
   getStudentsAndMAByTutorId,
-  getStudentsAndTutorByMAId
+  getStudentsAndTutorByMAId,
+  getStudentsAndTutorAndMaByStudentId
 };

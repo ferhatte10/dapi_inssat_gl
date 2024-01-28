@@ -16,5 +16,6 @@ router.put('/:id', verifyRequestParamId, validateStudentMaTutorUpdate, studentMa
 router.delete('/:id', verifyRequestParamId, studentMaTutorController.deleteStudentMaTutor);
 router.get('/tutor/:tutorId', studentMaTutorController.getStudentsAndMAByTutorId);
 router.get('/ma/:maId', studentMaTutorController.getStudentsAndTutorByMAId);
+router.get('/student/:studentId', studentMaTutorController.getStudentsAndTutorAndMaByStudentId);
 
 module.exports = router;

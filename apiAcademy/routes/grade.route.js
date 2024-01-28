@@ -14,5 +14,6 @@ router.get('/:id', verifyRequestParamId, gradeController.getGradeById);
 router.post('/', validateGradeCreation, gradeController.createGrade);
 router.put('/:id', verifyRequestParamId, validateGradeUpdate, gradeController.updateGrade);
 router.delete('/:id', verifyRequestParamId, gradeController.deleteGrade);
+router.get('/tickets/:id', verifyRequestParamId, gradeController.getGradesByUserId);
 
 module.exports = router;

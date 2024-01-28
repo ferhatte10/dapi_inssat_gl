@@ -7,5 +7,6 @@ router.get('/:id', userCompanyController.getUserCompanyById);
 router.post('/create', userCompanyController.createUserCompany);
 router.put('/:id', userCompanyController.updateUserCompany);
 router.delete('/:id', userCompanyController.deleteUserCompany);
+router.get('/details/:id', userCompanyController.getUserCompanyDetailsByUserId);
 
 module.exports = router;

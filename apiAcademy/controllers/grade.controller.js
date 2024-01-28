@@ -1,5 +1,6 @@
 
-const { grade : Grade } =  require('../configs/db/config/db'); 
+const { grade : Grade, period: Period, assessment: Assessment, section: Section } =  require('../configs/db/config/db'); 
+
 
 // Controller functions for CRUD operations
 const getAllGrades = async (req, res) => {
@@ -63,10 +64,46 @@ const deleteGrade = async (req, res) => {
   }
 };
 
+
+const getGradesByUserId = async (req, res) => {
+  const { student_id } = req.params;
+  try {
+    const grade = await Grade.findAll({
+      where: { student_id: student_id },
+      include: [
+        {
+          model: Assessment,
+          as: 'assessment',
+          attributes: ['name', 'coefficient', 'position']
+        },
+        {
+          model: Period,
+          as: 'period',
+          attributes: ['name', 'number', 'description']
+        },
+        {
+          model: Section,
+          as: 'section',
+          attributes: ['title', 'description']
+        }
+      ]
+  });
+    if (!grade) {
+      return res.status(404).json({ message: 'Grade not found' });
+    }
+    res.json(grade);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+
 module.exports = {
   getAllGrades,
   getGradeById,
   createGrade,
   updateGrade,
   deleteGrade,
+  getGradesByUserId
 };
