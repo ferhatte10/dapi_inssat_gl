@@ -57,10 +57,7 @@ function initModels(sequelize) {
   activity.hasMany(impression, { as: "impressions", foreignKey: "activity_id"});
   grade.belongsTo(assessment, { as: "assessment", foreignKey: "assessment_id"});
   assessment.hasMany(grade, { as: "grades", foreignKey: "assessment_id"});
-  //USER_ENTITY.belongsTo(class_, { as: "class", foreignKey: "class_id"});
-  // class_.hasMany(USER_ENTITY, { as: "user", foreignKey: "class_id"}); TODO : USER does not have class_id
-  // USER_ENTITY.belongsTo(company, { as: "company", foreignKey: "company_id"}); // TODO : USER does not have company_id
-  // company.hasMany(USER_ENTITY, { as: "user", foreignKey: "company_id"});
+
   impression.belongsTo(level, { as: "level", foreignKey: "level_id"});
   level.hasMany(impression, { as: "impressions", foreignKey: "level_id"});
   grade.belongsTo(period, { as: "period", foreignKey: "period_id"});

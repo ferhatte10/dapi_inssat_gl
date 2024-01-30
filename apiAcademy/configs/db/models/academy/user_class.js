@@ -18,10 +18,10 @@ module.exports = function(sequelize, DataTypes) {
     class_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      // references: {
-      //   model: 'class',
-      //   key: 'id'
-      // }
+      references: {
+        model: 'class',
+        key: 'id'
+      }
     }
   }, {
     sequelize,

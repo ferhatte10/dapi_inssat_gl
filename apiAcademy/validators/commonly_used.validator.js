@@ -2,7 +2,6 @@ const Joi = require('joi');
 
 
 exports.verifyRequestParamId = (req, res, next) => {  
-  console.log(req)
   // Validate the ID from URL params
   const { error: idError } = Joi.number().integer().validate(req.params.id);
   if (idError) {

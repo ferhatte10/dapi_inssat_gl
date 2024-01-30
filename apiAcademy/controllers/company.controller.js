@@ -1,4 +1,4 @@
-const { company : Company } = require('../configs/db/config/db'); 
+const { company : Company } = require('../configs/db/config/db');
 // Controller functions for CRUD operations
 const getAllCompanies = async (req, res) => {
   try {
@@ -17,6 +17,43 @@ const getCompanyById = async (req, res) => {
       return res.status(404).json({ message: 'Company not found' });
     }
     res.json(company);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getCompanyByIdUsers = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const company = await Company.findOne({
+        where: { id: id },
+        include: [
+            {
+              association: 'user_companies',
+              include: [
+                  {
+                    association: 'user',
+                    attributes: ["ID","USERNAME","FIRST_NAME","LAST_NAME","EMAIL"],
+                    include: [
+                        {
+                          association: 'realm',
+                          where: { name: 'intranet' },
+                          attributes: []
+                        },
+                        {
+                          association: 'USER_ATTRIBUTES',
+                          attributes: ['name', 'value']
+                        }
+                      ]
+                  }
+              ]
+            }
+        ]
+    })
+    if (!company) {
+      return res.status(404).json({ message: 'Company not found' });
+    }
+    res.json(company.user_companies.map(user_company => user_company.user));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -67,4 +104,5 @@ module.exports = {
   createCompany,
   updateCompany,
   deleteCompany,
+  getCompanyByIdUsers
 };

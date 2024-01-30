@@ -8,11 +8,77 @@ const getAllUserClasses = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+const getAllUserClassesWithDetails = async (req, res) => {
+  try {
+    const userClasses = await UserClass.findAll(
+        {
+          include: [
+            {
+              association: 'user',
+              attributes: ["ID","USERNAME","FIRST_NAME","LAST_NAME","EMAIL"],
+              include: [
+                {
+                  association: 'realm',
+                  where: { name: 'intranet' },
+                  attributes: []
+                },
+                {
+                  association: 'USER_ATTRIBUTES',
+                  attributes: ['name', 'value']
+                }
+              ]
+            },
+            {
+              association: 'class'
+            }
+          ]
+        }
+    );
+    res.json(userClasses);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 const getUserClassById = async (req, res) => {
   const { id } = req.params;
   try {
     const userClass = await UserClass.findByPk(id);
+    if (!userClass) {
+      return res.status(404).json({ message: 'User Class not found' });
+    }
+    res.json(userClass);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+const getUserClassByIdWithDetails = async (req, res) => {
+  const { id } = req.params;
+  try {
+    // const userClass = await UserClass.findByPk(id);
+    const userClass = await UserClass.findOne({
+        where: { id: id },
+        include: [
+            {
+            association: 'user',
+            attributes: ["ID","USERNAME","FIRST_NAME","LAST_NAME","EMAIL"],
+            include: [
+                {
+                association: 'realm',
+                where: { name: 'intranet' },
+                attributes: []
+                },
+                {
+                association: 'USER_ATTRIBUTES',
+                attributes: ['name', 'value']
+                }
+            ]
+            },
+            {
+            association: 'class'
+            }
+        ]
+    })
     if (!userClass) {
       return res.status(404).json({ message: 'User Class not found' });
     }
@@ -80,4 +146,6 @@ module.exports = {
   createUserClass,
   updateUserClass,
   deleteUserClass,
+  getAllUserClassesWithDetails,
+  getUserClassByIdWithDetails
 };

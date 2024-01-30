@@ -28,7 +28,7 @@ UserController.getAll = async (req, res) => {
 
 // Get user by ID
 UserController.getByPk = async (req, res) => {
-  let id = parseInt(req.params.id);
+  let id = req.params.id;
   try {
     //const user = await UserModel.findByPk(id);
     // get the user with given id in the intranet realm users

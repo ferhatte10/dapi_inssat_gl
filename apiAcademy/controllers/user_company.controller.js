@@ -8,11 +8,74 @@ const getAllUserCompanies = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+const getAllUserCompaniesWithDetails = async (req, res) => {
+  try {
+    const userCompanies = await UserCompany.findAll({
+        include: [
+            {
+            association: 'user',
+            attributes: ["ID","USERNAME","FIRST_NAME","LAST_NAME","EMAIL"],
+            include: [
+                {
+                association: 'realm',
+                where: { name: 'intranet' },
+                attributes: []
+                },
+                {
+                association: 'USER_ATTRIBUTES',
+                attributes: ['name', 'value']
+                }
+            ]
+            },
+            {
+            association: 'company'
+            }
+        ]
+    });
+    res.json(userCompanies);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 const getUserCompanyById = async (req, res) => {
   const { id } = req.params;
   try {
     const userCompany = await UserCompany.findByPk(id);
+    if (!userCompany) {
+      return res.status(404).json({ message: 'User Company not found' });
+    }
+    res.json(userCompany);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+const getUserCompanyByIdWithDetails = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const userCompany = await UserCompany.findOne({
+        where: { id: id },
+        include: [
+            {
+            association: 'user',
+            attributes: ["ID","USERNAME","FIRST_NAME","LAST_NAME","EMAIL"],
+            include: [
+                {
+                association: 'realm',
+                where: { name: 'intranet' },
+                attributes: []
+                },
+                {
+                association: 'USER_ATTRIBUTES',
+                attributes: ['name', 'value']
+                }
+            ]
+            },
+            {
+            association: 'company'
+            }
+        ]
+    })
     if (!userCompany) {
       return res.status(404).json({ message: 'User Company not found' });
     }
@@ -80,4 +143,6 @@ module.exports = {
   createUserCompany,
   updateUserCompany,
   deleteUserCompany,
+  getAllUserCompaniesWithDetails,
+  getUserCompanyByIdWithDetails
 };

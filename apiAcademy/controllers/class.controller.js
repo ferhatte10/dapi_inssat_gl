@@ -23,6 +23,42 @@ const getClassById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+const getClassByIdUsers = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const classObj = await Class.findOne({
+        where: { id: id },
+        include: [
+            {
+              association: 'user_classes',
+              include: [
+                  {
+                    association: 'user',
+                    attributes: ["ID","USERNAME","FIRST_NAME","LAST_NAME","EMAIL"],
+                    include: [
+                        {
+                          association: 'realm',
+                          where: { name: 'intranet' },
+                          attributes: []
+                        },
+                        {
+                          association: 'USER_ATTRIBUTES',
+                          attributes: ['name', 'value']
+                        }
+                      ]
+                  }
+              ]
+            }
+        ]
+    })
+    if (!classObj) {
+      return res.status(404).json({ message: 'Class not found' });
+    }
+    res.json(classObj.user_classes.map(user_class => user_class.user));
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 const createClass = async (req, res) => {
   const { name, apprenticeship } = req.body;
@@ -69,4 +105,5 @@ module.exports = {
   createClass,
   updateClass,
   deleteClass,
+  getClassByIdUsers
 };

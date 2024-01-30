@@ -35,6 +35,11 @@ module.exports = function(dbInstance, Sequelize) {
           { name: "id" },
         ]
       },
+      {
+        name: 'activity_pos_section_unique',
+        type: 'unique',
+        fields: ['name', 'address',"city"]
+      }
     ]
   });
 };

@@ -49,7 +49,7 @@ GroupController.getUsersByGroupId = async (req, res) => {
         }
         //get all users of this group
         let users = await UserModel.findAll({
-            attributes: ["ID","FIRST_NAME","LAST_NAME","EMAIL"],
+            attributes: ["ID","USERNAME","FIRST_NAME","LAST_NAME","EMAIL"],
             include: [
                 {
                     association: 'USER_GROUP_MEMBERSHIPS',
