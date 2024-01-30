@@ -7,6 +7,7 @@ const {seedAssessments} = require("./assessmentSeeder");
 const {seedPeriods} = require("./periodeSeeder");
 const {seedClasses} = require("./classSeeder");
 const {seedCompanies} = require("./companySeeder");
+const {seedLevels} = require("./levelSeeder");
 const seedAll = async () => {
   try {
     await seedSections()
@@ -15,6 +16,7 @@ const seedAll = async () => {
     await seedPeriods()
     await seedClasses()
     await seedCompanies()
+    await seedLevels()
     // Execute other seeders as needed
     console.log('All seeders executed successfully');
   } catch (error) {

@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 exports.validateImpressionCreation = (req, res, next) => {
   const schema = Joi.object({
-    content: Joi.string().max(250),
+    content: Joi.string().max(250).allow(""),
     level_id: Joi.number().integer().required(),
     activity_id: Joi.number().integer().required(),
     period_id: Joi.number().integer().required(),

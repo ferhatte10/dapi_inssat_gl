@@ -30,7 +30,7 @@ GroupController.getAllGroup= async (req,res) =>{
 }
 
 GroupController.getUsersByGroupId = async (req, res) => {
-    //uuid of group
+
     let group_id = req.params.id;
     try {
         let group = await KEYCLOAK_GROUP.findOne({
@@ -52,8 +52,8 @@ GroupController.getUsersByGroupId = async (req, res) => {
             attributes:
             [
                 ["ID", "uuid"],
-                ["FIRST_NAME", "firstName"],
-                ["LAST_NAME", "lastName"],
+                ["FIRST_NAME", "firstname"],
+                ["LAST_NAME", "lastname"],
                 ["EMAIL", "email"]
             ],
             include: [

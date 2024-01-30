@@ -6,7 +6,7 @@ exports.validateGradeCreation = (req, res, next) => {
     grade: Joi.number().integer().required(),
     assessment_id: Joi.number().integer().required(),
     period_id: Joi.number().integer().required(),
-    comment: Joi.string().max(120).required(),
+    comment: Joi.string().max(120).required().allow(""),
     section_id: Joi.number().integer().required(),
   });
 

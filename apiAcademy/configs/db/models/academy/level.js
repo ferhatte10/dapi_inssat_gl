@@ -8,8 +8,13 @@ module.exports = function(dbInstance, Sequelize) {
     },
     name: {
       type: Sequelize.STRING(30),
+      allowNull: false,
+      unique: true
+    },
+    position: {
+      type: Sequelize.INTEGER,
       allowNull: false
-    }
+    },
   }, {
     dbInstance,
     tableName: 'level',

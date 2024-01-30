@@ -24,6 +24,7 @@ const getPeriodById = async (req, res) => {
   }
 };
 
+
 const createPeriod = async (req, res) => {
   const { name } = req.body;
   try {
@@ -68,5 +69,5 @@ module.exports = {
   getPeriodById,
   createPeriod,
   updatePeriod,
-  deletePeriod,
+  deletePeriod
 };

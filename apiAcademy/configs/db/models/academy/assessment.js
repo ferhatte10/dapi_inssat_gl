@@ -8,7 +8,8 @@ module.exports = function(dbInstance, Sequelize) {
     },
     name: {
       type: Sequelize.STRING(30),
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     coefficient: {
       type: Sequelize.INTEGER,

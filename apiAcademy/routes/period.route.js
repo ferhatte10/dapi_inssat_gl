@@ -11,6 +11,8 @@ const {
 
 router.get('/', periodController.getAllPeriods);
 router.get('/:id', verifyRequestParamId, periodController.getPeriodById);
+
+
 router.post('/', validatePeriodCreation, periodController.createPeriod);
 router.put('/:id', verifyRequestParamId, validatePeriodUpdate, periodController.updatePeriod);
 router.delete('/:id', verifyRequestParamId, periodController.deletePeriod);

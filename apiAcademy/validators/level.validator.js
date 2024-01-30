@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 exports.validateLevelCreation = (req, res, next) => {
   const schema = Joi.object({
-    name: Joi.string().max(30).required(),
+    name: Joi.string().max(30).required()
   });
 
   const { error } = schema.validate(req.body);

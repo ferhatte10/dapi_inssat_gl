@@ -31,6 +31,11 @@ module.exports = function(dbInstance, Sequelize) {
           { name: "id" },
         ]
       },
+      {
+        name: 'periode_unique',
+        type: 'unique',
+        fields: ['name', 'number']
+      }
     ]
   });
 };
