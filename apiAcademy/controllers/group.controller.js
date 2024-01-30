@@ -49,7 +49,14 @@ GroupController.getUsersByGroupId = async (req, res) => {
         }
         //get all users of this group
         let users = await UserModel.findAll({
-            attributes: ["ID","USERNAME","FIRST_NAME","LAST_NAME","EMAIL"],
+            attributes:
+            [
+                ["ID", "uuid"],
+                ["USERNAME", "username"],
+                ["FIRST_NAME", "firstName"],
+                ["LAST_NAME", "lastName"],
+                ["EMAIL", "email"]
+            ],
             include: [
                 {
                     association: 'USER_GROUP_MEMBERSHIPS',
@@ -61,10 +68,10 @@ GroupController.getUsersByGroupId = async (req, res) => {
                     where: { name: 'intranet' },
                     attributes: []
                 },
-                {
-                    association: 'USER_ATTRIBUTES',
-                    attributes: ['name', 'value']
-                }
+                // {
+                //     association: 'USER_ATTRIBUTES',
+                //     attributes: ['name', 'value']
+                // }
             ]
         });
         res.json(users);
