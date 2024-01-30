@@ -52,7 +52,6 @@ GroupController.getUsersByGroupId = async (req, res) => {
             attributes:
             [
                 ["ID", "uuid"],
-                ["USERNAME", "username"],
                 ["FIRST_NAME", "firstName"],
                 ["LAST_NAME", "lastName"],
                 ["EMAIL", "email"]
