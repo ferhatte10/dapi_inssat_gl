@@ -8,6 +8,7 @@ const {seedPeriods} = require("./periodeSeeder");
 const {seedClasses} = require("./classSeeder");
 const {seedCompanies} = require("./companySeeder");
 const {seedLevels} = require("./levelSeeder");
+const {connectStudentsToTutors} = require("./student_ma_tutorSeeder");
 const seedAll = async () => {
   try {
     await seedSections()
@@ -17,12 +18,13 @@ const seedAll = async () => {
     await seedClasses()
     await seedCompanies()
     await seedLevels()
+    await connectStudentsToTutors()
     // Execute other seeders as needed
     console.log('All seeders executed successfully');
   } catch (error) {
     console.error('Error executing seeders:', error);
   }
-};
+}; 
 
 
 module.exports = {
