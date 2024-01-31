@@ -874,7 +874,188 @@
       "attributes": {
         "ade_link" : "V3LNvlnA.shu"
       }
+    },
+
+
+    {
+      "id": "0f9c1ee7-1bbf-41e4-9477-26a3a7a25d4b",
+      "username": "zakaria_ria",
+      "enabled": true,
+      "email": "zakaria@example.com",
+      "emailVerified": true,
+      "firstName": "Zakaria",
+      "lastName": "AKA",
+      "realmRoles": ["default-roles-intranet"],
+      "groups": ["student"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "student",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "ade_link": "V3LDjd3A.shu"
+      }
+    },
+    {
+      "id": "1cabe1b3-e680-4cac-8d19-0fbeab35134f",
+      "username": "ferhat_hat",
+      "enabled": true,
+      "email": "ferhat@example.com",
+      "emailVerified": true,
+      "firstName": "Ferhat",
+      "lastName": "HAT",
+      "realmRoles": ["default-roles-intranet"],
+      "groups": ["student"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "student",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "ade_link": "V3LDjd3A.shu"
+      }
+    },
+    {
+      "id": "2cabe1b3-e680-4cac-8d19-0fbeab35134g",
+      "username": "antoine_ine",
+      "enabled": true,
+      "email": "antoine@example.com",
+      "emailVerified": true,
+      "firstName": "Antoine",
+      "lastName": "TOI",
+      "realmRoles": ["default-roles-intranet"],
+      "groups": ["student"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "student",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "ade_link": "V3LDjd3A.shu"
+      }
+    },
+
+
+
+
+
+
+
+
+    {
+      "id": "fa14f04a-4c86-442e-a2c3-1fd244c4a5e0",
+      "username": "olivier_ier",
+      "enabled": true,
+      "email": "olivier@example.com",
+      "emailVerified": true,
+      "firstName": "Olivier",
+      "lastName": "IER",
+      "realmRoles": ["default-roles-intranet"],
+      "groups": ["external/student-supervisor"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "student-supervisor",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "ade_link": "zWo5EJYM.shu"
+      }
+    },
+    {
+      "id": "862813bb-3a68-4fc1-9a69-947163b17bf1",
+      "username": "handson_son",
+      "enabled": true,
+      "email": "handson@example.com",
+      "emailVerified": true,
+      "firstName": "Handson",
+      "lastName": "SON",
+      "realmRoles": ["default-roles-intranet"],
+      "groups": ["external/student-supervisor"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "student-supervisor",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "ade_link": "zWo5EJYM.shu"
+      }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+      "id": "8a367934-4ed3-418b-882a-a71b54222ee4",
+      "username": "marine_ine",
+      "enabled": true,
+      "email": "marine@example.com",
+      "emailVerified": true,
+      "firstName": "Marine",
+      "lastName": "INE",
+      "realmRoles": ["default-roles-intranet"],
+      "groups": ["teacher/student-tutor"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "student-tutor",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "ade_link": "83DDgN3x.shu"
+      }
+    },
+    {
+      "id": "9a367934-4ed3-418b-882a-a71b54222ee5",
+      "username": "Thomas_MAS",
+      "enabled": true,
+      "email": "thomas@example.com",
+      "emailVerified": true,
+      "firstName": "Thomas",
+      "lastName": "MAS",
+      "realmRoles": ["default-roles-intranet"],
+      "groups": ["teacher/student-tutor"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "student-tutor",
+          "temporary": false
+        }
+      ],
+      "attributes": {
+        "ade_link": "83DDgN3x.shu"
+      }
     }
+
+
+
+
+
+
+
+
+
+
+
+    
 
   ],
   "scopeMappings": [
