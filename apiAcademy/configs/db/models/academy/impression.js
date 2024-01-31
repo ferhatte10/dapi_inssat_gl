@@ -46,12 +46,17 @@ module.exports = function(dbInstance, Sequelize) {
     dbInstance,
     tableName: 'impression',
     timestamps: true,
-    indexes: [
+    uniqueKeys: {
+      unique_impression: {
+        fields: ['level_id', 'activity_id', 'period_id', 'student_id']
+      }
+    },
+    indexes: [ 
       {
         name: "PRIMARY",
         unique: true,
         using: "BTREE",
-        fields: [
+        fields: [ 
           { name: "id" },
         ]
       },
