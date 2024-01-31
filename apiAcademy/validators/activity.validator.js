@@ -2,11 +2,14 @@
 const Joi = require('joi');
 
 exports.validateActivityCreation = (req, res, next) => {
+  req.body.is_delete = req.body.is_delete || false;
+  req.body.is_free = req.body.is_free || false;
+  
   const schema = Joi.object({ 
-    name: Joi.string().required(),
+    name: Joi.string().required().max(250),
     position: Joi.number().integer().required(),
-    is_delete: Joi.boolean().required(),
-    is_free: Joi.boolean().required(),
+    is_delete: Joi.boolean().default(false),
+    is_free: Joi.boolean().default(false),
     section_id: Joi.number().integer().required(), 
   });
 
@@ -19,7 +22,7 @@ exports.validateActivityCreation = (req, res, next) => {
 
 exports.validateActivityUpdate = (req, res, next) => {
   const schema = Joi.object({  
-    name: Joi.string(),
+    name: Joi.string().max(250),
     position: Joi.number().integer(),
     is_delete: Joi.boolean(),
     is_free: Joi.boolean(),

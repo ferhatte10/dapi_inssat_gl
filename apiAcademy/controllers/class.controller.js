@@ -4,6 +4,7 @@ const { class_: Class } = require('../configs/db/config/db');
 // Controller functions for CRUD operations
 const getAllClasses = async (req, res) => {
   try {
+    console.log("good")
     const classes = await Class.findAll();
     res.json(classes);
   } catch (error) {

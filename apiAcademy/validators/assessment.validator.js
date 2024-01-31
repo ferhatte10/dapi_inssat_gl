@@ -2,9 +2,11 @@
 const Joi = require('joi');
 
 exports.validateAssessmentCreation = (req, res, next) => {
+  console.log(req.body)
   const schema = Joi.object({
-    name: Joi.string().required(),
+    name: Joi.string().required().max(30),
     coefficient: Joi.number().integer().required(),
+    position: Joi.number().integer().required(),
   });
 
   const { error } = schema.validate(req.body);
@@ -16,8 +18,9 @@ exports.validateAssessmentCreation = (req, res, next) => {
 
 exports.validateAssessmentUpdate = (req, res, next) => {
   const schema = Joi.object({
-    name: Joi.string(),
+    name: Joi.string().max(30),
     coefficient: Joi.number().integer(),
+    position: Joi.number().integer().required(),
   }).min(1);
 
   const { error } = schema.validate(req.body);

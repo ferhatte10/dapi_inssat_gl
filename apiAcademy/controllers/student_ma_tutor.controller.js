@@ -89,8 +89,7 @@ const getStudentsAndMAByTutorId = async (req, res) => {
     });
 
     res.status(200).json(studentsAndMA);
-  } catch (error) {
-    console.log(error)
+  } catch (error) { 
     res.status(500).json({ error: 'Failed to fetch students and their MA by Tutor ID' });
   }
 };
@@ -119,8 +118,7 @@ const getStudentsAndTutorByMAId = async (req, res) => {
     });
 
     res.status(200).json(studentsAndTutor);
-  } catch (error) {
-    console.log(error);
+  } catch (error) { 
     res.status(500).json({ error: 'Failed to fetch students and their tutor by MA ID' });
   }
 };

@@ -2,11 +2,11 @@ const Joi = require('joi');
 
 exports.validateGradeCreation = (req, res, next) => {
   const schema = Joi.object({
-    student_id: Joi.string().required(),
+    student_id: Joi.string().uuid().required(),
     grade: Joi.number().integer().required(),
     assessment_id: Joi.number().integer().required(),
     period_id: Joi.number().integer().required(),
-    comment: Joi.string().max(120).required(),
+    comment: Joi.string().max(255).required(),
     section_id: Joi.number().integer().required(),
   });
 
@@ -19,11 +19,11 @@ exports.validateGradeCreation = (req, res, next) => {
 
 exports.validateGradeUpdate = (req, res, next) => {
   const schema = Joi.object({
-    student_id: Joi.string(),
+    student_id: Joi.string().uuid(),
     grade: Joi.number().integer(),
     assessment_id: Joi.number().integer(),
     period_id: Joi.number().integer(),
-    comment: Joi.string().max(120),
+    comment: Joi.string().max(255),
     section_id: Joi.number().integer(),
   }).min(1);
 

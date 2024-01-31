@@ -1,6 +1,7 @@
 module.exports = function(dbInstance, Sequelize) {
   return dbInstance.define('student_ma_tutor', {
     id: {
+      autoIncrement: true,
       type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true
