@@ -13,6 +13,7 @@ module.exports = function(dbInstance, Sequelize) {
     level_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      unique: 'uniqueTag',
       references: {
         model: 'level',
         key: 'id'
@@ -21,6 +22,7 @@ module.exports = function(dbInstance, Sequelize) {
     activity_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      unique: 'uniqueTag',
       references: {
         model: 'activity',
         key: 'id'
@@ -29,6 +31,7 @@ module.exports = function(dbInstance, Sequelize) {
     period_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      unique: 'uniqueTag',
       references: {
         model: 'period',
         key: 'id'
@@ -37,12 +40,13 @@ module.exports = function(dbInstance, Sequelize) {
     student_id: {
       type: Sequelize.STRING(36),
       allowNull: false,
+      unique: 'uniqueTag',
       // references: {
-      //   model: 'USER_ENTITY',
+      //   model: 'USER_ENTITY', 
       //   key: 'ID'
       // }
     }
-  }, {
+  }, { 
     dbInstance,
     tableName: 'impression',
     timestamps: true,
