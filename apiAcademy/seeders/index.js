@@ -9,7 +9,11 @@ const {seedClasses} = require("./classSeeder");
 const {seedCompanies} = require("./companySeeder");
 const {seedLevels} = require("./levelSeeder");
 const {connectStudentsToTutors} = require("./student_ma_tutorSeeder");
-const {seedImpressions} = require("./impressionSeeder")
+const {seedImpressions} = require("./impressionSeeder");
+const {seedGrades} = require("./gradeSeeder");
+
+
+
 const seedAll = async () => {
   try {
     await seedSections()
@@ -21,6 +25,7 @@ const seedAll = async () => {
     await seedLevels()
     await connectStudentsToTutors()
     await seedImpressions();
+    await seedGrades();
     // Execute other seeders as needed
     console.log('All seeders executed successfully');
   } catch (error) {
