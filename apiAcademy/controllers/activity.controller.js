@@ -33,7 +33,7 @@ const createActivity = async (req, res) => {
   try {
     const newActivity = await Activity.create({ name, position, is_delete, is_free, section_id });
     res.status(201).json(newActivity);
-  } catch (error) {
+  } catch (error) { 
     res.status(500).json({ error: error.message });
   }
 };
@@ -120,8 +120,7 @@ const getAllActivitiesGroupedBySection = async (req, res) => {
         }],
       }); 
       res.status(200).json(sectionsWithActivities);
-    } catch (error) {
-        console.log(error)
+    } catch (error) { 
       res.status(500).json({ error: 'Failed to fetch sections with activities and impressions' });
     }
   };

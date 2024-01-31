@@ -26,24 +26,25 @@ const getPeriodById = async (req, res) => {
 
 
 const createPeriod = async (req, res) => {
-  const { name } = req.body;
+  const { name, description, number } = req.body;
   try {
-    const newPeriod = await Period.create({ name });
+    const newPeriod = await Period.create({ name, description, number });
     res.status(201).json(newPeriod);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 };
 
 const updatePeriod = async (req, res) => {
   const { id } = req.params;
-  const { name } = req.body;
+  const { name, description, number } = req.body;
   try {
     const period = await Period.findByPk(id);
     if (!period) {
       return res.status(404).json({ message: 'Period not found' });
     }
-    await period.update({ name });
+    await period.update({ name, number, description });
     res.json(period);
   } catch (error) {
     res.status(500).json({ error: error.message });

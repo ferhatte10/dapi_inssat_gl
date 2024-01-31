@@ -25,3 +25,4 @@ exports.validateClassUpdate = (req, res, next) => {
   }
   next();
 };
+ 

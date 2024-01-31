@@ -25,9 +25,9 @@ const getAssessmentById = async (req, res) => {
 };
 
 const createAssessment = async (req, res) => {
-  const { name, coefficient } = req.body;
+  const { name, coefficient, position } = req.body;
   try {
-    const newAssessment = await Assessment.create({ name, coefficient });
+    const newAssessment = await Assessment.create({ name, coefficient, position });
     res.status(201).json(newAssessment);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -36,13 +36,13 @@ const createAssessment = async (req, res) => {
 
 const updateAssessment = async (req, res) => {
   const { id } = req.params;
-  const { name, coefficient } = req.body;
+  const { name, coefficient, position } = req.body;
   try {
     const assessment = await Assessment.findByPk(id);
     if (!assessment) {
       return res.status(404).json({ message: 'Assessment not found' });
     }
-    await assessment.update({ name, coefficient });
+    await assessment.update({ name, coefficient, position });
     res.json(assessment);
   } catch (error) {
     res.status(500).json({ error: error.message });

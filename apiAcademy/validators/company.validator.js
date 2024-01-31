@@ -5,6 +5,7 @@ exports.validateCompanyCreation = (req, res, next) => {
     name: Joi.string().max(30).required(),
     address: Joi.string().max(50).required(),
     city: Joi.string().max(30).required(),
+    phone: Joi.string().max(20).required()
   });
 
   const { error } = schema.validate(req.body);
@@ -19,6 +20,7 @@ exports.validateCompanyUpdate = (req, res, next) => {
     name: Joi.string().max(30),
     address: Joi.string().max(50),
     city: Joi.string().max(30),
+    phone: Joi.string().max(20)
   }).min(1);
 
   const { error } = schema.validate(req.body);
