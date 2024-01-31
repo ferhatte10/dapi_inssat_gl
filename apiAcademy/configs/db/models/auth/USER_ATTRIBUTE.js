@@ -28,30 +28,5 @@ module.exports = function(dbInstance, Sequelize) {
     timestamps: false,
     dbName: 'intranet_auth',
     schema: 'intranet_auth',
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "ID" },
-        ]
-      },
-      {
-        name: "IDX_USER_ATTRIBUTE",
-        using: "BTREE",
-        fields: [
-          { name: "USER_ID" },
-        ]
-      },
-      {
-        name: "IDX_USER_ATTRIBUTE_NAME",
-        using: "BTREE",
-        fields: [
-          { name: "NAME" },
-          { name: "VALUE" },
-        ]
-      },
-    ]
   });
 };

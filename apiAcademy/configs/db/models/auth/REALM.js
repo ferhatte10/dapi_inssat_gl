@@ -246,30 +246,5 @@ module.exports = function(dbInstance, Sequelize) {
     timestamps: false,
     dbName: 'intranet_auth',
     schema: 'intranet_auth',
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "ID" },
-        ]
-      },
-      {
-        name: "UK_ORVSDMLA56612EAEFIQ6WL5OI",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "NAME" },
-        ]
-      },
-      {
-        name: "IDX_REALM_MASTER_ADM_CLI",
-        using: "BTREE",
-        fields: [
-          { name: "MASTER_ADMIN_CLIENT" },
-        ]
-      },
-    ]
   });
 };
