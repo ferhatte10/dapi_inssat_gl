@@ -681,7 +681,7 @@ ArticleController.getArticlesByAuthorName = async (req, res) => {
 ArticleController.getLastSharedArticle = async (req, res) => {
   try {
     const lastSharedArticle = await ArticleModel.findOne({
-      attributes:['id', 'title', 'description', 'thumbnail', 'principal_image'],
+      attributes:['id', 'title', 'description', 'thumbnail', 'principal_image', 'author_id'],
       where: {
         published_at: {
           // Ensure the article has been published
