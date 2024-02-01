@@ -39,7 +39,7 @@ module.exports.connectStudentsToTutors = async () => {
   } catch (error) {
     // if duplicate constraint error, do nothing
     if (error.name === 'SequelizeUniqueConstraintError') {
-        console.error('Error while seeding section table');
+        console.error('Error connecting students to tutors:');
         return;
     }
     console.error('Error connecting students to tutors:', error);

@@ -4,8 +4,7 @@ const { faker } = require('@faker-js/faker');
 // fetch assessments from the database
 const getAssessmentsFromDatabase = async () => {
     try {
-        const assessments = await assessment.findAll();
-        return assessments;
+        return await assessment.findAll();
     } catch (error) {
         console.error('Error while fetching assessments from the database:', error);
         throw error;
@@ -15,8 +14,7 @@ const getAssessmentsFromDatabase = async () => {
 // fetch periods from the database
 const getPeriodsFromDatabase = async () => {
     try {
-        const periods = await period.findAll();
-        return periods;
+        return await period.findAll();
     } catch (error) {
         console.error('Error while fetching periods from the database:', error);
         throw error;
@@ -24,10 +22,13 @@ const getPeriodsFromDatabase = async () => {
 };
 
 // fetch sections from the database
-const getSectionsFromDatabase = async () => {
+const getSectionsNotation = async () => {
     try {
-        const sections = await section.findAll();
-        return sections;
+        return await section.findOne({
+            where: {
+                title: "Notation"
+            }
+        });
     } catch (error) {
         console.error('Error while fetching sections from the database:', error);
         throw error;
@@ -36,7 +37,8 @@ const getSectionsFromDatabase = async () => {
 
 // generate a random grade
 const getRandomGrade = () => {
-    return Math.floor(Math.random() * 20) + 1; // Generate a random grade between 1 and 20
+    // Generate a random grade between 10 and 20
+    return Math.floor(Math.random() * (20 - 10 + 1) + 10);
 };
 
 // seed grades
@@ -45,26 +47,63 @@ module.exports.seedGrades = async () => {
         // Fetch assessments, periods, sections, and studentId
         const assessments = await getAssessmentsFromDatabase();
         const periods = await getPeriodsFromDatabase();
-        const sections = await getSectionsFromDatabase();
-        const studentId = '0f9c1ee7-1bbf-41e4-9477-26a3a7a25d4b';
+        const sectionNotation = await getSectionsNotation();
+        const zakariaId = '0f9c1ee7-1bbf-41e4-9477-26a3a7a25d4b';
+        const ferhatId = '1cabe1b3-e680-4cac-8d19-0fbeab35134f';
+        const antoineID = '2cabe1b3-e680-4cac-8d19-0fbeab35134g';
 
-        // Seed grades for each assessment, period, and section
-        for (const currentAssessment of assessments) {
-            for (const currentPeriod of periods) {
-                for (const currentSection of sections) {
-                    const randomGrade = getRandomGrade();
-                    const randomComment = faker.lorem.sentence(); // Generate a random sentence
 
-                    // Create grade
-                    await grade.create({
-                        student_id: studentId,
-                        grade: randomGrade,
-                        assessment_id: currentAssessment.id,
-                        period_id: currentPeriod.id,
-                        comment: randomComment,
-                        section_id: currentSection.id
-                    });
-                }
+        for (const currentPeriod of periods) {
+            for (const currentAssessment of assessments) {
+                const randomGrade = getRandomGrade();
+                const randomComment = faker.lorem.sentence(); // Generate a random sentence
+
+                // Create grade
+                await grade.create({
+                    student_id: zakariaId,
+                    grade: randomGrade,
+                    assessment_id: currentAssessment.id,
+                    period_id: currentPeriod.id,
+                    comment: randomComment,
+                    section_id: sectionNotation.id
+                });
+            }
+        }
+
+        // ferhat grades
+        for (const currentPeriod of periods) {
+            for (const currentAssessment of assessments) {
+                const randomGrade = getRandomGrade();
+                const randomComment = faker.lorem.sentence(); // Generate a random sentence
+
+                // Create grade
+                await grade.create({
+                    student_id: ferhatId,
+                    grade: randomGrade,
+                    assessment_id: currentAssessment.id,
+                    period_id: currentPeriod.id,
+                    comment: randomComment,
+                    section_id: sectionNotation.id
+                });
+            }
+        }
+
+
+        // antoine grades
+        for (const currentPeriod of periods) {
+            for (const currentAssessment of assessments) {
+                const randomGrade = getRandomGrade();
+                const randomComment = faker.lorem.sentence(); // Generate a random sentence
+
+                // Create grade
+                await grade.create({
+                    student_id: antoineID,
+                    grade: randomGrade,
+                    assessment_id: currentAssessment.id,
+                    period_id: currentPeriod.id,
+                    comment: randomComment,
+                    section_id: sectionNotation.id
+                });
             }
         }
 
@@ -72,7 +111,7 @@ module.exports.seedGrades = async () => {
     } catch (error) {
         // if duplicate constraint error, do nothing
         if (error.name === 'SequelizeUniqueConstraintError') {
-            console.error('Error while seeding section table');
+            console.error('Error while seeding grade table');
             return;
         }
         console.error('Error while seeding grades table:', error);

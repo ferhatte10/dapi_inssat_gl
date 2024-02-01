@@ -6,7 +6,6 @@ const { setupLogging } = require("./configs/logging")
 const { setUpDocumentation } = require("./configs/openApi")
 const { setupBasics } = require('./configs/resReqConf')
 const { setupDatabase } = require('./configs/syncDatabase')
-const dotenv = require("dotenv");
 const port = PORT || 3001
 
 setupLogging(app) // This will log all requests to the console

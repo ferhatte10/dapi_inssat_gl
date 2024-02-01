@@ -8,12 +8,7 @@ module.exports = function(dbInstance, Sequelize) {
     },
     student_id: {
       type: Sequelize.STRING(36),
-      allowNull: false,
-      unique: 'unique_grade', 
-      // references: {
-      //   model: 'USER_ENTITY',
-      //   key: 'ID'
-      // }
+      allowNull: false
     },
     grade: {
       type: Sequelize.INTEGER,
@@ -22,7 +17,6 @@ module.exports = function(dbInstance, Sequelize) {
     assessment_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      unique: 'unique_grade', 
       references: {
         model: 'assessment',
         key: 'id'
@@ -31,7 +25,6 @@ module.exports = function(dbInstance, Sequelize) {
     period_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      unique: 'unique_grade', 
       references: {
         model: 'period',
         key: 'id'
@@ -44,7 +37,6 @@ module.exports = function(dbInstance, Sequelize) {
     section_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      unique: 'unique_grade', 
       references: {
         model: 'section',
         key: 'id'
@@ -54,12 +46,12 @@ module.exports = function(dbInstance, Sequelize) {
     dbInstance,
     tableName: 'grade',
     timestamps: true,
-    uniqueKeys: {
-      unique_grade: {
-        fields: ['student_id', 'assessment_id', 'period_id', 'section_id']
-      }
-    },
     indexes: [
+      {
+        name: 'grade_unique',
+        type: 'unique',
+        fields: ['student_id', 'assessment_id', 'period_id', 'section_id']
+      },
       {
         name: "PRIMARY",
         unique: true,

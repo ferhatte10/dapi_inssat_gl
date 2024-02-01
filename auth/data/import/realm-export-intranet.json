@@ -876,7 +876,6 @@
       }
     },
 
-
     {
       "id": "0f9c1ee7-1bbf-41e4-9477-26a3a7a25d4b",
       "username": "zakaria_ria",
@@ -941,13 +940,6 @@
       }
     },
 
-
-
-
-
-
-
-
     {
       "id": "fa14f04a-4c86-442e-a2c3-1fd244c4a5e0",
       "username": "olivier_ier",
@@ -964,10 +956,7 @@
           "value": "student-supervisor",
           "temporary": false
         }
-      ],
-      "attributes": {
-        "ade_link": "zWo5EJYM.shu"
-      }
+      ]
     },
     {
       "id": "862813bb-3a68-4fc1-9a69-947163b17bf1",
@@ -985,22 +974,8 @@
           "value": "student-supervisor",
           "temporary": false
         }
-      ],
-      "attributes": {
-        "ade_link": "zWo5EJYM.shu"
-      }
+      ]
     },
-
-
-
-
-
-
-
-
-
-
-
 
     {
       "id": "8a367934-4ed3-418b-882a-a71b54222ee4",
@@ -1045,19 +1020,9 @@
       }
     }
 
-
-
-
-
-
-
-
-
-
-
-    
-
   ],
+
+
   "scopeMappings": [
     {
       "clientScope": "offline_access",

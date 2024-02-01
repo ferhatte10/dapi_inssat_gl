@@ -1,4 +1,4 @@
-const {company} = require('../configs/db/config/db');
+const {company,user_company} = require('../configs/db/config/db');
 
 let Companies = [
     {
