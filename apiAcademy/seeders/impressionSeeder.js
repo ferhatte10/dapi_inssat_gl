@@ -55,7 +55,7 @@ module.exports.seedImpressions = async () => {
                 // Create impression
                 await impression.create({
                     content: activity.is_free ? randomContent : "",
-                    level_id: randomLevel,
+                    level_id: activity.is_free ? 7 : randomLevel,
                     activity_id: activity.id,
                     period_id: period.id,
                     student_id: ferhatId
@@ -72,7 +72,7 @@ module.exports.seedImpressions = async () => {
                 // Create impression
                 await impression.create({
                     content: activity.is_free ? randomContent : "",
-                    level_id: randomLevel,
+                    level_id: activity.is_free ? 7 : randomLevel,
                     activity_id: activity.id,
                     period_id: period.id,
                     student_id: antoineID
