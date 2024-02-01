@@ -11,7 +11,7 @@ module.exports = function(dbInstance, Sequelize) {
       allowNull: false
     },
     grade: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.FLOAT,
       allowNull: false
     },
     assessment_id: {
