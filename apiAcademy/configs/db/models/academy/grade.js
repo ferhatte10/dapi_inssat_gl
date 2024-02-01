@@ -8,11 +8,7 @@ module.exports = function(dbInstance, Sequelize) {
     },
     student_id: {
       type: Sequelize.STRING(36),
-      allowNull: false,
-      // references: {
-      //   model: 'USER_ENTITY',
-      //   key: 'ID'
-      // }
+      allowNull: false
     },
     grade: {
       type: Sequelize.INTEGER,
@@ -52,12 +48,17 @@ module.exports = function(dbInstance, Sequelize) {
     timestamps: true,
     indexes: [
       {
+        name: 'grade_unique',
+        type: 'unique',
+        fields: ['student_id', 'assessment_id', 'period_id', 'section_id']
+      },
+      {
         name: "PRIMARY",
         unique: true,
-        using: "BTREE",
+        using: "BTREE", 
         fields: [
           { name: "id" },
-        ]
+        ] 
       },
       {
         name: "grade_USER_ENTITY",

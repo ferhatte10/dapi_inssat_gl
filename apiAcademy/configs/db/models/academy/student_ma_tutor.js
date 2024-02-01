@@ -5,11 +5,12 @@ module.exports = function(dbInstance, Sequelize) {
       type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     student_id: {
       type: Sequelize.STRING(36),
       allowNull: false,
+      unique: "unique_student_ma_tutor",
       // references: {
       //   model: 'USER_ENTITY',
       //   key: 'ID'
@@ -18,6 +19,7 @@ module.exports = function(dbInstance, Sequelize) {
     tutor_id: {
       type: Sequelize.STRING(36),
       allowNull: false,
+      unique: "unique_student_ma_tutor",
       // references: {
       //   model: 'USER_ENTITY',
       //   key: 'ID'
@@ -26,6 +28,7 @@ module.exports = function(dbInstance, Sequelize) {
     ma_id: {
       type: Sequelize.STRING(36),
       allowNull: false,
+      unique: "unique_student_ma_tutor",
       // references: {
       //   model: 'USER_ENTITY',
       //   key: 'ID'

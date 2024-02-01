@@ -29,6 +29,11 @@ module.exports = function(sequelize, DataTypes) {
     timestamps: true,
     indexes: [
       {
+        name: 'user_class_unique',
+        type: 'unique',
+        fields: ['user_id', 'class_id']
+      },
+      {
         name: "PRIMARY",
         unique: true,
         using: "BTREE",

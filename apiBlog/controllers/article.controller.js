@@ -755,17 +755,24 @@ ArticleController.getFilteredArticles = async (req, res) => {
           [Sequelize.Op.between]: [startDate, endDate],
         };
       }else{
-        // const endDatePlusOneDay = new Date(endDate);
-        // endDatePlusOneDay.setDate(endDate.getDate() );
-        // const formattedEndDate = endDatePlusOneDay.toISOString();
-        
 
+        //TODO : Must see with front to fetch data without add or substract 1 day.
+        const min = 22;
         const startDatePlusOneDay = new Date(startDate);
-        startDatePlusOneDay.setDate(startDate.getDate() - 1);
+        startDatePlusOneDay.setHours(startDatePlusOneDay.getHours() - min); 
         const formattedStartDate = startDatePlusOneDay.toISOString();
-        
+
+        const max = 22;
+        const endDatePlusOneDay = new Date(endDate);
+        endDatePlusOneDay.setHours(endDatePlusOneDay.getHours() + max); 
+        const formattedEndDate = endDatePlusOneDay.toISOString();
+
+
+
+        console.log(startDatePlusOneDay)
+        console.log(endDate)
         baseQuery.where.createdAt = {
-          [Sequelize.Op.between]: [formattedStartDate, endDate],
+          [Sequelize.Op.between]: [formattedStartDate, formattedEndDate],
         };
       }
     }
