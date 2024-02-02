@@ -22,9 +22,9 @@ exports.validateStudentMaTutorCreation = (req, res, next) => {
 
 exports.validateStudentMaTutorUpdate = (req, res, next) => {
   const schema = Joi.object({
-    student_id: Joi.string().uuid(),
-    tutor_id: Joi.string().uuid(),
-    ma_id: Joi.string().uuid(),
+    student_id:Joi.string().guid({version: 'uuidv4'}),
+    tutor_id: Joi.string().guid({version: 'uuidv4'}),
+    ma_id: Joi.string().guid({version: 'uuidv4'}),
   }).min(1).custom((value, helpers) => {
     // Check if all IDs are different
     if (value.student_id && (value.student_id === value.tutor_id || value.student_id === value.ma_id)) {
