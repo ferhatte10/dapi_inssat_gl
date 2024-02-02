@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const validateUserCompanyCreation = (req, res, next) => {
   const schema = Joi.object({
-    user_id: Joi.string().uuid().required(),
+    user_id: Joi.string().guid({version: 'uuidv4'}).required(),
     company_id: Joi.string().required(),
   });
 
@@ -16,7 +16,7 @@ const validateUserCompanyCreation = (req, res, next) => {
 
 const validateUserCompanyUpdate = (req, res, next) => {
   const schema = Joi.object({
-    user_id: Joi.string().uuid(),
+    user_id: Joi.string().guid({version: 'uuidv4'}),
     company_id: Joi.string(),
   }).min(1);
 

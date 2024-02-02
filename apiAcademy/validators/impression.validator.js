@@ -6,7 +6,7 @@ exports.validateImpressionCreation = (req, res, next) => {
     level_id: Joi.number().integer().required(),
     activity_id: Joi.number().integer().required(),
     period_id: Joi.number().integer().required(),
-    student_id: Joi.string().uuid().required(),
+    student_id: Joi.string().guid({version: 'uuidv4'}).required(),
   });
 
   const { error } = schema.validate(req.body);
@@ -22,7 +22,7 @@ exports.validateImpressionUpdate = (req, res, next) => {
     level_id: Joi.number().integer(),
     activity_id: Joi.number().integer(),
     period_id: Joi.number().integer(),
-    student_id: Joi.string().uuid(),
+    student_id: Joi.string().guid({version: 'uuidv4'}),
   }).min(1);
 
   const { error } = schema.validate(req.body);
