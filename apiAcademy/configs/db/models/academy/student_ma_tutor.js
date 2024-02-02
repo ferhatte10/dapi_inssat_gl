@@ -4,41 +4,30 @@ module.exports = function(dbInstance, Sequelize) {
       autoIncrement: true,
       type: Sequelize.INTEGER,
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
+      primaryKey: true
     },
     student_id: {
       type: Sequelize.STRING(36),
-      allowNull: false,
-      unique: "unique_student_ma_tutor",
-      // references: {
-      //   model: 'USER_ENTITY',
-      //   key: 'ID'
-      // }
+      allowNull: false
     },
     tutor_id: {
       type: Sequelize.STRING(36),
-      allowNull: false,
-      unique: "unique_student_ma_tutor",
-      // references: {
-      //   model: 'USER_ENTITY',
-      //   key: 'ID'
-      // }
+      allowNull: false
     },
     ma_id: {
       type: Sequelize.STRING(36),
       allowNull: false,
-      unique: "unique_student_ma_tutor",
-      // references: {
-      //   model: 'USER_ENTITY',
-      //   key: 'ID'
-      // }
     }
   }, {
     dbInstance,
     tableName: 'student_ma_tutor',
     timestamps: true,
     indexes: [
+      {
+        name: 'unique_student_ma_tutor',
+        type: 'unique',
+        fields: ['student_id', 'tutor_id', 'period_id']
+      },
       {
         name: "PRIMARY",
         unique: true,
