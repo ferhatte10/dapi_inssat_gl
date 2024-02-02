@@ -26,7 +26,7 @@ module.exports = function(dbInstance, Sequelize) {
       {
         name: 'unique_student_ma_tutor',
         type: 'unique',
-        fields: ['student_id', 'tutor_id', 'period_id']
+        fields: ['student_id', 'tutor_id', 'ma_id']
       },
       {
         name: "PRIMARY",
