@@ -52,6 +52,9 @@ const updateStudentMaTutor = async (req, res) => {
     await studentMaTutor.update({ student_id, tutor_id, ma_id });
     res.json(studentMaTutor);
   } catch (error) {
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(409).json({ error: 'This student, tutor, and MA combination already exists' });
+    }
     res.status(500).json({ error: error.message });
   }
 };
