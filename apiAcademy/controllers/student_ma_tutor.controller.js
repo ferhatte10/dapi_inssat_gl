@@ -33,6 +33,10 @@ const createStudentMaTutor = async (req, res) => {
     const newStudentMaTutor = await StudentMaTutor.create({ student_id, tutor_id, ma_id });
     res.status(201).json(newStudentMaTutor);
   } catch (error) {
+    // il duplicate key error
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(409).json({ error: 'This student, tutor, and MA combination already exists' });
+    }
     res.status(500).json({ error: error.message });
   }
 };
