@@ -1,60 +1,42 @@
 module.exports = {
-    put: {
-        tags: ['Tag'],
-        summary: "Update a tag by ID",
-        description: "Update a tag by its unique ID.",
-        operationId: "updateTagById",
+    get: {
+        tags: ['Users'],
+        summary: "Get user by ID",
+        description: "Endpoint to retrieve a user by their ID",
+        operationId: "getUserById",
         ...require('../../security'),
         parameters: [
             {
                 name: "id",
                 in: "path",
                 schema: {
-                    $ref: "#/components/schemas/schemaTag/Id"
+                    $ref: "#/components/schemas/Uuid"
                 },
                 required: true,
-                description: "ID of the tag to update"
+                description: "User ID"
             }
         ],
-        requestBody: {
-            content: {
-                'application/json': {
-                    schema: {
-                        $ref: "#/components/schemas/schemaTag/Tag"
-                    }
-                }
-            },
-            required: true
-        },
         responses: {
             '200': {
-                description: "Tag updated successfully",
+                description: "User found",
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: "#/components/schemas/schemaTag/Tag"
+                            $ref: "#/components/schemas/User"
                         }
                     }
                 }
             },
             '404': {
-                description: "Tag not found",
+                description: "User not found",
                 content: {
                     'application/json': {
                         schema: {
                             type: 'object',
                             properties: {
-                                "success": {
-                                    type: 'boolean',
-                                    example: false
-                                },
-                                "message": {
+                                error: {
                                     type: 'string',
-                                    example: "Tag not found"
-                                },
-                                "data": {
-                                    type: 'object',
-                                    example: {}
+                                    example: "User not found"
                                 }
                             }
                         }
@@ -79,4 +61,4 @@ module.exports = {
             }
         }
     }
-}
+};

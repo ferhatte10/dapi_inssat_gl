@@ -1,19 +1,19 @@
 module.exports = {
     get: {
-        tags: ['Tag'],
-        summary: "Get all tags",
-        description: "Retrieve a list of all tags.",
-        operationId: "getAllTags",
+        tags: ['Users'],
+        summary: "Get all users",
+        description: "Endpoint to retrieve all users",
+        operationId: "getUsers",
         ...require('../../security'),
         responses: {
             '200': {
-                description: "Tags obtained successfully",
+                description: "List of users",
                 content: {
                     'application/json': {
                         schema: {
                             type: 'array',
                             items: {
-                                $ref: "#/components/schemas/schemaTag/Tag"
+                                $ref: "#/components/schemas/Users"
                             }
                         }
                     }
@@ -37,4 +37,4 @@ module.exports = {
             }
         }
     }
-}
+};

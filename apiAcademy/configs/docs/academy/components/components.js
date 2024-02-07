@@ -1,11 +1,5 @@
-const tag = require('./tag.component')
-const category = require('./category.component')
-const comment = require('./comment.component')
-const article = require('./article.component')
-const like = require('./like.component')
-const follower = require('./follower.component')
 const {AUTH} = require('../../../../configs/env')
-
+const userSchemas = require("../components/user.component")
 module.exports = {
     components: {
         securitySchemes: {
@@ -27,12 +21,7 @@ module.exports = {
             }
         },
         schemas: {
-            ...tag,
-            ...category,
-            ...comment,
-            ...article,
-            ...like,
-            ...follower
+            ...userSchemas
         }
     }
 }

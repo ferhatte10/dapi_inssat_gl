@@ -48,9 +48,9 @@ module.exports.seedGrades = async () => {
         const assessments = await getAssessmentsFromDatabase();
         const periods = await getPeriodsFromDatabase();
         const sectionNotation = await getSectionsNotation();
-        const zakariaId = '0f9c1ee7-1bbf-41e4-9477-26a3a7a25d4b';
-        const ferhatId = '1cabe1b3-e680-4cac-8d19-0fbeab35134f';
-        const antoineID = '2cabe1b3-e680-4cac-8d19-0fbeab35134g';
+        const zakariaID = '3c1342d3-db38-487c-b3fc-a56354ca62ea';
+        const ferhatID = 'a70eeb35-541b-42a2-a201-2d25cbc364e3';
+        const antoineID = 'c23ba8bb-6481-4658-82be-5105ee83a85c';
 
 
         for (const currentPeriod of periods) {
@@ -60,7 +60,7 @@ module.exports.seedGrades = async () => {
 
                 // Create grade
                 await grade.create({
-                    student_id: zakariaId,
+                    student_id: zakariaID,
                     grade: randomGrade,
                     assessment_id: currentAssessment.id,
                     period_id: currentPeriod.id,
@@ -78,7 +78,7 @@ module.exports.seedGrades = async () => {
 
                 // Create grade
                 await grade.create({
-                    student_id: ferhatId,
+                    student_id: ferhatID,
                     grade: randomGrade,
                     assessment_id: currentAssessment.id,
                     period_id: currentPeriod.id,

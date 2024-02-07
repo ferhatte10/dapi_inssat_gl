@@ -39,50 +39,50 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: 4mvstWAvkShcgsOMG5fh
 
-  # Api blog
-  api-blog:
-#    container_name: api-blog
-    build: ../apiBlog
-    security_opt:
-     - no-new-privileges:true
-    restart: always
-    deploy:
-     replicas: 1 # comment the container_name if > 1
-    env_file:
-     - ../apiBlog/.env.development.docker
-    volumes:
-     - ../apiBlog/uploads:/usr/src/app/uploads # Define the path to your uploads directory
-    # Note : we can use volume for persistent files 'my_uploads' or we can save files directly inside the project folder (i've used /app/uploads with multer instead of apiBlog/uploads)
-    depends_on:
-     - dapiauth
-     - db
-  api-academy:
-#    container_name: api-academy
-    build: ../apiAcademy
-    security_opt:
-      - no-new-privileges:true
-    restart: always
-    deploy:
-      replicas: 1 # comment the container_name if > 1
-    env_file:
-      - ../apiAcademy/.env.development.docker
-    depends_on:
-      - dapiauth
-      - db
-  # Api gateway:
-  gateway:
-    container_name: gateway
-    build: ../gateway
-    security_opt:
-     - no-new-privileges:true
-    restart: always
-    depends_on:
-     - api-blog
-     - api-academy
-    ports:
-     - 5000:5000
-    env_file:
-     - ../gateway/.env
+#  # Api blog
+#  api-blog:
+##    container_name: api-blog
+#    build: ../apiBlog
+#    security_opt:
+#     - no-new-privileges:true
+#    restart: always
+#    deploy:
+#     replicas: 1 # comment the container_name if > 1
+#    env_file:
+#     - ../apiBlog/.env.development.docker
+#    volumes:
+#     - ../apiBlog/uploads:/usr/src/app/uploads # Define the path to your uploads directory
+#    # Note : we can use volume for persistent files 'my_uploads' or we can save files directly inside the project folder (i've used /app/uploads with multer instead of apiBlog/uploads)
+#    depends_on:
+#     - dapiauth
+#     - db
+#  api-academy:
+##    container_name: api-academy
+#    build: ../apiAcademy
+#    security_opt:
+#      - no-new-privileges:true
+#    restart: always
+#    deploy:
+#      replicas: 1 # comment the container_name if > 1
+#    env_file:
+#      - ../apiAcademy/.env.development.docker
+#    depends_on:
+#      - dapiauth
+#      - db
+#  # Api gateway:
+#  gateway:
+#    container_name: gateway
+#    build: ../gateway
+#    security_opt:
+#     - no-new-privileges:true
+#    restart: always
+#    depends_on:
+#     - api-blog
+#     - api-academy
+#    ports:
+#     - 5000:5000
+#    env_file:
+#     - ../gateway/.env
 
 volumes:
   my_uploads: # Define a named volume for storing uploaded images

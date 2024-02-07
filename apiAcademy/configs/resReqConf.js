@@ -4,7 +4,7 @@ const nocache = require('nocache')
 
 exports.setupBasics = (app) => {
 
-    app.use('/api_blog',express.static('public'))
+    app.use('/api_academy',express.static('public'))
     app.use(express.urlencoded({ extended: true }))
     app.use(express.json())
     app.disable('etag')

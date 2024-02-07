@@ -25,9 +25,9 @@ module.exports.seedImpressions = async () => {
         const allPeriods = await period.findAll();
         const levels = await getLevelsFromDatabase();
 
-        const zakariaId = '0f9c1ee7-1bbf-41e4-9477-26a3a7a25d4b';
-        const ferhatId = '1cabe1b3-e680-4cac-8d19-0fbeab35134f';
-        const antoineID = '2cabe1b3-e680-4cac-8d19-0fbeab35134g';
+        const zakariaID = '3c1342d3-db38-487c-b3fc-a56354ca62ea';
+        const ferhatID = 'a70eeb35-541b-42a2-a201-2d25cbc364e3';
+        const antoineID = 'c23ba8bb-6481-4658-82be-5105ee83a85c';
 
         // zakaria impressions
         for (const period of allPeriods) {
@@ -41,7 +41,7 @@ module.exports.seedImpressions = async () => {
                     level_id: activity.is_free ? 7 : randomLevel,
                     activity_id: activity.id,
                     period_id: period.id,
-                    student_id: zakariaId
+                    student_id: zakariaID
                 });
             }
         }
@@ -58,7 +58,7 @@ module.exports.seedImpressions = async () => {
                     level_id: activity.is_free ? 7 : randomLevel,
                     activity_id: activity.id,
                     period_id: period.id,
-                    student_id: ferhatId
+                    student_id: ferhatID
                 });
             }
         }

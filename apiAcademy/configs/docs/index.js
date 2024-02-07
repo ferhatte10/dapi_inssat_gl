@@ -1,8 +1,8 @@
 const basicInfo = require('./basicInfo')
 const servers = require('./servers')
-const components = require('./blog/components')
+const components = require('./academy/components')
 const tags = require('./tags')
-const blogs = require('./blog')
+const academy = require('./academy')
 const security = require('./security')
 
 module.exports = {
@@ -10,6 +10,6 @@ module.exports = {
     ...servers,
     ...components,
     ...tags,
-    ...blogs,
+    ...academy,
     ...security
 }

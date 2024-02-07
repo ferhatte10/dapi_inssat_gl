@@ -3,14 +3,14 @@ const {student_ma_tutor} = require('../configs/db/config/db');
 module.exports.connectStudentsToTutors = async () => {
   try {
 
-    const zakariaID = '0f9c1ee7-1bbf-41e4-9477-26a3a7a25d4b';
-    const ferhatID = '1cabe1b3-e680-4cac-8d19-0fbeab35134f';
-    const antoineID = '2cabe1b3-e680-4cac-8d19-0fbeab35134g';
+    const zakariaID = '3c1342d3-db38-487c-b3fc-a56354ca62ea';
+    const ferhatID = 'a70eeb35-541b-42a2-a201-2d25cbc364e3';
+    const antoineID = 'c23ba8bb-6481-4658-82be-5105ee83a85c';
 
-    const olivierID = 'fa14f04a-4c86-442e-a2c3-1fd244c4a5e0';
-    const handsonID = '862813bb-3a68-4fc1-9a69-947163b17bf1';
+    const olivierID = '20034d06-453b-4532-820c-4c14d61d01e6';
+    const handsonID = '09305a59-fe3e-4d0b-a5f4-4202372db24d';
 
-    const marineID = '8a367934-4ed3-418b-882a-a71b54222ee4';
+    const marineID = '51fd6279-be3a-488f-9081-7e185a1309b6';
     const thomasID = '9a367934-4ed3-418b-882a-a71b54222ee5';
 
 
