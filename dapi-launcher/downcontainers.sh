@@ -1,1 +1,1 @@
-docker-compose down -v db_data
+docker-compose down -v dapi-launcher_db_data
