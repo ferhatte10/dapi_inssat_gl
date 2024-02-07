@@ -22,7 +22,8 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
   #      KC_SPI_THEME_DEFAULT: inssat # on ne peut pas le mettre, car on n'a pas developpé le theme admin pour le moment donc il va essayer de le chercher dans le dossier themes/inssat/admin et ça génère une erreur
-
+    networks:
+      - int_dapi
   # db server
   db:
     container_name: db
@@ -38,7 +39,8 @@ services:
       - 3306:3306
     environment:
       MARIADB_ROOT_PASSWORD: 4mvstWAvkShcgsOMG5fh
-
+    networks:
+      - int_dapi
   # Api blog
   api-blog:
 #    container_name: api-blog
@@ -56,6 +58,8 @@ services:
     depends_on:
      - dapiauth
      - db
+    networks:
+      - int_dapi
   api-academy:
 #    container_name: api-academy
     build: ../apiAcademy
@@ -69,6 +73,8 @@ services:
     depends_on:
       - dapiauth
       - db
+    networks:
+      - int_dapi
   # Api gateway:
   gateway:
     container_name: gateway
@@ -83,7 +89,15 @@ services:
      - 5000:5000
     env_file:
      - ../gateway/.env
+    networks:
+      - int_dapi
 
+networks:
+  int_dapi:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
 volumes:
   blog_uploads:
   db_data:
