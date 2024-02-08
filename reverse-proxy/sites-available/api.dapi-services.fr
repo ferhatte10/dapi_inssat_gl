@@ -1,0 +1,36 @@
+upstream api_server {
+	server 89.88.125.50:5000;
+}
+
+server {
+	server_name  api.dapi-services.fr;
+
+	location / {
+	        proxy_pass http://api_server;
+	        include proxy_params_api;
+	}
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/auth.dapi-services.fr/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/auth.dapi-services.fr/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+
+
+
+
+server {
+    if ($host = api.dapi-services.fr) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+	listen 80;
+	server_name  api.dapi-services.fr;
+    return 404; # managed by Certbot
+
+
+}

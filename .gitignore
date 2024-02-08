@@ -1,8 +1,14 @@
 gateway/node_modules/
+gateway/pnpm-lock.yaml
 
 apiBlog/node_modules/
+apiBlog/pnpm-lock.yaml
+
+apiAcademy/node_modules/
+apiAcademy/pnpm-lock.yaml
 
 auth/data/tmp/
+auth/node_modules/
 
 stressTest/venv/
 stressTest/__pycache__/
@@ -19,4 +25,5 @@ stressTest/__pycache__/
 
 auth/data/tmp/*
 
-node_modules
+node_modules*
+pnp-lock.yaml
