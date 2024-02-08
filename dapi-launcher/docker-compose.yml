@@ -10,7 +10,7 @@ services:
     command: --init-file=/data/application/init.sql
     volumes:
       - db_data:/var/lib/mysql
-      - init.sql:/data/application/init.sql
+      - ./init.sql:/data/application/init.sql
     ports:
       - 3306:3306
     environment:
