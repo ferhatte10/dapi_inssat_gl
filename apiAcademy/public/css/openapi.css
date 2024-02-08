@@ -14,7 +14,7 @@
     max-width: 150px;
 }
 .topbar-wrapper .link:after {
-  content: url('/api_blog/images/logo.png');
+  content: url('/api_academy/images/logo.png');
   width: 240px !important;
   display: flex;
   justify-content: center;

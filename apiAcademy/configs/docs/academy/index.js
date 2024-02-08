@@ -6,5 +6,8 @@ module.exports = {
         '/users/{id}': {
             ...require('./users/getUserById'),
         },
+        '/users/{id}/suivi': {
+            ...require('./users/getUserSuivi'),
+        }
     }
 }

@@ -1,9 +1,7 @@
 const express = require('express');
-const { secure, getJwksService } = require('../configs/auth');
 const router = express.Router();
 
 // Mounting each route under the right path
-// TODO: add, create functions to handle the claims object in the request created by the alternative keycloak middleware
 router.use('/users', require('./user.route'));
 router.use('/groups', require('./group.route'));
 router.use('/class', require('./class.route'));

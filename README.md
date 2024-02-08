@@ -1,6 +1,6 @@
 # Inssat Intranet GL
 
-Brief description of your project.
+This is a project for the DAPI course at INSSAT. The project is a microservices architecture that contains the following services:
 
 ## Table of Contents
 
@@ -24,7 +24,9 @@ Brief description of your project.
 
 ├── gateway/
 
-└── stressTest/
+├── stressTest/
+
+└── README.md
 
 - `apiBlog/`: Description of the contents of this directory.
 - `auth/`: Description of the contents of this directory.
