@@ -10,7 +10,7 @@ services:
     command: --init-file=/data/application/init.sql
     volumes:
       - db_data:/var/lib/mysql
-      - ./init.sql:/data/application/init.sql
+      - init.sql:/data/application/init.sql
     ports:
       - 3306:3306
     environment:
@@ -19,87 +19,87 @@ services:
       int_dapi:
         ipv4_address: 10.0.1.2
 
-  # auth server
-  dapiauth:
-    container_name: dapiauth
-    build: ../auth
-    security_opt:
-      - no-new-privileges:true
-    restart: always
-    depends_on:
-      - db
-    volumes:
-      - ../auth/data:/opt/keycloak/data
-      - ../auth/themes:/opt/keycloak/themes
-    ports:
-      - 8080:8080
-    command:
-      - start
-      - --optimized
-      - --import-realm
-      - --spi-theme-welcome-theme=inssat
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-  #      KC_SPI_THEME_DEFAULT: inssat # on ne peut pas le mettre, car on n'a pas developpé le theme admin pour le moment donc il va essayer de le chercher dans le dossier themes/inssat/admin et ça génère une erreur
-    networks:
-      int_dapi :
-        ipv4_address: 10.0.1.3
-
-  # Api blog
-  api-blog:
-#    container_name: api-blog
-    build: ../apiBlog
-    security_opt:
-     - no-new-privileges:true
-    restart: always
-    deploy:
-     replicas: 1 # comment the container_name if > 1
-    env_file:
-     - ../apiBlog/.env.development.docker
-    volumes:
-     - blog_uploads:/usr/src/app/uploads # Define the path to your uploads directory
-    # Note : we can use volume for persistent files 'my_uploads' or we can save files directly inside the project folder (i've used /app/uploads with multer instead of apiBlog/uploads)
-    depends_on:
-     - dapiauth
-     - db
-    networks:
-      int_dapi :
-        ipv4_address: 10.0.1.4
-  api-academy:
-#    container_name: api-academy
-    build: ../apiAcademy
-    security_opt:
-      - no-new-privileges:true
-    restart: always
-    deploy:
-      replicas: 1 # comment the container_name if > 1
-    env_file:
-      - ../apiAcademy/.env.development.docker
-    depends_on:
-      - dapiauth
-      - db
-    networks:
-      int_dapi :
-        ipv4_address: 10.0.1.5
-
-  # Api gateway:
-  gateway:
-    container_name: gateway
-    build: ../gateway
-    security_opt:
-     - no-new-privileges:true
-    restart: always
-    depends_on:
-     - api-blog
-     - api-academy
-    ports:
-     - 5000:5000
-    env_file:
-     - ../gateway/.env
-    networks:
-      int_dapi :
-        ipv4_address: 10.0.1.6
+#  # auth server
+#  dapiauth:
+#    container_name: dapiauth
+#    build: ../auth
+#    security_opt:
+#      - no-new-privileges:true
+#    restart: always
+#    depends_on:
+#      - db
+#    volumes:
+#      - ../auth/data:/opt/keycloak/data
+#      - ../auth/themes:/opt/keycloak/themes
+#    ports:
+#      - 8080:8080
+#    command:
+#      - start
+#      - --optimized
+#      - --import-realm
+#      - --spi-theme-welcome-theme=inssat
+#    environment:
+#      KEYCLOAK_ADMIN: admin
+#      KEYCLOAK_ADMIN_PASSWORD: admin
+#  #      KC_SPI_THEME_DEFAULT: inssat # on ne peut pas le mettre, car on n'a pas developpé le theme admin pour le moment donc il va essayer de le chercher dans le dossier themes/inssat/admin et ça génère une erreur
+#    networks:
+#      int_dapi :
+#        ipv4_address: 10.0.1.3
+#
+#  # Api blog
+#  api-blog:
+##    container_name: api-blog
+#    build: ../apiBlog
+#    security_opt:
+#     - no-new-privileges:true
+#    restart: always
+#    deploy:
+#     replicas: 1 # comment the container_name if > 1
+#    env_file:
+#     - ../apiBlog/.env.development.docker
+#    volumes:
+#     - blog_uploads:/usr/src/app/uploads # Define the path to your uploads directory
+#    # Note : we can use volume for persistent files 'my_uploads' or we can save files directly inside the project folder (i've used /app/uploads with multer instead of apiBlog/uploads)
+#    depends_on:
+#     - dapiauth
+#     - db
+#    networks:
+#      int_dapi :
+#        ipv4_address: 10.0.1.4
+#  api-academy:
+##    container_name: api-academy
+#    build: ../apiAcademy
+#    security_opt:
+#      - no-new-privileges:true
+#    restart: always
+#    deploy:
+#      replicas: 1 # comment the container_name if > 1
+#    env_file:
+#      - ../apiAcademy/.env.development.docker
+#    depends_on:
+#      - dapiauth
+#      - db
+#    networks:
+#      int_dapi :
+#        ipv4_address: 10.0.1.5
+#
+#  # Api gateway:
+#  gateway:
+#    container_name: gateway
+#    build: ../gateway
+#    security_opt:
+#     - no-new-privileges:true
+#    restart: always
+#    depends_on:
+#     - api-blog
+#     - api-academy
+#    ports:
+#     - 5000:5000
+#    env_file:
+#     - ../gateway/.env
+#    networks:
+#      int_dapi :
+#        ipv4_address: 10.0.1.6
 
 networks:
   int_dapi:
