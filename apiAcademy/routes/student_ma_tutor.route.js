@@ -17,4 +17,6 @@ router.delete('/:id', verifyRequestParamId, studentMaTutorController.deleteStude
 router.get('/tutor/:tutorId', studentMaTutorController.getStudentsAndMAByTutorId);
 router.get('/ma/:maId', studentMaTutorController.getStudentsAndTutorByMAId);
 
+router.get('/searched/:searched', studentMaTutorController.getStudentMaTutorBySearched);
+
 module.exports = router;

@@ -1,7 +1,8 @@
 
 const { 
   student_ma_tutor:StudentMaTutor,
-  USER_ENTITY:USER_ENTITY
+  USER_ENTITY:USER_ENTITY,
+  Sequelize
 } = require('../configs/db/config/db'); 
 
 // Controller functions for CRUD operations
@@ -130,6 +131,56 @@ const getStudentsAndTutorByMAId = async (req, res) => {
   }
 };
 
+const getStudentMaTutorBySearched = async (req, res) => {
+  const searched = req.params.searched; 
+  try {
+    const searchCriteria = {
+      [Sequelize.Op.or]: [
+        { '$student.FIRST_NAME$': { [Sequelize.Op.like]: `%${searched}%` } },
+        { '$student.LAST_NAME$': { [Sequelize.Op.like]: `%${searched}%` } },
+        { '$tutor.FIRST_NAME$': { [Sequelize.Op.like]: `%${searched}%` } },
+        { '$tutor.LAST_NAME$': { [Sequelize.Op.like]: `%${searched}%` } },
+        { '$ma.FIRST_NAME$': { [Sequelize.Op.like]: `%${searched}%` } },
+        { '$ma.LAST_NAME$': { [Sequelize.Op.like]: `%${searched}%` } }
+      ]
+    };
+    
+    const attributesToInclude = ['LAST_NAME', 'FIRST_NAME'];
+
+    const studentMaTutor = await StudentMaTutor.findAll({
+      include: [
+        {
+          model: USER_ENTITY,
+          as: 'student',  
+          attributes: attributesToInclude,
+          required: false 
+        },
+        {
+          model: USER_ENTITY,
+          as: 'tutor', 
+          attributes: attributesToInclude,
+          required: false
+        },
+        {
+          model: USER_ENTITY,
+          as: 'ma', 
+          attributes: attributesToInclude,
+          required: false 
+        }
+      ],
+      where: searchCriteria
+    });
+    
+    res.status(200).json(studentMaTutor);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
+
+
+
 
 module.exports = {
   getAllStudentMaTutors,
@@ -138,5 +189,6 @@ module.exports = {
   updateStudentMaTutor,
   deleteStudentMaTutor,
   getStudentsAndMAByTutorId,
-  getStudentsAndTutorByMAId
+  getStudentsAndTutorByMAId,
+  getStudentMaTutorBySearched
 };
