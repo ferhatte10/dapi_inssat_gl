@@ -9,6 +9,6 @@ app.get('*', (req, res) => {
 res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 // if not in production use the port 5000
-const PORT = 4000;
+const PORT = 8001;
 console.log('server started on port:',PORT);
 app.listen(PORT);
