@@ -1,5 +1,5 @@
 upstream auth_server {
-        server 89.88.125.50:8080;
+        server dapiauth:8080;
 }
 
 server {
@@ -7,30 +7,17 @@ server {
 
 	location / {
 	        proxy_pass http://auth_server;
-	        include proxy_params_auth;
+	        proxy_buffer_size   256k;
+                proxy_buffers   4 512k;
+                proxy_busy_buffers_size   512k;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; # To forward the original client's IP address
+                proxy_set_header X-Forwarded-Proto $scheme; # to forward the  original protocol (HTTP or HTTPS)
+                proxy_set_header Host $host; # to forward the original host requested by the client
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+                proxy_set_header   Accept-Encoding *;
+                proxy_cache_bypass $http_upgrade;
 	}
-
-
-
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/auth.dapi-services.fr/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/auth.dapi-services.fr/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
-}
-
-
-server {
-    if ($host = auth.dapi-services.fr) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-
-
-	listen 80;
-	server_name  auth.dapi-services.fr;
-    return 404; # managed by Certbot
-
 
 }
