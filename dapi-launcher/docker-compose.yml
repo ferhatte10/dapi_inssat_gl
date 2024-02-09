@@ -99,7 +99,20 @@ services:
    networks:
      int_dapi :
        ipv4_address: 10.0.1.6
-
+ inssat-front:
+   container_name: inssat-front
+   build: ../inssat-front
+   security_opt:
+     - no-new-privileges:true
+   restart: always
+   depends_on:
+     - gateway
+     - dapiauth
+   ports:
+     - 8001:8001
+   networks:
+     int_dapi :
+       ipv4_address: 10.0.1.8
 #  reverse-proxy:
 #    build: ../reverse-proxy
 #    container_name: reverse-proxy
@@ -107,7 +120,6 @@ services:
 #      - "80:80"
 #    restart: always
 #    volumes:
-#      - ../reverse-proxy/conf.d:/etc/nginx/conf.d
 #      - ../reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
 #      - ../reverse-proxy/sites-available:/etc/nginx/sites-available
 #      - ../inssat-front/build:/var/www/html/react
