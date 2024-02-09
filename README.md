@@ -58,3 +58,5 @@ Enfin, la dernière étape c'est de mettre en place le http avec certbot pour le
         certbot --nginx -d api.dapi-services.fr -d auth.dapi-services.fr -d intranet.dapi-services.fr # Remplacer les domaines par les vôtres
         ```
     - Suivez les instructions pour configurer le certificat SSL. Après cela, certbot modifiera automatiquement le fichier de configuration NGINX pour activer le SSL pour les services spécifiés.
+    
+    -Voici un lien pour plus d'aide sur la configuration de NGINX avec certbot : [NGINX && Let's Encrypt](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04)
