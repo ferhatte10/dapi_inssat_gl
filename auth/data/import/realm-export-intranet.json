@@ -1340,7 +1340,8 @@
       "redirectUris": [
         "",
         "http://localhost:*",
-        "https://intranet.dapi-services.fr/*"
+        "https://intranet.dapi-services.fr/*",
+        "https://fuzzy-trout-rwqvg6gw673xpr6-8001.app.github.dev/*"
       ],
       "webOrigins": [
         "",
