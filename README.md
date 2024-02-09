@@ -1,116 +1,60 @@
-# Inssat Intranet GL
+# Configuration Docker Compose pour les Services DAPI
 
-This is a project for the DAPI course at INSSAT. The project is a microservices architecture that contains the following services:
+## Table des Matières
+- [Aperçu](#aperçu)
+- [Prérequis](#prérequis)
+- [Utilisation](#utilisation)
+- [Volumes](#volumes)
+- [Notes](#notes)
 
-## Table of Contents
+## Aperçu
+Cette configuration Docker Compose est conçue pour exécuter plusieurs services pour le projet DAPI. Elle comprend des services tels que :
 
-- [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Docker Compose](#docker-compose)
-- [Contributing](#contributing)
-- [License](#license)
+- **db** : Serveur MariaDB pour le stockage des données de la base de données.
+- **dapiauth** : Serveur d'authentification utilisant Keycloak.
+- **api-blog** : Service API pour la gestion des articles de blog.
+- **api-academy** : Service API pour la gestion du contenu académique.
+- **gateway** : Passerelle API pour le routage des requêtes vers les services appropriés.
+- **inssat-front** : Application frontend pour le projet INSSAT.
 
-## Project Structure
+## Prérequis
+- Docker
+- Docker Compose
 
-├── README.md
-
-├── apiBlog/
-
-├── auth/
-
-├── dapi-luncher/
-
-├── gateway/
-
-├── stressTest/
-
-└── README.md
-
-- `apiBlog/`: Description of the contents of this directory.
-- `auth/`: Description of the contents of this directory.
-- `dapi-luncher/`: Description of the contents of this directory.
-- `gateway/`: Description of the contents of this directory.
-- `stressTest/`: Description of the contents of this directory.
-
-## Prerequisites
-
-- [Docker](https://docs.docker.com/get-docker/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
-- [Node.js](https://nodejs.org/en/download/)
-- [Locust](https://docs.locust.io/en/stable/installation.html)
-
-## Getting Started
-
-Provide instructions on how to get started with your project. Include any setup steps, configuration, or environment variables that need to be set.
-
-## Usage
-
-Explain how to use your project. Include examples if necessary.
-
-## Docker Compose
-
-### Services
-
-- **api-blog**: Description of the service.
-- **gateway**: Description of the service.
-- **mariadb**: Description of the service.
-
-### How to Run
-#### Docker Compose
-1. Clone this repository.
-2. Navigate to the project lunch directory:
-    ```bash 
-    cd dapi-luncher
-    ```
-3. Run the following command to start the services:
-
-   ```bash
-   sh compose.sh
-   ```
-4. Run the following command to stop the services:
-
-   ```bash
-   sh downcontainers.sh
-   ```
-#### NPM & Docker for database and auth service
-1. Clone this repository.
-2. Navigate to each service directory (nodejs: gateway, apiBlog, database: mariadb & auth : auth) and run the following command:
-
-    2.1. Nodejs services:
-    ```bash 
-    npm install # install dependencies
-    npm run dev # run the service in development mode
-    ```
-    2.2. Database service:
-    ```bash
-    sh rundb.sh # run the database service
-    ```
-    2.3. Auth service:
-    ```bash
-    sh build.sh # build the service
-    sh run.sh # run the service
-    ```
-Once you run the services, you can access the gateway service from http://localhost:5000 then you will get a json response where you can find the endpoints of the different services.
-```json
-{
-    "success": true,
-    "message": {
-        "message": "Welcome to the DAPI API getway",
-        "api's": [
-        "http://127.0.0.1:5000/api_blog"
-        ]
-    }
-}
-```
-# Imprortant !
-- The database service must be running before running the nodejs services if you dont deploy the docker-compose version.
-- The auth service is not implemented yet, so you can ignore it.
-- The stressTest service is just for testing the apiBlog service, so you can ignore it or use it if you want to test the apiBlog service with a lot of requests. To use it, you must run the apiBlog service first then run the following command:
+## Utilisation
+1. Clonez le dépôt.
+2. Naviguez jusqu'au répertoire (`dapi-launcher`) où se trouve le fichier `docker-compose.yml`.
+3. Exécutez la commande suivante pour démarrer les services :
 
     ```bash
-    locust --host=http://localhost:5000 --master # run the master node of locust
+    docker-compose up -d
     ```
-    Then open your browser and go to http://localhost:8089 to start the test.
-    
+
+4. Une fois les services démarrés, vous pouvez accéder aux services suivants :
+
+   - **Serveur d'authentification** : http://localhost:8080
+   - **API de Blog** : http://localhost:5000/api-blog
+   - **API de l'Académie** : http://localhost:5000/api-academy
+   - **Passerelle** : http://localhost:5000
+   - **Application Frontend** : http://localhost:8001
+
+## Volumes
+- **blog_uploads** : Volume pour stocker les images du blog téléversés.
+- **db_data** : Volume pour stocker les données de la base de données MariaDB.
+
+## Notes
+- Assurez-vous que votre machine hôte dispose des ports `8080`, `8001` et `5000` disponibles et non occupés par d'autres services.
+Dans le cas contraire, vous pouvez modifier les ports dans le fichier `docker-compose.yml` pour éviter les conflits de port.
+
+- Le reverse proxy est commenté dans le fichier `docker-compose.yml` pour la raison qu'il faut un serveur web pour le faire fonctionner. Si vous avez un serveur web, vous pouvez le décommenter et commenter `inssat-front` pour le faire fonctionner via le rp NGINX.
+Ensuite, il faut naviguer vers le fichier `nginx.conf` et changer le `server_name` par le nom de domaine de votre serveur web.
+Enfin, la dernière étape c'est de mettre en place le http avec certbot pour le reverse proxy qui vas configurer l'ensemble des services avec un certificat SSL. Pour cela, il faut suivre les étapes suivantes :
+    - Se connecter à votre container NGINX avec la commande suivante :
+        ```bash
+        docker exec -it reverse-proxy /bin/bash
+        ```
+    - Exécuter la commande suivante pour obtenir un certificat SSL : `Certbot est déjà installé dans le conteneur comme il est spécifié dans le Dockerfile`
+        ```bash
+        certbot --nginx -d api.dapi-services.fr -d auth.dapi-services.fr -d intranet.dapi-services.fr # Remplacer les domaines par les vôtres
+        ```
+    - Suivez les instructions pour configurer le certificat SSL. Après cela, certbot modifiera automatiquement le fichier de configuration NGINX pour activer le SSL pour les services spécifiés.

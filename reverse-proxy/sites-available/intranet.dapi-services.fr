@@ -1,10 +1,9 @@
 server { 
-	
 	server_name intranet.dapi-services.fr;
-	 
+
 	root /var/www/html/react;
 	index index.html index.htm;
-	
+
 	location / {
 		try_files $uri /index.html;
 	}

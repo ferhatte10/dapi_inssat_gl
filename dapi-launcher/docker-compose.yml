@@ -99,6 +99,8 @@ services:
    networks:
      int_dapi :
        ipv4_address: 10.0.1.6
+
+ # Frontend react
  inssat-front:
    container_name: inssat-front
    build: ../inssat-front
