@@ -128,7 +128,7 @@ services:
 #    networks:
 #     int_dapi :
 #       ipv4_address: 10.0.1.7
-#     # entrypoint: /bin/bash -c " certbot certonly -d api.dapi-services.fr -d auth.dapi-services.fr -d intranet.dapi-services.fr --agree-tos --no-eff-email --email contact@dapi-services.fr && nginx -g 'daemon off;'"
+#     # entrypoint: /bin/bash -c "nginx -g 'daemon off;'"
 
 networks:
   int_dapi:

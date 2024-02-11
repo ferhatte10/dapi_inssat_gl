@@ -47,8 +47,8 @@ Cette configuration Docker Compose est conçue pour exécuter plusieurs services
 Dans le cas contraire, vous pouvez modifier les ports dans le fichier `docker-compose.yml` pour éviter les conflits de port.
 
 - Le reverse proxy est commenté dans le fichier `docker-compose.yml` pour la raison qu'il faut un serveur web pour le faire fonctionner. Si vous avez un serveur web, vous pouvez le décommenter et commenter `inssat-front` pour le faire fonctionner via le rp NGINX.
-Ensuite, il faut naviguer vers le fichier `nginx.conf` et changer le `server_name` par le nom de domaine de votre serveur web.
-Enfin, la dernière étape c'est de mettre en place le http avec certbot pour le reverse proxy qui vas configurer l'ensemble des services avec un certificat SSL. Pour cela, il faut suivre les étapes suivantes :
+Ensuite, il faut naviguer vers les fichiers dans `sites-available` et changer le `server_name` par le nom de domaine de votre serveur web.
+Enfin, la dernière étape c'est de mettre en place le https avec certbot pour le reverse proxy qui vas configurer l'ensemble des services avec un certificat SSL. Pour cela, il faut suivre les étapes suivantes :
     - Se connecter à votre container NGINX avec la commande suivante :
         ```bash
         docker exec -it reverse-proxy /bin/bash
@@ -59,4 +59,8 @@ Enfin, la dernière étape c'est de mettre en place le http avec certbot pour le
         ```
     - Suivez les instructions pour configurer le certificat SSL. Après cela, certbot modifiera automatiquement le fichier de configuration NGINX pour activer le SSL pour les services spécifiés.
     
-    -Voici un lien pour plus d'aide sur la configuration de NGINX avec certbot : [NGINX && Let's Encrypt](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04)
+    - Voici un lien pour plus d'aide sur la configuration de NGINX avec certbot : [NGINX && Let's Encrypt](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04)
+
+- Enfin, un dernier point, si le frontend est déployé avec le reverse proxy, il faut changer l'URL de l'api et du serveur auth avant de builder l'application :
+    - Si on utilise le conteneur inssat-front on met l'URL de l'api et du serveur auth à `http://gateway:5000` et `http://dapiauth:8080` respectivement.
+    - Si on utilise le reverse proxy on met l'URL de l'api et du serveur auth à `https://api.dapi-services.fr` et `https://auth.dapi-services.fr` respectivement.
